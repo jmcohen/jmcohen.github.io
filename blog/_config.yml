@@ -1,0 +1,10 @@
+# Site settings
+title: Jeremy Cohen
+email: jmcohen [at] princeton [dot]
+description: > # Personal Blog of Jeremy Cohen
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://yourdomain.com" # the base hostname & protocol for your site
+github_username:  jmcohen
+
+# Build settings
+markdown: kramdown

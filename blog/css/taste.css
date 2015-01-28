@@ -1,0 +1,205 @@
+/* Shared */
+
+.permalink {
+	display: none; /* hidden at first */
+}
+
+.permalink:hover {
+	text-decoration: none;
+}
+
+.taste-card {
+	position: absolute;
+	width: 200px;
+	border: solid white 4px;
+	padding: 5px 10px;
+}
+
+.taste-card .title, .taste-card .subtitle {
+	font-weight: bold;
+}
+
+.taste-card .subtitle {
+	float: right;
+}
+
+.recipe-list {
+    padding: 0 0 0 16px;
+    margin: 0px;
+}
+
+.recipe-list li {
+	font-weight: 400;
+	font-size: 14px;
+}
+
+.recipe-list li a {
+	cursor: pointer;
+}
+
+.recipe-list li a:hover {
+	color: #888;
+}
+
+.recipe-list a {
+	text-decoration: none;
+	color: black;
+}
+
+/* Taste Breakdown */
+
+#breakdown {
+	font-family: "Gill Sans", Helvetica;
+}
+
+#breakdown .permalink {
+	position: absolute;
+	top: -45px;
+	right: -20px;
+}
+
+#visualization {
+	position: relative; 
+	float: left; 
+	width: 800px; 
+	height: 400px;
+}
+
+#canvas-holder {
+	position: absolute; 
+	top: 0px;
+	left: 228px;
+	width: 370px; 
+}
+
+#search-wrapper {
+	height: 50px;
+}
+
+#search-wrapper .tt-hint {
+	font-size: 20px;
+	overflow: hidden;
+	padding: 0 6px;
+	width: 286px;
+}
+
+#search-wrapper .typeahead {
+	margin-left: 263px;
+}
+
+#search-wrapper .typeahead.tt-input {
+	font-size: 20px;
+	padding: 0 6px;
+	line-height: 22px;
+	width: 286px;
+}
+
+#search-wrapper .tt-dropdown-menu {
+	width: 300px;
+	max-height: 150px;
+	overflow-y: auto;
+	margin-left: 263px;
+	border-bottom: 1px solid black;
+}
+
+#search-wrapper .tt-dataset-recipes {
+	border: 1px solid black;
+	width: 298px;
+	background: white;
+}
+
+#search-wrapper .tt-suggestion {
+	padding: 0 6px;
+	cursor: pointer;
+	margin: 0px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 20px;
+	overflow: hidden;
+	border-bottom: 1px dotted #bbb;
+}
+
+#search-wrapper .tt-suggestion:hover {
+	background-color: #eee;
+}
+
+/* Mix 'n Match */
+
+#mixnmatch {
+	position: relative;
+	width: 800px;
+	height: 658px;
+	font-family: 'Gill Sans', Helvetica;
+}
+
+#selected-tastes {
+	width: 228px;
+}
+
+#tastes-left-col {
+	position: absolute; 
+	left: 260px; 
+	top: 0px;
+}
+
+#tastes-right-col {
+	position: absolute; 
+	left: 330px; 
+	top: 0px;
+}
+
+#tastes-list .option {
+	cursor: pointer;
+	list-style-type: none;
+	width: 50px;
+	padding: 0 10px 0px 10px;
+	transition: background 0.05s ease-in-out;
+}
+
+#tastes-list .option .name { 
+    font-size: 14px;
+    position: relative;
+ }
+
+#mixnmatch h4 {
+	font-size: 14px;
+	font-weight: 600;
+}
+
+#recommendations {
+	position: absolute; 
+	top: 0px; 
+	left: 450px; 
+	width: 340px;
+}
+
+#mixnmatch .taste-card {
+	float: left;
+	position: static;
+	margin-bottom: 10px;
+}
+
+#mixnmatch .permalink {
+	position: absolute;
+	top: -45px;
+	right: 45px;
+}
+
+#taste-grid {
+	font-family: "Gill Sans", Helvetica;
+	width: 900px;
+	height: 2600px;
+	display: none; /* hidden at first */
+}
+
+#taste-grid .column {
+	width: 250px;
+	float: left;
+}
+
+#taste-grid .taste-card {
+	float: left;
+	position: static;
+	margin-bottom: 10px;
+}
+
