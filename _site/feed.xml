@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jeremy Cohen</title>
+    <description></description>
+    <link>http://yourdomain.com/</link>
+    <atom:link href="http://yourdomain.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Wed, 28 Jan 2015 00:42:43 -0500</pubDate>
+    <lastBuildDate>Wed, 28 Jan 2015 00:42:43 -0500</lastBuildDate>
+    <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>Mapping the Human Taste Palate with Matrix Factorization</title>
+        <description>&lt;link rel=&quot;stylesheet&quot; href=&quot;/css/taste.css&quot; /&gt;
+
+&lt;script src=&quot;/javascripts/Please.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+
+&lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script src=&quot;/javascripts/typeahead.js&quot;&gt;&lt;/script&gt;
+
+&lt;script src=&quot;/javascripts/recipeFactors.json&quot;&gt;&lt;/script&gt;
+
+&lt;script src=&quot;/javascripts/factorsTop.json&quot;&gt;&lt;/script&gt;
+
+&lt;script src=&quot;/javascripts/taste.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+
+&lt;!-- &lt;script src=&#39;/javascripts/tastebreakdown.js&#39; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+ --&gt;
+&lt;!-- &lt;script src=&#39;/javascripts/mixnmatch.js&#39; type=&quot;text/javascript&quot;&gt;&lt;/script&gt; --&gt;
+
+&lt;p&gt;My classmates and I applied the matrix factorization technique for recommender systems to a data set of recipes and user profiles scraped from &lt;a href=&quot;http://www.allrecipes.com&quot;&gt;AllRecipes&lt;/a&gt; and extracted 40 “latent tastes” which together form a basis for all human foods.  The results are sort of cool.&lt;/p&gt;
+
+&lt;p&gt;Two types of people might find this post interesting:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Those who want to learn about matrix factorization, a fascinating technique for dimensionality reduction.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Those who already know about matrix factorization, and want to see what happens when we apply it to 42K recipes and 120K user profies from the most popular recipe-sharing web site on the internet.  These people might want to &lt;a href=&quot;results&quot;&gt;skip to the results&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;a-gentle-introduction-to-matrix-factorization&quot;&gt;A Gentle Introduction to Matrix Factorization&lt;/h2&gt;
+
+&lt;p&gt;I’m sorry!  I’m sorry!&lt;/p&gt;
+
+&lt;p&gt;I know that the term “matrix factorization” is liable to trigger a life-threatening episode in people with linear algebra PTSD.
+I swear I’m not trying to harm you.
+I’m not like those psychopaths who make joke web sites with innocuous URLs like “StockMarketSecrets.com” that, when loaded, do not explain how to become Warren Buffet just by day trading at home in your underwear, but rather flash bright colors in rapid succession because inducing epileptic seizures is &lt;em&gt;hilarious.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The truth is that &lt;em&gt;I&lt;/em&gt; didn’t pay any attention in linear algebra class either.
+As far as I can tell, &lt;strong&gt;“orthogonal”&lt;/strong&gt; is just a fancy synonym for “unrelated” that I should use when I want to sound smart, an &lt;strong&gt;“eigenvector”&lt;/strong&gt; is probably something horrible that Werner von Braun dreamed up &lt;em&gt;before&lt;/em&gt; he switched employers in 1945,  and a &lt;strong&gt;“product space”&lt;/strong&gt; sounds like something that an undergrad business major living in SoMa would get excited about.&lt;/p&gt;
+
+&lt;p&gt;The good news is that you and I can understand matrix factorization without knowing a shred more about linear algebra than Keanu Reeves does.&lt;/p&gt;
+
+&lt;p&gt;Before I get into the details, I want to motivate the technique of matrix factorization by pointing out an application to the most heavily studied problem in computer science: &lt;strong&gt;how to get people to buy more things&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h4 id=&quot;techniques-for-recommender-systems&quot;&gt;Techniques for Recommender Systems&lt;/h4&gt;
+
+&lt;p&gt;Suppose that I order the &lt;a href=&quot;http://www.amazon.com/First-Years-Stroller-City-Chic/dp/B002WB2G9I/ref=sr_1_1?&quot;&gt;City Chic First Years Jet Stroller&lt;/a&gt; on Amazon.com.
+Amazon would probably like to sell me more items, so that it can make more money, with which it can continue to not pay its software engineers.
+So what items should Amazon recommend?&lt;/p&gt;
+
+&lt;!-- ![Alt text](http://ecx.images-amazon.com/images/I/71p8ZE%2BHIRL._SL1500_.jpg) --&gt;
+
+&lt;p&gt;One idea is to recommend me items that are intrinsically similar to the &lt;a href=&quot;http://www.amazon.com/First-Years-Stroller-City-Chic/dp/B002WB2G9I/ref=sr_1_1?&quot;&gt;City Chic First Years Jet Stroller&lt;/a&gt;.
+These might be items that also have “stroller” in the name, or items that are made by the same manufacturer, or items whose descriptions share words in common with the description of the &lt;a href=&quot;http://www.amazon.com/First-Years-Stroller-City-Chic/dp/B002WB2G9I/ref=sr_1_1?&quot;&gt;City Chic First Years Jet Stroller&lt;/a&gt;.
+This is called &lt;strong&gt;content-based recommendation&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;A more interesting idea is to treat the items as black boxes and somehow &lt;em&gt;learn&lt;/em&gt; correlations between the items from the user purchasing data itself.
+This is called &lt;strong&gt;collaborative filtering&lt;/strong&gt;.
+For example, I would bet that people who buy baby strollers are also likely to buy, say, the &lt;a href=&quot;http://www.amazon.com/Essential-Mozart/dp/B00005A8JZ&quot;&gt;Essential Mozart&lt;/a&gt; CD collection.
+Now, maybe someday we’ll have #deeplearning algorithms that can learn facts about the universe (e.g. &lt;a href=&quot;http://en.wikipedia.org/wiki/Mozart_effect&quot;&gt;that American parents are crazy&lt;/a&gt;) on their own, just from watching &lt;a href=&quot;http://www.wired.com/2012/06/google-x-neural-network/&quot;&gt;Vines of cats&lt;/a&gt; or whatever.
+But until that day, we’ll have to settle for matrix factorization.&lt;/p&gt;
+
+&lt;h4 id=&quot;matrix-factorization-the-intuition&quot;&gt;Matrix Factorization: The Intuition&lt;/h4&gt;
+
+&lt;p&gt;As an insufferable ninth grader, I took a bunch of online quizzes during the 2008 U.S. presidential election cycle.  These quizzes would ask a zillion questions about my personal political opinions, and then they would show me a Cartesian plane with two dimensions—social views and economic views—with a big dot somewhere that was supposed to represent me.
+There were also dots for Barack Obama and John McCain, as well as for other notable figures like Karl Marx, Ayn Rand, Margaret Thatcher, and Abraham Lincoln, who had all apparently taken the quiz.
+Everyone could be reduced to two numbers: their score on the “social views” scale, and their score on the “economic views” scale. &lt;/p&gt;
+
+&lt;p&gt;This is basically how the matrix factorization technique for recommender systems works.&lt;/p&gt;
+
+&lt;p&gt;Matrix factorization and dubious ideology diagrams are both forms of &lt;strong&gt;dimensionality reduction&lt;/strong&gt;.
+Political platforms probably have hundreds of dimensions, like taxation, immigration, energy, national security, and climate change.
+But the ideology quiz reduces every politician to just two: “social” and “economic.”
+This is neat because estimating my affinity for a candidate no longer requires knowing his or her opinion on the Keystone XL pipeline
+Then, to estimate my affinity for a candidate, I don’t need to know his or her opinion on the Keystone XL pipeline or on the ; I just need to know their coordinates on social and economic axes. &lt;/p&gt;
+
+&lt;p&gt;In a similar way, matrix factorization reduces the dimensionality of the space of item properties down to a small number of factors.
+Every item is represented by a vector of weights quantifying the extent to which each factor is present in the item, and every user is represented by a vector of weights quantifying the user’s preference for each factor.&lt;/p&gt;
+
+&lt;p&gt;Imagine a big &lt;code&gt;U x I&lt;/code&gt; matrix where each row corresponds to a user, and each column corresponds to an item.
+The entry in the &lt;code&gt;(u, i)&lt;/code&gt; square is the rating that user &lt;code&gt;u&lt;/code&gt; gives to  item &lt;code&gt;i&lt;/code&gt;.
+If user &lt;code&gt;u&lt;/code&gt; didn’t rate item &lt;code&gt;i&lt;/code&gt;, then the &lt;code&gt;(u, i)&lt;/code&gt; square is empty.
+Indeed, most squares are empty.
+The goal of a recommender system is to fill in the empty squares given the observed ones.&lt;/p&gt;
+
+&lt;p&gt;Matrix factorization assumes that all items can be represented by &lt;code&gt;K&lt;/code&gt; hidden factors, and that the &lt;code&gt;U x I&lt;/code&gt; user-item matrix is really the product of a &lt;code&gt;U x K&lt;/code&gt; user-factor matrix and a &lt;code&gt;K x I&lt;/code&gt; factor-item matrix.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;(u, k)&lt;/code&gt; entry in the user-factor matrix quantifies user &lt;code&gt;u&lt;/code&gt;’s affinity for factor &lt;code&gt;k&lt;/code&gt;.
+The &lt;code&gt;(k, i)&lt;/code&gt; entry in the factor-item matrix quantifies the extent to which factor &lt;code&gt;k&lt;/code&gt; is present in item &lt;code&gt;i&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;use the word orthogonal&lt;/p&gt;
+
+&lt;h2 id=&quot;matrix-factorization-and-allrecipes&quot;&gt;Matrix Factorization and AllRecipes&lt;/h2&gt;
+
+&lt;p&gt;I took a machine learning course with an open-ended final project.
+The question my group asked ourselves is: &lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Can we use matrix factorization to discover a set of basic human tastes in food?&lt;/strong&gt; &lt;/p&gt;
+
+&lt;p&gt;We decided to get our data from &lt;a href=&quot;http://www.allrecipes.com&quot;&gt;AllRecipes.com&lt;/a&gt;, a popular recipe sharing web site.
+With tens of thousands of recipes and over a hundred thousand users, AllRecipes was a food data bonanza.&lt;/p&gt;
+
+&lt;p&gt;Each AllRecipes user has a “recipe box” where he or she can list his or her favorite recipes. 
+It was these “recipe boxes” that we scraped.
+After discarding all recipes that occurred in fewer than 300 recipe boxes, we were left with 9,546 recipes and 115,308 users.&lt;/p&gt;
+
+&lt;p&gt;We used the &lt;a href=&quot;https://sites.google.com/site/nmftool/&quot;&gt;NMF MATLAB toolbox&lt;/a&gt; to run non-negative matrix factorization on the resulting 9,546 × 115,308 matrix.
+The algorithm took 8 hours to complete 2,000 iterations on a machine with a 2.2GHz processor and 128 GB RAM.&lt;/p&gt;
+
+&lt;p&gt;[Image here.]&lt;/p&gt;
+
+&lt;p&gt;The next morning, we checked the results and arrived at our answer to the question above:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Yes, sort of!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Sure enough, to our amusement and mild surprise, the factors produced by non-negative matrix factorization really do seem to correspond to human tastes!
+The 40 factors are displayed below.
+For each factor, the five recipes with the highest coeffecients in the factor are shown.&lt;/p&gt;
+
+&lt;p&gt;comments&lt;/p&gt;
+
+&lt;h3 id=&quot;tastes&quot;&gt;Tastes&lt;/h3&gt;
+
+&lt;p&gt;&lt;a id=&quot;toggle-taste-grid&quot;&gt;&lt;span id=&quot;toggle-verb&quot;&gt;Show&lt;/span&gt; all 40 tastes.&lt;/a&gt;&lt;/p&gt;
+
+&lt;div id=&quot;taste-grid&quot;&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;taste-breakdown&quot;&gt;Taste Breakdown&lt;/h3&gt;
+
+&lt;p&gt;Here is a visualization tool that shows the breakdown of each dish into the top three constituent factors: &lt;/p&gt;
+
+&lt;div id=&quot;breakdown&quot;&gt;
+	&lt;div id=&quot;search-wrapper&quot;&gt;
+		&lt;input id=&quot;search&quot; class=&quot;typeahead&quot; type=&quot;text&quot; /&gt;
+	&lt;/div&gt;
+	&lt;div id=&quot;visualization&quot;&gt;
+		&lt;a class=&quot;permalink&quot;&gt;permalink&lt;/a&gt;
+		&lt;div id=&quot;canvas-holder&quot;&gt;
+			&lt;canvas id=&quot;canvas&quot; width=&quot;372&quot; height=&quot;150&quot; /&gt;
+		&lt;/div&gt;			
+	&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;clear: both;&quot;&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;mix-n-match&quot;&gt;Mix ‘n Match&lt;/h3&gt;
+
+&lt;div id=&quot;mixnmatch&quot;&gt;
+	&lt;div id=&quot;selected-tastes&quot;&gt;
+		&lt;h4 id=&quot;help&quot;&gt;Click on some tastes to begin!&lt;/h4&gt;
+	&lt;/div&gt;
+	&lt;div id=&quot;tastes-list&quot;&gt;
+		&lt;div id=&quot;tastes-left-col&quot;&gt;&lt;/div&gt;
+		&lt;div id=&quot;tastes-right-col&quot;&gt;&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;a class=&quot;permalink&quot;&gt;permalink&lt;/a&gt;
+	&lt;div id=&quot;recommendations&quot;&gt;
+		&lt;h4&gt;Dishes closely matching the selected taste profile:&lt;/h4&gt;
+		&lt;ol id=&quot;recommend-list&quot; class=&quot;recipe-list&quot;&gt;
+		&lt;/ol&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;For a project in a machine learning course, my group decided to see if we could use matrix factorization on a domain near and dear to all of us &lt;/p&gt;
+
+&lt;p&gt;This post describes a project carried out for &lt;a href=&quot;http://www.cs.columbia.edu/~blei/&quot;&gt;David Blei’s&lt;/a&gt; course “COS 424: Interacting with Data” in Spring 2014 at Princeton University by Rob Sami (Google), Aaron Schild (Berkeley PhD), Spencer Tank (Palantir), and me.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Thanks&lt;/strong&gt; to &lt;a href=&quot;http://www.nixonlibrary.gov/&quot;&gt;Richard Nixon&lt;/a&gt; for reviewing and revising the draft.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 22 Jan 2015 21:34:15 -0500</pubDate>
+        <link>http://yourdomain.com/jekyll/update/2015/01/22/taste.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/jekyll/update/2015/01/22/taste.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>update</category>
+        
+      </item>
+    
+  </channel>
+</rss>
