@@ -2,7 +2,7 @@
 layout: post
 title:  "Mapping the Human Taste Palate with Matrix Factorization"
 date:   2015-01-23 02:34:15
-categories: jekyll update
+categories: 
 ---
 
 <link rel="stylesheet" href="/css/taste.css">
