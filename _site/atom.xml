@@ -1,17 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title></title>
-    <description>A fantastic blog that is fantastic.</description>
-    <link>http://jmcohen.github.io/</link>
-    <atom:link href="http://jmcohen.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 28 Jan 2015 21:08:38 -0500</pubDate>
-    <lastBuildDate>Wed, 28 Jan 2015 21:08:38 -0500</lastBuildDate>
-    <generator>Jekyll v2.5.3</generator>
-    
-      <item>
-        <title>Mapping the Human Taste Palate with Matrix Factorization</title>
-        <description>&lt;link rel=&quot;stylesheet&quot; href=&quot;/css/taste.css&quot; /&gt;
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ 
+ <title>Jeremy Cohen</title>
+ <link href="http://jmcohen.github.io/atom.xml" rel="self"/>
+ <link href="http://jmcohen.github.io/"/>
+ <updated>2015-01-28T21:08:38-05:00</updated>
+ <id>http://jmcohen.github.io</id>
+ <author>
+   <name>Jeremy Cohen</name>
+ </author>
+ 
+ 
+   
+   <entry>
+     <title>Mapping the Human Taste Palate with Matrix Factorization</title>
+     <link href="http://jmcohen.github.io/posts/taste"/>
+     <updated>2015-01-22T21:34:15-05:00</updated>
+     <id>http://jmcohen.github.io/posts/taste</id>
+     <content type="html">&lt;link rel=&quot;stylesheet&quot; href=&quot;/css/taste.css&quot; /&gt;
 
 &lt;script src=&quot;/javascripts/Please.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
 
@@ -248,13 +254,9 @@ Apparently, I was mistaken.&lt;/p&gt;
 &lt;p&gt;This post describes a project carried out for &lt;a href=&quot;http://www.cs.columbia.edu/~blei/&quot;&gt;David Blei’s&lt;/a&gt; course “COS 424: Interacting with Data” in Spring 2014 at Princeton University by Rob Sami (Google), Aaron Schild (Berkeley PhD), Spencer Tank (Palantir), and me.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Thanks&lt;/strong&gt; to &lt;a href=&quot;http://www.nixonlibrary.gov/&quot;&gt;Richard Nixon&lt;/a&gt; for reviewing and revising the draft.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 22 Jan 2015 21:34:15 -0500</pubDate>
-        <link>http://jmcohen.github.io/posts/taste</link>
-        <guid isPermaLink="true">http://jmcohen.github.io/posts/taste</guid>
-        
-        
-      </item>
-    
-  </channel>
-</rss>
+</content>
+   </entry>
+   
+ 
+ 
+</feed>

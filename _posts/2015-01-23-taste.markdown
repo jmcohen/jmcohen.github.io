@@ -15,34 +15,34 @@ categories:
 <!-- <script src='/javascripts/tastebreakdown.js' type="text/javascript"></script>
  --><!-- <script src='/javascripts/mixnmatch.js' type="text/javascript"></script> -->
 
-My classmates and I applied the matrix factorization technique for recommender systems to a data set of recipes and user profiles scraped from [AllRecipes](http://www.allrecipes.com) and extracted 40 "latent tastes" which together form a basis for all human foods.  The results are sort of cool.
+**Summary:** My classmates and I applied the matrix factorization technique for recommender systems to a data set of 120K user profiles scraped from the recipe-sharing web site <a href="http://www.allrecipes.com">AllRecipes</a> and extracted 40 "latent tastes" that combine in various proportions to make up all sorts of human foods.
 
-Two types of people might find this post interesting:
+If you understood that sentence, feel free to skip to [part II of this post](#matrix-factorization-and-allrecipes), where you can view the results and play around with <a href="#taste-breakdown">some</a> <a href="#mix-n-match">visualizations</a>.
 
-*  Those who want to learn about matrix factorization, a fascinating technique for dimensionality reduction.
-
-*  Those who already know about matrix factorization, and want to see what happens when we apply it to 42K recipes and 120K user profies from the most popular recipe-sharing web site on the internet.  These people might want to [skip to the results](results).
+On the other hand, if you want to learn about matrix factorization in order to pique your intellectual curiosity, impress someone at a job interview, or pick up people at bars, read on.
 
 A Gentle Introduction to Matrix Factorization
 -----------------------------
 
-I'm sorry!  I'm sorry!
+First off, I'm sorry.
 
-I know that the term "matrix factorization" is liable to trigger a life-threatening reaction in people allergic to linear algebra.
-I swear I'm not trying to harm you.
-I'm not like those psychopaths who make joke web sites with innocuous URLs like "StockMarketSecrets.com" that, when loaded, do not explain how to become Warren Buffet just by day trading at home in your underwear, but rather flash bright colors in rapid succession because inducing epileptic seizures is *hilarious.*
+I know that the term "matrix factorization" is liable to trigger a life-threatening reaction in persons allergic to linear algebra.
+If reading the title of this blog post is causing to you go into anaphylactic shock, please know that
+I meant no harm.
+
+<!-- I'm not like those psychopaths who make joke web sites with innocuous URLs like "StockMarketSecrets.com" that, when loaded, do not explain how to become Warren Buffet just by day trading at home in your underwear, but rather flash bright colors in rapid succession because inducing epileptic seizures is *hilarious.* -->
 
 The truth is that *I* didn't pay any attention in linear algebra class either.
 As far as I can tell, **"orthogonal"** is just a fancy synonym for "unrelated" that I should use when I want to sound smart, an **"eigenvector"** is probably something horrible that Werner von Braun dreamed up *before* he switched employers in 1945,  and a **"product space"** sounds like something that an undergrad business major living in SoMa would get excited about.
 
-The good news is that you and I can understand matrix factorization without knowing a shred more about linear algebra than Keanu Reeves does.
+The good news is that you don't need to know any more linear algebra than Keanu Reeves in order to understand matrix factorization.
 
-Before I get into the details, I want to motivate the technique of matrix factorization by pointing out an application to the most heavily studied problem in computer science: **how to get people to buy more things**.
+Before I get into the details, I want to motivate the algorithm by pointing out an application to the most heavily studied problem in computer science: **how to get people to buy more things**.
 
-#### Techniques for Recommender Systems
+### Techniques for Recommender Systems
 
 Suppose that I order the [City Chic First Years Jet Stroller](http://www.amazon.com/First-Years-Stroller-City-Chic/dp/B002WB2G9I/ref=sr_1_1?) on Amazon.com.
-Amazon would probably like to sell me more items, so that it can make more money, with which it can continue to not pay its software engineers.
+Amazon would probably like to sell me more items, so that it can make more money, with which it can continue to pay its software engineers poorly.
 So what items should Amazon recommend?
 
 <!-- ![Alt text](http://ecx.images-amazon.com/images/I/71p8ZE%2BHIRL._SL1500_.jpg) -->
@@ -51,13 +51,13 @@ One idea is to recommend me items that are intrinsically similar to the [City Ch
 These might be items that also have "stroller" in the name, or items that are made by the same manufacturer, or items whose descriptions share words in common with the description of the [City Chic First Years Jet Stroller](http://www.amazon.com/First-Years-Stroller-City-Chic/dp/B002WB2G9I/ref=sr_1_1?).
 This is called **content-based recommendation**.
 
-A more interesting idea is to treat the items as black boxes and somehow *learn* correlations between the items from the user purchasing data itself.
+A more interesting idea is to treat the items as black boxes and somehow *learn* correlations between the items from the purchasing history of all users.
 This is called **collaborative filtering**.
-For example, I would bet that people who buy baby strollers are also likely to buy, say, the [Essential Mozart](http://www.amazon.com/Essential-Mozart/dp/B00005A8JZ) CD collection.
-Now, maybe someday we'll have #deeplearning algorithms that can learn facts about the universe (e.g. [that American parents are crazy](http://en.wikipedia.org/wiki/Mozart_effect)) on their own, just from watching [Vines of cats](http://www.wired.com/2012/06/google-x-neural-network/) or whatever.
-But until that day, we'll have to settle for matrix factorization.
+For example, people who buy baby strollers are probably also likely to buy, say, the [Essential Mozart](http://www.amazon.com/Essential-Mozart/dp/B00005A8JZ) CD collection.
+Now, maybe someday we'll have #deeplearning algorithms that can learn facts about the universe (in this example, [that American parents are crazy](http://en.wikipedia.org/wiki/Mozart_effect)) on their own, just from watching [Vines of cats](http://www.wired.com/2012/06/google-x-neural-network/) or whatever.
+Until that day, we'll have to settle for matrix factorization.
 
-#### Matrix Factorization: The Intuition
+### Matrix Factorization: The Intuition
 
 As an insufferable ninth grader, I took a bunch of online quizzes during the 2008 U.S. presidential election cycle.  These quizzes would ask a zillion questions about my personal political opinions, and then they would show me a Cartesian plane with two dimensions---social views and economic views---with a big dot somewhere that was supposed to represent me.
 There were also dots for Barack Obama and John McCain, as well as for other notable figures like Karl Marx, Ayn Rand, Margaret Thatcher, and Abraham Lincoln, who had all apparently taken the quiz.
@@ -150,7 +150,7 @@ comments
 <div id="taste-grid">
 </div>
 
-Some highlights:
+A few highlights:
 
 * Some tastes correspond to food groups, like **seafood** (taste 4), **bread** (taste 24), **salad** (taste 12), and **beverages**, both **alcoholic** (taste 22) and **non-alcoholic** (taste 23).
 

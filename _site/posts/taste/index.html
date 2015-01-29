@@ -1,68 +1,69 @@
 <!DOCTYPE html>
-<html>
-
-  <head>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>
+    
+      Mapping the Human Taste Palate with Matrix Factorization &ndash;
+    
+    Jeremy Cohen
+  </title>
 
-  <title>Mapping the Human Taste Palate with Matrix Factorization</title>
-  <meta name="description" content="">
+  <meta name="author" content="Jeremy Cohen" />
+  <meta name="description" content="A fantastic blog that is fantastic." />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://jmcohen.github.io/2015/01/22/taste.html">
-  <link rel="alternate" type="application/rss+xml" title="Jeremy Cohen" href="http://jmcohen.github.io/feed.xml" />
+  <link rel="alternate" type="application/rss+xml" href="/atom.xml" />
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="/css/pygments.css" type="text/css" />
+  <link media="only screen and (max-device-width: 480px)" href="/css/mobile.css" type="text/css" rel="stylesheet" />
+  <link media="only screen and (device-width: 768px)" href="/css/mobile.css" type="text/css" rel="stylesheet" />
+  <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz' rel='stylesheet' type='text/css'>
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script type="text/javascript" src="/js/application.js"></script>
 </head>
 
-
-  <body>
-
-    <header class="site-header">
-
-  <div class="wrapper">
-
-    <a class="site-title" href="/">Jeremy Cohen</a>
-
-    <nav class="site-nav">
-      <a href="#" class="menu-icon">
-        <svg viewBox="0 0 18 15">
-          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
-          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
-          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
-        </svg>
+<body>
+  <section class="sidebar">
+<!--     <a href="/">
+      <img src="?s=150" height="75" width="75" class="avatar" />
+    </a>
+ -->
+    <section class="name">
+      <a href="/">
+        <span id="fname">Jeremy</span>
+        <span id="lname">Cohen</span>
       </a>
+    </section>
 
-      <div class="trigger">
-        
-          
-          <a class="page-link" href="/about/">Etc</a>
-          
-        
-          
-        
-          
-        
-          
-        
-      </div>
-    </nav>
+<!--     <section class="meta">
+      <a href="" target="_blank"><i class="fa fa-github"></i></a>
+      <a href="https://twitter.com/" target="_blank"><i class="fa fa-twitter"></i></a>
+      <a href="/atom.xml"><i class="fa fa-rss"></i></a>
+    </section> -->
 
-  </div>
+    <section class="sections">
+      <ul>
+        <li><a href="/about.html">about</a></li>
+        <li><a href="/">posts</a></li>
+      </ul>
+    </section>
+  </section>
 
-</header>
+  <section class="content">
+  <h1>
+    <a href="/posts/taste">Mapping the Human Taste Palate with Matrix Factorization</a>
+  </h1>
 
+  <section class="byline">
+    January 22, 2015
+  </section>
 
-    <div class="page-content">
-      <div class="wrapper">
-        <div class="post">
-
-  <header class="post-header">
-    <h1 class="post-title">Mapping the Human Taste Palate with Matrix Factorization</h1>
-    <p class="post-meta">Jan 22, 2015</p>
-  </header>
-
-  <article class="post-content">
-    <link rel="stylesheet" href="/css/taste.css" />
+  <link rel="stylesheet" href="/css/taste.css" />
 
 <script src="/javascripts/Please.js" type="text/javascript"></script>
 
@@ -80,38 +81,33 @@
  -->
 <!-- <script src='/javascripts/mixnmatch.js' type="text/javascript"></script> -->
 
-<p>My classmates and I applied the matrix factorization technique for recommender systems to a data set of recipes and user profiles scraped from <a href="http://www.allrecipes.com">AllRecipes</a> and extracted 40 “latent tastes” which together form a basis for all human foods.  The results are sort of cool.</p>
+<p><strong>Summary:</strong> My classmates and I applied the matrix factorization technique for recommender systems to a data set of 120K user profiles scraped from the recipe-sharing web site <a href="http://www.allrecipes.com">AllRecipes</a> and extracted 40 “latent tastes” that combine in various proportions to make up all sorts of human foods.</p>
 
-<p>Two types of people might find this post interesting:</p>
+<p>If you understood that sentence, feel free to skip to <a href="#matrix-factorization-and-allrecipes">part II of this post</a>, where you can view the results and play around with <a href="#taste-breakdown">some</a> <a href="#mix-n-match">visualizations</a>.</p>
 
-<ul>
-  <li>
-    <p>Those who want to learn about matrix factorization, a fascinating technique for dimensionality reduction.</p>
-  </li>
-  <li>
-    <p>Those who already know about matrix factorization, and want to see what happens when we apply it to 42K recipes and 120K user profies from the most popular recipe-sharing web site on the internet.  These people might want to <a href="results">skip to the results</a>.</p>
-  </li>
-</ul>
+<p>On the other hand, if you want to learn about matrix factorization in order to pique your intellectual curiosity, impress someone at a job interview, or pick up people at bars, read on.</p>
 
 <h2 id="a-gentle-introduction-to-matrix-factorization">A Gentle Introduction to Matrix Factorization</h2>
 
-<p>I’m sorry!  I’m sorry!</p>
+<p>First off, I’m sorry.</p>
 
-<p>I know that the term “matrix factorization” is liable to trigger a life-threatening reaction in people allergic to linear algebra.
-I swear I’m not trying to harm you.
-I’m not like those psychopaths who make joke web sites with innocuous URLs like “StockMarketSecrets.com” that, when loaded, do not explain how to become Warren Buffet just by day trading at home in your underwear, but rather flash bright colors in rapid succession because inducing epileptic seizures is <em>hilarious.</em></p>
+<p>I know that the term “matrix factorization” is liable to trigger a life-threatening reaction in persons allergic to linear algebra.
+If reading the title of this blog post is causing to you go into anaphylactic shock, please know that
+I meant no harm.</p>
+
+<!-- I'm not like those psychopaths who make joke web sites with innocuous URLs like "StockMarketSecrets.com" that, when loaded, do not explain how to become Warren Buffet just by day trading at home in your underwear, but rather flash bright colors in rapid succession because inducing epileptic seizures is *hilarious.* -->
 
 <p>The truth is that <em>I</em> didn’t pay any attention in linear algebra class either.
 As far as I can tell, <strong>“orthogonal”</strong> is just a fancy synonym for “unrelated” that I should use when I want to sound smart, an <strong>“eigenvector”</strong> is probably something horrible that Werner von Braun dreamed up <em>before</em> he switched employers in 1945,  and a <strong>“product space”</strong> sounds like something that an undergrad business major living in SoMa would get excited about.</p>
 
-<p>The good news is that you and I can understand matrix factorization without knowing a shred more about linear algebra than Keanu Reeves does.</p>
+<p>The good news is that you don’t need to know any more linear algebra than Keanu Reeves in order to understand matrix factorization.</p>
 
-<p>Before I get into the details, I want to motivate the technique of matrix factorization by pointing out an application to the most heavily studied problem in computer science: <strong>how to get people to buy more things</strong>.</p>
+<p>Before I get into the details, I want to motivate the algorithm by pointing out an application to the most heavily studied problem in computer science: <strong>how to get people to buy more things</strong>.</p>
 
-<h4 id="techniques-for-recommender-systems">Techniques for Recommender Systems</h4>
+<h3 id="techniques-for-recommender-systems">Techniques for Recommender Systems</h3>
 
 <p>Suppose that I order the <a href="http://www.amazon.com/First-Years-Stroller-City-Chic/dp/B002WB2G9I/ref=sr_1_1?">City Chic First Years Jet Stroller</a> on Amazon.com.
-Amazon would probably like to sell me more items, so that it can make more money, with which it can continue to not pay its software engineers.
+Amazon would probably like to sell me more items, so that it can make more money, with which it can continue to pay its software engineers poorly.
 So what items should Amazon recommend?</p>
 
 <!-- ![Alt text](http://ecx.images-amazon.com/images/I/71p8ZE%2BHIRL._SL1500_.jpg) -->
@@ -120,13 +116,13 @@ So what items should Amazon recommend?</p>
 These might be items that also have “stroller” in the name, or items that are made by the same manufacturer, or items whose descriptions share words in common with the description of the <a href="http://www.amazon.com/First-Years-Stroller-City-Chic/dp/B002WB2G9I/ref=sr_1_1?">City Chic First Years Jet Stroller</a>.
 This is called <strong>content-based recommendation</strong>.</p>
 
-<p>A more interesting idea is to treat the items as black boxes and somehow <em>learn</em> correlations between the items from the user purchasing data itself.
+<p>A more interesting idea is to treat the items as black boxes and somehow <em>learn</em> correlations between the items from the purchasing history of all users.
 This is called <strong>collaborative filtering</strong>.
-For example, I would bet that people who buy baby strollers are also likely to buy, say, the <a href="http://www.amazon.com/Essential-Mozart/dp/B00005A8JZ">Essential Mozart</a> CD collection.
-Now, maybe someday we’ll have #deeplearning algorithms that can learn facts about the universe (e.g. <a href="http://en.wikipedia.org/wiki/Mozart_effect">that American parents are crazy</a>) on their own, just from watching <a href="http://www.wired.com/2012/06/google-x-neural-network/">Vines of cats</a> or whatever.
-But until that day, we’ll have to settle for matrix factorization.</p>
+For example, people who buy baby strollers are probably also likely to buy, say, the <a href="http://www.amazon.com/Essential-Mozart/dp/B00005A8JZ">Essential Mozart</a> CD collection.
+Now, maybe someday we’ll have #deeplearning algorithms that can learn facts about the universe (in this example, <a href="http://en.wikipedia.org/wiki/Mozart_effect">that American parents are crazy</a>) on their own, just from watching <a href="http://www.wired.com/2012/06/google-x-neural-network/">Vines of cats</a> or whatever.
+Until that day, we’ll have to settle for matrix factorization.</p>
 
-<h4 id="matrix-factorization-the-intuition">Matrix Factorization: The Intuition</h4>
+<h3 id="matrix-factorization-the-intuition">Matrix Factorization: The Intuition</h3>
 
 <p>As an insufferable ninth grader, I took a bunch of online quizzes during the 2008 U.S. presidential election cycle.  These quizzes would ask a zillion questions about my personal political opinions, and then they would show me a Cartesian plane with two dimensions—social views and economic views—with a big dot somewhere that was supposed to represent me.
 There were also dots for Barack Obama and John McCain, as well as for other notable figures like Karl Marx, Ayn Rand, Margaret Thatcher, and Abraham Lincoln, who had all apparently taken the quiz.
@@ -210,7 +206,7 @@ For each factor, the five recipes with the highest coeffecients in the factor ar
 <div id="taste-grid">
 </div>
 
-<p>Some highlights:</p>
+<p>A few highlights:</p>
 
 <ul>
   <li>
@@ -305,57 +301,27 @@ Apparently, I was mistaken.</p>
 
 <p><strong>Thanks</strong> to <a href="http://www.nixonlibrary.gov/">Richard Nixon</a> for reviewing and revising the draft.</p>
 
-  </article>
 
-</div>
+  <!-- TODO: bio here -->
+  <section class="meta">
+    <h3>Discussion, links, and tweets</h3>
+    <section class="copy">
+      <a href="https://twitter.com/" target="_blank">
+        <img src="?s=142" height="50" width="50" />
+      </a>
 
-      </div>
-    </div>
+      <p>
+        I'm a developer at GitHub. <a href="https://twitter.com/" target="_blank">Follow me on Twitter</a>;
+        you'll enjoy my tweets. I take care to carefully craft each one. Or at least aim to make
+        you giggle. Or offended. One of those two&mdash; I haven't decided which yet.
+      </p>
 
-    <footer class="site-footer">
-
-  <div class="wrapper">
-
-    <h2 class="footer-heading">Jeremy Cohen</h2>
-
-    <div class="footer-col-wrapper">
-      <div class="footer-col  footer-col-1">
-        <ul class="contact-list">
-          <li>Jeremy Cohen</li>
-          <li><a href="mailto:jmcohen [at] princeton [dot] edu">jmcohen [at] princeton [dot] edu</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col  footer-col-2">
-        <ul class="social-media-list">
-          
-          <li>
-            <a href="https://github.com/jmcohen">
-              <span class="icon  icon--github">
-                <svg viewBox="0 0 16 16">
-                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
-                </svg>
-              </span>
-
-              <span class="username">jmcohen</span>
-            </a>
-          </li>
-          
-
-          
-        </ul>
-      </div>
-
-      <div class="footer-col  footer-col-3">
-        <p class="text"></p>
-      </div>
-    </div>
-
-  </div>
-
-</footer>
-
-
-  </body>
+      <a href="http://twitter.com/share" class="twitter-share-button" data-count="none" data-via="">Tweet</a>
+      <a href="http://twitter.com/" class="twitter-follow-button" data-show-count="false">Follow @</a>
+      <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
+    </section>
+  </section>
+</section>
+</body>
 
 </html>

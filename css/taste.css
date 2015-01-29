@@ -31,6 +31,7 @@
 .recipe-list li {
 	font-weight: 400;
 	font-size: 14px;
+	margin: 0px;
 }
 
 .recipe-list li a {
@@ -151,6 +152,7 @@
 #tastes-list .option {
 	cursor: pointer;
 	list-style-type: none;
+	margin: 0px;
 	width: 50px;
 	padding: 0 10px 0px 10px;
 	transition: background 0.05s ease-in-out;
