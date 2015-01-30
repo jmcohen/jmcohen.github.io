@@ -155,6 +155,8 @@ The algorithm that learns these representations does discover the factors, but i
 
 <h3 id="the-matrix-completion-view">The Matrix Completion View</h3>
 
+<p><a href="/images/matrix.jpg" style="float: right; margin-left: 20px;"><img src="/images/matrix.jpg" style="width: 300px;" /></a></p>
+
 <p>Imagine that Amazon has a big, incomplete <code>USERS x ITEMS</code> matrix.
 The value in the <code>(USER, ITEM)</code> square is the rating (say, from 1 to 5) that <code>USER</code> gave to <code>ITEM</code>.
 If <code>USER</code> hasn’t yet rated <code>ITEM</code>, then the <code>(USER, ITEM)</code> square is empty.
@@ -163,7 +165,7 @@ Amazon needs to somehow complete the <code>USERS x ITEMS</code> matrix, so that 
 
 <p>The matrix factorization approach is to approximate the completed <code>USERS x ITEMS</code> matrix as the product of a <code>USERS x FACTORS</code> matrix and a <code>FACTORS x ITEMS</code> matrix.
 The number of factors is fixed in advance at, say, 50.
-The values in these two individual matrices are carefully chosen such that the product of the two matrices (that is, the <em>completed</em> <code>USERS x FACTORS</code> matrix, or the predicted user/item ratings) is mostly consistent with the <em>incomplete</em> <code>USERS x FACTORS</code> matrix (that is, the observed user/item ratings).
+The values in these two individual matrices are carefully chosen such that the product of the two matrices (that is, the <em>completed</em> <code>USERS x ITEMS</code> matrix, or the predicted user/item ratings) is mostly consistent with the <em>incomplete</em> <code>USERS x ITEMS</code> matrix (that is, the observed user/item ratings).
 Each row in the <code>USERS x FACTORS</code> matrix is a <code>1 x 50</code> user vector that represents a single user’s preferences for each of the 50 factors.
 Each column in the <code>FACTORS x ITEMS</code> matrix is a <code>50 x 1</code> item vector that represents the breakdown of a single item into each of the 50 factors.
 When these two matrices are multiplied together, the value at the <code>(USER, ITEM)</code> location in the completed matrix is, by definition, the dot product of <code>USER</code>’s user vector and <code>ITEM</code>’s item vector, which, as we have already seen, is a measure of <code>USER</code>’s preference for <code>ITEM</code>!</p>
@@ -319,7 +321,7 @@ Type the name of a recipe into the text box and press enter, and a graphic will 
 <p>This interactive tool lets you mix and match tastes!
 Select two or three tastes from the two-column list below, and see which recipes most closely match the combined taste profile.</p>
 
-<p>If you’re out of ideas, try mixing <a class="mixnmatch-link" data-mix="8,32">alcoholic beverages with sugar cookies</a>, <a class="mixnmatch-link" data-mix="5,30">slow cooker with barbecue</a>, or <a class="mixnmatch-link" data-mix="39,33">biscotti with breakfast foods</a>.</p>
+<p>If you’re out of ideas, try mixing <a class="mixnmatch-link" data-mix="8,21">alcoholic beverages with sugar cookies</a>, <a class="mixnmatch-link" data-mix="5,30">slow cooker with barbecue</a>, or <a class="mixnmatch-link" data-mix="39,33">biscotti with breakfast foods</a>.</p>
 
 <div id="mixnmatch">
 	<div id="selected-tastes">

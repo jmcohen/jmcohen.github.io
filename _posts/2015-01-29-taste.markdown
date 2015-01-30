@@ -94,6 +94,8 @@ This algorithm that learns these low-dimensional representations is called matri
 
 ### The Matrix Completion View
 
+<a href="/images/matrix.jpg" style="float: right; margin-left: 20px;"><img src="/images/matrix.jpg" style="width: 300px;"/></a>
+
 Imagine that Amazon has a big, incomplete `USERS x ITEMS` matrix.
 The value in the `(USER, ITEM)` square is the rating (say, from 1 to 5) that `USER` gave to `ITEM`.
 If `USER` hasn't yet rated `ITEM`, then the `(USER, ITEM)` square is empty.
@@ -102,7 +104,7 @@ Amazon needs to somehow complete the `USERS x ITEMS` matrix, so that it can make
 
 The matrix factorization approach is to approximate the completed `USERS x ITEMS` matrix as the product of a `USERS x FACTORS` matrix and a `FACTORS x ITEMS` matrix.
 The number of factors is fixed in advance at, say, 50.
-The values in these two individual matrices are carefully chosen such that the product of the two matrices (that is, the *completed* `USERS x FACTORS` matrix, or the predicted user/item ratings) is mostly consistent with the *incomplete* `USERS x FACTORS` matrix (that is, the observed user/item ratings).
+The values in these two individual matrices are carefully chosen such that the product of the two matrices (that is, the *completed* `USERS x ITEMS` matrix, or the predicted user/item ratings) is mostly consistent with the *incomplete* `USERS x ITEMS` matrix (that is, the observed user/item ratings).
 Each row in the `USERS x FACTORS` matrix is a `1 x 50` user vector that represents a single user's preferences for each of the 50 factors.
 Each column in the `FACTORS x ITEMS` matrix is a `50 x 1` item vector that represents the breakdown of a single item into each of the 50 factors.
 When these two matrices are multiplied together, the value at the `(USER, ITEM)` location in the completed matrix is, by definition, the dot product of `USER`'s user vector and `ITEM`'s item vector, which, as we have already seen, is a measure of `USER`'s preference for `ITEM`!
@@ -242,7 +244,7 @@ Here are some intuitions that were borne out by the matrix factorization:
 This interactive tool lets you mix and match tastes!
 Select two or three tastes from the two-column list below, and see which recipes most closely match the combined taste profile.
 
-If you're out of ideas, try mixing <a class="mixnmatch-link" data-mix="8,32">alcoholic beverages with sugar cookies</a>, <a class="mixnmatch-link" data-mix="5,30">slow cooker with barbecue</a>, or <a class="mixnmatch-link" data-mix="39,33">biscotti with breakfast foods</a>.
+If you're out of ideas, try mixing <a class="mixnmatch-link" data-mix="8,21">alcoholic beverages with sugar cookies</a>, <a class="mixnmatch-link" data-mix="5,30">slow cooker with barbecue</a>, or <a class="mixnmatch-link" data-mix="39,33">biscotti with breakfast foods</a>.
 
 
 <div id="mixnmatch">

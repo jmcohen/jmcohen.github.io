@@ -4,7 +4,7 @@
  <title>Jeremy Cohen</title>
  <link href="http://jmcohen.github.iox/atom.xml" rel="self"/>
  <link href="http://jmcohen.github.iox/"/>
- <updated>2015-01-30T16:01:05-05:00</updated>
+ <updated>2015-01-30T16:30:41-05:00</updated>
  <id>http://jmcohen.github.iox</id>
  <author>
    <name>Jeremy Cohen</name>
@@ -110,6 +110,8 @@ The algorithm that learns these representations does discover the factors, but i
 
 &lt;h3 id=&quot;the-matrix-completion-view&quot;&gt;The Matrix Completion View&lt;/h3&gt;
 
+&lt;p&gt;&lt;a href=&quot;/images/matrix.jpg&quot; style=&quot;float: right; margin-left: 20px;&quot;&gt;&lt;img src=&quot;/images/matrix.jpg&quot; style=&quot;width: 300px;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
 &lt;p&gt;Imagine that Amazon has a big, incomplete &lt;code&gt;USERS x ITEMS&lt;/code&gt; matrix.
 The value in the &lt;code&gt;(USER, ITEM)&lt;/code&gt; square is the rating (say, from 1 to 5) that &lt;code&gt;USER&lt;/code&gt; gave to &lt;code&gt;ITEM&lt;/code&gt;.
 If &lt;code&gt;USER&lt;/code&gt; hasn’t yet rated &lt;code&gt;ITEM&lt;/code&gt;, then the &lt;code&gt;(USER, ITEM)&lt;/code&gt; square is empty.
@@ -118,7 +120,7 @@ Amazon needs to somehow complete the &lt;code&gt;USERS x ITEMS&lt;/code&gt; matr
 
 &lt;p&gt;The matrix factorization approach is to approximate the completed &lt;code&gt;USERS x ITEMS&lt;/code&gt; matrix as the product of a &lt;code&gt;USERS x FACTORS&lt;/code&gt; matrix and a &lt;code&gt;FACTORS x ITEMS&lt;/code&gt; matrix.
 The number of factors is fixed in advance at, say, 50.
-The values in these two individual matrices are carefully chosen such that the product of the two matrices (that is, the &lt;em&gt;completed&lt;/em&gt; &lt;code&gt;USERS x FACTORS&lt;/code&gt; matrix, or the predicted user/item ratings) is mostly consistent with the &lt;em&gt;incomplete&lt;/em&gt; &lt;code&gt;USERS x FACTORS&lt;/code&gt; matrix (that is, the observed user/item ratings).
+The values in these two individual matrices are carefully chosen such that the product of the two matrices (that is, the &lt;em&gt;completed&lt;/em&gt; &lt;code&gt;USERS x ITEMS&lt;/code&gt; matrix, or the predicted user/item ratings) is mostly consistent with the &lt;em&gt;incomplete&lt;/em&gt; &lt;code&gt;USERS x ITEMS&lt;/code&gt; matrix (that is, the observed user/item ratings).
 Each row in the &lt;code&gt;USERS x FACTORS&lt;/code&gt; matrix is a &lt;code&gt;1 x 50&lt;/code&gt; user vector that represents a single user’s preferences for each of the 50 factors.
 Each column in the &lt;code&gt;FACTORS x ITEMS&lt;/code&gt; matrix is a &lt;code&gt;50 x 1&lt;/code&gt; item vector that represents the breakdown of a single item into each of the 50 factors.
 When these two matrices are multiplied together, the value at the &lt;code&gt;(USER, ITEM)&lt;/code&gt; location in the completed matrix is, by definition, the dot product of &lt;code&gt;USER&lt;/code&gt;’s user vector and &lt;code&gt;ITEM&lt;/code&gt;’s item vector, which, as we have already seen, is a measure of &lt;code&gt;USER&lt;/code&gt;’s preference for &lt;code&gt;ITEM&lt;/code&gt;!&lt;/p&gt;
@@ -274,7 +276,7 @@ Type the name of a recipe into the text box and press enter, and a graphic will 
 &lt;p&gt;This interactive tool lets you mix and match tastes!
 Select two or three tastes from the two-column list below, and see which recipes most closely match the combined taste profile.&lt;/p&gt;
 
-&lt;p&gt;If you’re out of ideas, try mixing &lt;a class=&quot;mixnmatch-link&quot; data-mix=&quot;8,32&quot;&gt;alcoholic beverages with sugar cookies&lt;/a&gt;, &lt;a class=&quot;mixnmatch-link&quot; data-mix=&quot;5,30&quot;&gt;slow cooker with barbecue&lt;/a&gt;, or &lt;a class=&quot;mixnmatch-link&quot; data-mix=&quot;39,33&quot;&gt;biscotti with breakfast foods&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If you’re out of ideas, try mixing &lt;a class=&quot;mixnmatch-link&quot; data-mix=&quot;8,21&quot;&gt;alcoholic beverages with sugar cookies&lt;/a&gt;, &lt;a class=&quot;mixnmatch-link&quot; data-mix=&quot;5,30&quot;&gt;slow cooker with barbecue&lt;/a&gt;, or &lt;a class=&quot;mixnmatch-link&quot; data-mix=&quot;39,33&quot;&gt;biscotti with breakfast foods&lt;/a&gt;.&lt;/p&gt;
 
 &lt;div id=&quot;mixnmatch&quot;&gt;
 	&lt;div id=&quot;selected-tastes&quot;&gt;
