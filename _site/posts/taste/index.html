@@ -202,7 +202,7 @@ This approach worked fine, but was sort of boring, so I’ll ignore it for the r
 We represented the user/recipe preference data as a <code>115,308 x 9,546</code> user-by-recipe matrix with a 1 in every square where the corrresponding user had the corresponding recipe in his/her recipe box, and a 0 everywhere else.
 Then we factorized the user-by-recipe matrix, using 40 factors, into a <code>115,308 x 40</code> user-by-factor matrix and a <code>40 x 9,546</code> factor-by-recipe matrix.</p>
 
-<p>We used the <a href="https://sites.google.com/site/nmftool/">MATLAB NMF toolbox</a> to perform non-negative factorization.
+<p>We used the <a href="https://sites.google.com/site/nmftool/">MATLAB NMF toolbox</a> to perform non-negative matrix factorization.
 The NMF algorithm took 8 hours to complete 2,000 iterations on a machine with a 2.2GHz processor and 128 GB RAM.</p>
 
 <p>Sure enough, after eight hours of compute time, the factors produced by non-negative matrix factorization really did seem to correspond to human tastes!</p>

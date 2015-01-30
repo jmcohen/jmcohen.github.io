@@ -142,7 +142,7 @@ The collaborative filtering method was far more interesting because it didn't kn
 We represented the user/recipe preference data as a `115,308 x 9,546` user-by-recipe matrix with a 1 in every square where the corrresponding user had the corresponding recipe in his/her recipe box, and a 0 everywhere else.
 Then we factorized the user-by-recipe matrix, using 40 factors, into a `115,308 x 40` user-by-factor matrix and a `40 x 9,546` factor-by-recipe matrix.
 
-We used the [MATLAB NMF toolbox](https://sites.google.com/site/nmftool/) to perform non-negative factorization.
+We used the [MATLAB NMF toolbox](https://sites.google.com/site/nmftool/) to perform non-negative matrix factorization.
 The NMF algorithm took 8 hours to complete 2,000 iterations on a machine with a 2.2GHz processor and 128 GB RAM.
 
 Sure enough, after eight hours of compute time, the factors produced by non-negative matrix factorization really did seem to correspond to human tastes!

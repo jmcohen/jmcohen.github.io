@@ -14,7 +14,6 @@ var TASTE_BREAKDOWN = (function (recipeFactors, factorsTop) {
 		var barHeight = 100;
 		var barWidth = 300;
 
-
 		var recipeTastes = recipeFactors[recipe];
 		var proportions = normalizeTasteProfile(recipeTastes);
 
@@ -110,16 +109,24 @@ var TASTE_BREAKDOWN = (function (recipeFactors, factorsTop) {
 			source: substringMatcher(names)
 		});
 
-		$('#search').bind("enterKey",function(e){
+		var enter = function() {
 			var name = $('#search').val();
-			setRecipe(name);
-		});
+			setRecipe(name);			
+		}
 
 		$('#search').keyup(function(e){
 		    if(e.keyCode == 13) {
-		        $(this).trigger("enterKey");
+		        enter();
 		    }
 		});
+
+		$("#search").on("typeahead:selected", function(){
+			enter();
+		});
+		// $(".tt-suggestion").click(function() {
+		// 	alert("click");
+		// 	enter();
+		// });
 	};
 
 	$(document).ready(function() {
