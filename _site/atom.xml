@@ -4,7 +4,7 @@
  <title>Jeremy Cohen</title>
  <link href="http://jmcohen.github.iox/atom.xml" rel="self"/>
  <link href="http://jmcohen.github.iox/"/>
- <updated>2015-01-30T14:40:01-05:00</updated>
+ <updated>2015-01-30T16:01:05-05:00</updated>
  <id>http://jmcohen.github.iox</id>
  <author>
    <name>Jeremy Cohen</name>
@@ -50,8 +50,6 @@ You are in my prayers.&lt;/p&gt;
 &lt;p&gt;The truth is that &lt;em&gt;I&lt;/em&gt; didn’t pay any attention in linear algebra class either.
 As far as I can tell, &lt;strong&gt;“orthogonal”&lt;/strong&gt; is just a fancy synonym for “unrelated” that I should use when I want to sound smart, an &lt;strong&gt;“eigenvector”&lt;/strong&gt; is probably something horrible that Werner von Braun dreamt up to terrorize London before he switched employers in 1945,  and a &lt;strong&gt;“product space”&lt;/strong&gt; is the kind of thing that a “growth hacker” gets excited about.&lt;/p&gt;
 
-&lt;p&gt;The good news is that you don’t need to know much linear algebra in order to understand matrix factorization.&lt;/p&gt;
-
 &lt;p&gt;Before I get into the details, I want to motivate the algorithm by pointing out an application to the most heavily studied problem in computer science: &lt;strong&gt;how to get people to buy more things&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;h3 id=&quot;techniques-for-recommender-systems&quot;&gt;Techniques for Recommender Systems&lt;/h3&gt;
@@ -74,6 +72,8 @@ Fortunately, thanks to collaborative filtering, Amazon will pick up on the trend
 &lt;p&gt;One of the most fascinating techniques for collaborative filtering is &lt;strong&gt;matrix factorization&lt;/strong&gt;, and it is easiest understood as a form of dimensionality reduction.&lt;/p&gt;
 
 &lt;h3 id=&quot;dimensionality-reduction-the-intuition&quot;&gt;Dimensionality Reduction: The Intuition&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;/images/ideology.jpg&quot; style=&quot;float: right; margin-left: 20px;&quot;&gt;&lt;img src=&quot;/images/ideology.jpg&quot; style=&quot;width: 300px;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;As an insufferable ninth grader, I took a bunch of online quizzes during the 2008 U.S. presidential election cycle.  These quizzes would ask a zillion questions about my personal political opinions, and then they would show me a Cartesian plane with two dimensions—social views and economic views—with a big dot somewhere that was supposed to represent me.
 There were also dots for the candidates, Barack Obama and John McCain, as well as for insightful political thinkers like Karl Marx, William F. Buckley, and Abraham Lincoln, and there was a dot for &lt;a href=&quot;http://the-toast.net/2015/01/12/actual-letter-ayn-rand-wrote-little-girl/&quot;&gt;Ayn Rand&lt;/a&gt; too.
@@ -123,7 +123,7 @@ Each row in the &lt;code&gt;USERS x FACTORS&lt;/code&gt; matrix is a &lt;code&gt
 Each column in the &lt;code&gt;FACTORS x ITEMS&lt;/code&gt; matrix is a &lt;code&gt;50 x 1&lt;/code&gt; item vector that represents the breakdown of a single item into each of the 50 factors.
 When these two matrices are multiplied together, the value at the &lt;code&gt;(USER, ITEM)&lt;/code&gt; location in the completed matrix is, by definition, the dot product of &lt;code&gt;USER&lt;/code&gt;’s user vector and &lt;code&gt;ITEM&lt;/code&gt;’s item vector, which, as we have already seen, is a measure of &lt;code&gt;USER&lt;/code&gt;’s preference for &lt;code&gt;ITEM&lt;/code&gt;!&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/factorization.jpg&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;/images/factorization.jpg&quot;&gt;&lt;img src=&quot;/images/factorization.jpg&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;As discussed in the preceding section, factorizing the incomplete &lt;code&gt;USERS x ITEMS&lt;/code&gt; matrix is an optimization problem where the goal is to minimize some metric of difference between the incomplete &lt;code&gt;USERS x ITEMS&lt;/code&gt; matrix (the observed ratings) and the completed &lt;code&gt;USERS x ITEMS&lt;/code&gt; matrix (the predicted ratings).
 We will also add a &lt;strong&gt;non-negativity&lt;/strong&gt; constraint: every value in the multiplicand and multiplier matrices should be greater than or equal to zero.

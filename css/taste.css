@@ -19,7 +19,8 @@
 
 .taste-card .title, .taste-card .subtitle {
 	font-weight: bold;
-	margin-bottom: 4px;
+	padding: 5px 0;
+	float: left;
 }
 
 .taste-card .subtitle {
@@ -36,6 +37,7 @@
 	font-weight: 400;
 	font-size: 14px;
 	margin: 0px;
+	clear: left;
 }
 
 .recipe-list li a {
@@ -191,13 +193,13 @@
 #mixnmatch .permalink {
 	position: absolute;
 	top: -25px;
-	right: 45px;
+	right: 10px;
 }
 
 #taste-grid {
 	/*font-family: "Gill Sans", Helvetica;*/
 	width: 900px;
-	height: 2500px;
+	height: 2600px;
 	display: none; /* hidden at first */
 }
 

@@ -34,8 +34,6 @@ You are in my prayers.
 The truth is that *I* didn't pay any attention in linear algebra class either.
 As far as I can tell, **"orthogonal"** is just a fancy synonym for "unrelated" that I should use when I want to sound smart, an **"eigenvector"** is probably something horrible that Werner von Braun dreamt up to terrorize London before he switched employers in 1945,  and a **"product space"** is the kind of thing that a "growth hacker" gets excited about.
 
-The good news is that you don't need to know much linear algebra in order to understand matrix factorization.
-
 Before I get into the details, I want to motivate the algorithm by pointing out an application to the most heavily studied problem in computer science: **how to get people to buy more things**.
 
 ### Techniques for Recommender Systems
@@ -58,6 +56,8 @@ Fortunately, thanks to collaborative filtering, Amazon will pick up on the trend
 One of the most fascinating techniques for collaborative filtering is **matrix factorization**, and it is easiest understood as a form of dimensionality reduction.
 
 ### Dimensionality Reduction: The Intuition
+
+<a href="/images/ideology.jpg" style="float: right; margin-left: 20px;"><img src="/images/ideology.jpg" style="width: 300px;"/></a>
 
 As an insufferable ninth grader, I took a bunch of online quizzes during the 2008 U.S. presidential election cycle.  These quizzes would ask a zillion questions about my personal political opinions, and then they would show me a Cartesian plane with two dimensions---social views and economic views---with a big dot somewhere that was supposed to represent me.
 There were also dots for the candidates, Barack Obama and John McCain, as well as for insightful political thinkers like Karl Marx, William F. Buckley, and Abraham Lincoln, and there was a dot for [Ayn Rand](http://the-toast.net/2015/01/12/actual-letter-ayn-rand-wrote-little-girl/) too.
@@ -107,7 +107,7 @@ Each row in the `USERS x FACTORS` matrix is a `1 x 50` user vector that represen
 Each column in the `FACTORS x ITEMS` matrix is a `50 x 1` item vector that represents the breakdown of a single item into each of the 50 factors.
 When these two matrices are multiplied together, the value at the `(USER, ITEM)` location in the completed matrix is, by definition, the dot product of `USER`'s user vector and `ITEM`'s item vector, which, as we have already seen, is a measure of `USER`'s preference for `ITEM`!
 
-<img src="/images/factorization.jpg" />
+<a href="/images/factorization.jpg"><img src="/images/factorization.jpg" /></a>
 
 As discussed in the preceding section, factorizing the incomplete `USERS x ITEMS` matrix is an optimization problem where the goal is to minimize some metric of difference between the incomplete `USERS x ITEMS` matrix (the observed ratings) and the completed `USERS x ITEMS` matrix (the predicted ratings).
 We will also add a **non-negativity** constraint: every value in the multiplicand and multiplier matrices should be greater than or equal to zero.
