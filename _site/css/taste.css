@@ -10,9 +10,11 @@
 
 .taste-card {
 	position: absolute;
+	font-family: "Gill Sans", Helvetica;
 	width: 200px;
 	border: solid white 4px;
 	padding: 5px 10px;
+	background-color: white;
 }
 
 .taste-card .title, .taste-card .subtitle {
@@ -26,6 +28,7 @@
 .recipe-list {
     padding: 0 0 0 16px;
     margin: 0px;
+    line-height: 20px;
 }
 
 .recipe-list li {
@@ -63,7 +66,7 @@
 	position: relative; 
 	float: left; 
 	width: 800px; 
-	height: 400px;
+	height: 350px;
 }
 
 #canvas-holder {
@@ -164,8 +167,11 @@
  }
 
 #mixnmatch h4 {
+	font-family: 'Gill Sans', Helvetica;
 	font-size: 14px;
 	font-weight: 600;
+	margin: 0px;
+	margin-bottom: 10px;
 }
 
 #recommendations {
@@ -183,14 +189,14 @@
 
 #mixnmatch .permalink {
 	position: absolute;
-	top: -45px;
+	top: -25px;
 	right: 45px;
 }
 
 #taste-grid {
 	font-family: "Gill Sans", Helvetica;
 	width: 900px;
-	height: 2600px;
+	height: 2300px;
 	display: none; /* hidden at first */
 }
 
@@ -203,5 +209,19 @@
 	float: left;
 	position: static;
 	margin-bottom: 10px;
+}
+
+.breakdown-link {
+	cursor: pointer;
+}
+
+.mixnmatch-link {
+	cursor: pointer;
+}
+
+.taste-hover {
+	background-color: #eee;
+	padding: 0 4px;
+	cursor: pointer;
 }
 

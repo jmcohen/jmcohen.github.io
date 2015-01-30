@@ -91,6 +91,13 @@ var TASTE_BREAKDOWN = (function (recipeFactors, factorsTop) {
 		}
 	};
 
+	var initializeHotlinks = function() {
+		$(".breakdown-link").click(function() {
+			setRecipe($(this).text());
+			scrollTo("taste-breakdown");
+		});
+	}
+
 	var initializeTypeahead = function() {
 		var names = shuffle(Object.keys(recipeFactors));
 		$('#search').typeahead({
@@ -117,6 +124,7 @@ var TASTE_BREAKDOWN = (function (recipeFactors, factorsTop) {
 
 	$(document).ready(function() {
 		initializeTypeahead();
+		initializeHotlinks();
 		setRecipe('Naan');
 		processPermalink();
 	});
@@ -192,10 +200,13 @@ var MIX_N_MATCH = (function (recipeFactors, factorsTop) {
 	}
 
 	var refreshOptions = function() {
+		$("#tastes-list .option").css("color", "black")
+								 .css("background-color", "white");
+
 		$.each(selectedTastes, function(i, tasteId) {
-			console.log(tasteId);
-			$("#tastes-list .option[data-taste=" + tasteId + "]").css("color", "white");
-			$("#tastes-list .option[data-taste=" + tasteId + "]").css("background-color", colors[tasteId]);	
+			$("#tastes-list .option[data-taste=" + tasteId + "]")
+				.css("color", "white")
+				.css("background-color", colors[tasteId]);	
 		});
 	}
 
@@ -309,8 +320,17 @@ var MIX_N_MATCH = (function (recipeFactors, factorsTop) {
 		}
 	};
 
+	function initializeHotlinks() {
+		$(".mixnmatch-link").click(function() {
+			selectedTastes = $(this).attr('data-mix').split(',');
+			refresh();
+			scrollTo("mix-n-match");
+		});
+	};
+
 	$(document).ready(function(){
 		initializeOptions()
+		initializeHotlinks();
 		processPermalink();
 	});
 
@@ -436,6 +456,27 @@ var TASTE_GRID = (function (recipeFactors, factorsTop) {
 		});
 	});
 })(window.recipeFactors, window.factorsTop);
+
+var HOVER = (function (recipeFactors, factorsTop) {
+
+	$(document).ready(function(){
+		$(".taste-hover").hover(
+			function() { // mouse on
+				var tasteId = $(this).text() - 1;
+				var card = SHARED.makeTasteCard(tasteId, null, null);
+				card.addClass("taste-hover-card");
+				var offset = $(this).offset();
+				card.css("position", "fixed");
+				card.css("left", offset.left + 40);
+				card.css("top", offset.top - $(document).scrollTop() - 50);
+				$("body").append(card);
+			}, function() {  // mouse off
+				$(".taste-hover-card").remove();
+			})
+	});
+})(window.recipeFactors, window.factorsTop);
+
+
 
 
 // Utility functions

@@ -1,12 +1,4 @@
-# markdown: rdiscount
 permalink: /posts/:title
-# rdiscount:
-#   extensions: [smart]
-
-gems:
-  - jekyll-sitemap
 
 name: Jeremy Cohen
 url: http://jmcohen.github.io
-description: A fantastic blog that is fantastic.
-# twitter: holman
