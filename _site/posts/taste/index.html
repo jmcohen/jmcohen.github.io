@@ -76,9 +76,9 @@
 
 <p><img src="/images/naan.png" /></p>
 
-<p><strong>Summary:</strong> My classmates and I applied the matrix factorization technique for recommender systems to a data set of 120K user profiles scraped from the recipe-sharing web site <a href="http://www.allrecipes.com">AllRecipes.com</a>, and extracted 40 latent “tastes” that combine in various proportions to make up all sorts of human foods.</p>
+<p><strong>Summary:</strong> My classmates and I applied the matrix factorization technique for recommender systems to a data set of 120K user profiles scraped from the recipe-sharing web site AllRecipes.com, and extracted 40 latent “tastes” that combine in various proportions to make up all sorts of human foods.</p>
 
-<p>If you understood that sentence, feel free to skip to <a href="#matrix-factorization-and-food">part II of this post</a>, where you can view the results and play around with <a href="#taste-breakdown">some</a> interactive <a href="#mix-n-match">visualizations</a>.</p>
+<p>If you understood that sentence, feel free to <a href="#matrix-factorization-and-food">skip to part II of this post</a>, where you can view the results and play around with some interactive visualizations.</p>
 
 <p>If you don’t know much about matrix factorization but want to learn—whether to pique your intellectual curiosity, impress prospective employers, or pick up people at bars—then read on.</p>
 
@@ -95,7 +95,7 @@ You are in my prayers.</p>
 <p>The truth is that <em>I</em> didn’t pay any attention in linear algebra class either.
 As far as I can tell, <strong>“orthogonal”</strong> is just a fancy synonym for “unrelated” that I should use when I want to sound smart, an <strong>“eigenvector”</strong> is probably something horrible that Werner von Braun dreamt up to terrorize London before he switched employers in 1945,  and a <strong>“product space”</strong> is the kind of thing that a “growth hacker” gets excited about.</p>
 
-<p>The good news is that you don’t need to know any more linear algebra than Keanu Reeves in order to understand matrix factorization.</p>
+<p>The good news is that you don’t need to know much linear algebra in order to understand matrix factorization.</p>
 
 <p>Before I get into the details, I want to motivate the algorithm by pointing out an application to the most heavily studied problem in computer science: <strong>how to get people to buy more things</strong>.</p>
 
@@ -137,8 +137,8 @@ Both items and users could then be represented as a vectors of length 50.</p>
 
 <p>Ideally, the factors would have interpretable meanings.
 So, to continue the Mozart example from above, maybe factor 32 represents “neurotic upper-middle-class American parent.”
-In that case, the coefficient in the 32st position of each user’s vector would quantify the degree to which that user is a neurotic upper-middle-class American parent. 
-Likewise, the coefficient in the 32st position of each <em>item’s</em> vector would quantify the degree to which that item <em>appeals to</em> neurotic upper-middle-class American parents.
+In that case, the coefficient in the 32nd position of each user’s vector would quantify the degree to which that user is a neurotic upper-middle-class American parent. 
+Likewise, the coefficient in the 32nd position of each <em>item’s</em> vector would quantify the degree to which that item <em>appeals to</em> neurotic upper-middle-class American parents.
 To predict any user’s rating for any item, we can just take the dot product between the user’s vector and the item’s vector.</p>
 
 <p>I still have not explained how Amazon can use its user/item ratings data to learn an 50-dimensional vector representation of each item and of each user.
@@ -151,7 +151,7 @@ The intuitive meaning of each factor is derived post hoc from vector representat
 After the item and user vector representations have been generated, we the programmers can look at the results and guess that factor 32 is the “neurotic upper-middle-class American parent” factor on grounds that the items with the highest coefficients for that factor are baby strollers and Mozart CDs.
 The algorithm that learns these representations does discover the factors, but it doesn’t name them.</p>
 
-<p>This algorithm that learns these low-dimensional representations is called matrix factorization.  Why?  Because it turns out that the the task of {learning 50-dimensional vector representations for each item and for each user that are consistent with observed user ratings} can be viewed from another angle as a matrix completion problem.</p>
+<p>This algorithm that learns these low-dimensional representations is called matrix factorization.  Why?  Because it turns out that the the task {of learning 50-dimensional vector representations for each item and for each user that are consistent with observed user ratings} can be viewed from another angle as a matrix completion problem.</p>
 
 <h3 id="the-matrix-completion-view">The Matrix Completion View</h3>
 
@@ -159,7 +159,7 @@ The algorithm that learns these representations does discover the factors, but i
 The value in the <code>(USER, ITEM)</code> square is the rating (say, from 1 to 5) that <code>USER</code> gave to <code>ITEM</code>.
 If <code>USER</code> hasn’t yet rated <code>ITEM</code>, then the <code>(USER, ITEM)</code> square is empty.
 Indeed, most squares are empty.
-Amazon needs to somehow complete the <code>USERS x ITEMS</code> matrix, so that it can make good recommendations, so that it can bring in revenue, because, you know, the Washington Post isn’t going to buy <em>itself</em>.</p>
+Amazon needs to somehow complete the <code>USERS x ITEMS</code> matrix, so that it can make good recommendations, so that it can bring in revenue, because, you know, the Washington Post isn’t going to buy itself.</p>
 
 <p>The matrix factorization approach is to approximate the completed <code>USERS x ITEMS</code> matrix as the product of a <code>USERS x FACTORS</code> matrix and a <code>FACTORS x ITEMS</code> matrix.
 The number of factors is fixed in advance at, say, 50.
@@ -167,6 +167,8 @@ The values in these two individual matrices are carefully chosen such that the p
 Each row in the <code>USERS x FACTORS</code> matrix is a <code>1 x 50</code> user vector that represents a single user’s preferences for each of the 50 factors.
 Each column in the <code>FACTORS x ITEMS</code> matrix is a <code>50 x 1</code> item vector that represents the breakdown of a single item into each of the 50 factors.
 When these two matrices are multiplied together, the value at the <code>(USER, ITEM)</code> location in the completed matrix is, by definition, the dot product of <code>USER</code>’s user vector and <code>ITEM</code>’s item vector, which, as we have already seen, is a measure of <code>USER</code>’s preference for <code>ITEM</code>!</p>
+
+<p><img src="/images/factorization.jpg" /></p>
 
 <p>As discussed in the preceding section, factorizing the incomplete <code>USERS x ITEMS</code> matrix is an optimization problem where the goal is to minimize some metric of difference between the incomplete <code>USERS x ITEMS</code> matrix (the observed ratings) and the completed <code>USERS x ITEMS</code> matrix (the predicted ratings).
 We will also add a <strong>non-negativity</strong> constraint: every value in the multiplicand and multiplier matrices should be greater than or equal to zero.
@@ -189,7 +191,7 @@ Our recommender system itself turned out to be <a href="http://www.princeton.edu
 With tens of thousands of recipes and over a hundred thousand users, AllRecipes is a gold mine for food data.
 Each AllRecipes user has a “recipe box” where he or she can list his or her favorite recipes. 
 It was these “recipe boxes” that we scraped.
-After throwing away all recipes that ocpcurred in fewer than 300 recipe boxes, we were left with 9,546 recipes and 115,308 users.
+After throwing away all recipes that occurred in fewer than 300 recipe boxes, we were left with 9,546 recipes and 115,308 users.
 All users collectively had 9.6 million recipes in their recipe boxes.</p>
 
 <p>We experimented with two different approaches to the problem of recipe recommendation: a content-based method using only information about the ingredients in each recipe, and a collaborative filtering method using only data about user / recipe preferences.</p>
@@ -259,7 +261,7 @@ We describe each taste by printing the five exemplar recipes with the highest co
   </li>
   <li>
     <p>Taste <span class="taste-hover">28</span> corresponds to <strong>Indian / Thai</strong> food.
-I was faintly surprised that no other ethnic cuisines came out of the factorization, although I suppose taste <span class="taste-hover">39</span> (casserole) might qualify as Mexican, and taste <span class="taste-hover">27</span> has a definite German flair.</p>
+I was faintly surprised that no other ethnic cuisines came out of the factorization, although I suppose taste <span class="taste-hover">39</span> might qualify as Mexican, and taste <span class="taste-hover">27</span> has a definite German flair.</p>
   </li>
   <li>
     <p>Taste <span class="taste-hover">13</span> comprises dishes—macaroni and cheese, meat loaf, lasagna, potato salad—that can only be described as <strong>“comfort food.”</strong>

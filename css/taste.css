@@ -10,7 +10,7 @@
 
 .taste-card {
 	position: absolute;
-	font-family: "Gill Sans", Helvetica;
+	/*font-family: "Gill Sans", Helvetica;*/
 	width: 200px;
 	border: solid white 4px;
 	padding: 5px 10px;
@@ -19,6 +19,7 @@
 
 .taste-card .title, .taste-card .subtitle {
 	font-weight: bold;
+	margin-bottom: 4px;
 }
 
 .taste-card .subtitle {
@@ -26,7 +27,7 @@
 }
 
 .recipe-list {
-    padding: 0 0 0 16px;
+    padding: 0 0 0 20px;
     margin: 0px;
     line-height: 20px;
 }
@@ -53,7 +54,7 @@
 /* Taste Breakdown */
 
 #breakdown {
-	font-family: "Gill Sans", Helvetica;
+	/*font-family: "Gill Sans", Helvetica;*/
 }
 
 #breakdown .permalink {
@@ -133,7 +134,7 @@
 	position: relative;
 	width: 800px;
 	height: 658px;
-	font-family: 'Gill Sans', Helvetica;
+	/*font-family: 'Gill Sans', Helvetica;*/
 }
 
 #selected-tastes {
@@ -156,7 +157,7 @@
 	cursor: pointer;
 	list-style-type: none;
 	margin: 0px;
-	width: 50px;
+	width: 55px;
 	padding: 0 10px 0px 10px;
 	transition: background 0.05s ease-in-out;
 }
@@ -167,7 +168,7 @@
  }
 
 #mixnmatch h4 {
-	font-family: 'Gill Sans', Helvetica;
+	font-family: Helvetica;
 	font-size: 14px;
 	font-weight: 600;
 	margin: 0px;
@@ -194,7 +195,7 @@
 }
 
 #taste-grid {
-	font-family: "Gill Sans", Helvetica;
+	/*font-family: "Gill Sans", Helvetica;*/
 	width: 900px;
 	height: 2300px;
 	display: none; /* hidden at first */

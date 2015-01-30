@@ -123,10 +123,6 @@ var TASTE_BREAKDOWN = (function (recipeFactors, factorsTop) {
 		$("#search").on("typeahead:selected", function(){
 			enter();
 		});
-		// $(".tt-suggestion").click(function() {
-		// 	alert("click");
-		// 	enter();
-		// });
 	};
 
 	$(document).ready(function() {
