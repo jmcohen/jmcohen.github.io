@@ -435,7 +435,7 @@ var TASTE_GRID = (function (recipeFactors, factorsTop) {
 	$(document).ready(function(){
 		// make the grid
 
-		var numCols = 3;
+		var numCols = 4;
 		for (var i = 0; i < numCols; i++) {
 			$("#taste-grid").append($("<div>")
 									.addClass("column")
@@ -446,17 +446,6 @@ var TASTE_GRID = (function (recipeFactors, factorsTop) {
 			var card = SHARED.makeTasteCard(i, "", null);
 			$("#taste-grid .col" + (i % numCols)).append(card);
 		}
-
-		// for showing/hiding the grid
-
-		$("#toggle-taste-grid").click(function() {
-			$("#taste-grid").toggle();
-			if ($("#taste-grid").is(":visible")) {
-				$("#toggle-verb").text("Hide");
-			} else {
-				$("#toggle-verb").text("Show");	
-			}
-		});
 	});
 })(window.recipeFactors, window.factorsTop);
 

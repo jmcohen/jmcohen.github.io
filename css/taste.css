@@ -200,18 +200,27 @@
 	/*font-family: "Gill Sans", Helvetica;*/
 	width: 900px;
 	height: 2600px;
-	display: none; /* hidden at first */
+	/*display: none;  hidden at first */
 }
 
 #taste-grid .column {
-	width: 250px;
+	width: 200px;
 	float: left;
 }
 
 #taste-grid .taste-card {
 	float: left;
 	position: static;
+	width: 160px;
 	margin-bottom: 10px;
+}
+
+#taste-grid .taste-card .title {
+	font-size: 14px;
+}
+
+#taste-grid .taste-card li {
+	font-size: 13px;
 }
 
 .breakdown-link {
