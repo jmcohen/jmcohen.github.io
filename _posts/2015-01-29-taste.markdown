@@ -13,12 +13,14 @@ categories:
 <script src='/javascripts/taste.js' type="text/javascript"></script>
 
 <img src="/images/naan.png"/>
+<span class="caption">This still frame from the <a href="#taste-breakdown">visualization tool</a> below shows the breakdown of Naan bread into its constituent tastes.</span>
 
-**Summary:** My classmates and I applied the matrix factorization technique for recommender systems to a data set of 120K user profiles scraped from the recipe-sharing web site AllRecipes.com, and extracted 40 latent "tastes" that combine in various proportions to make up all sorts of human foods.
+<span style="clear: both;"></span>
+<br />
 
-If you understood that sentence, feel free to [skip to part II of this post](#matrix-factorization-and-food), where you can view the results and play around with some interactive visualizations.
+**Summary:** My classmates and I applied the matrix factorization technique for recommender systems to a data set of 120K user profiles scraped from the recipe-sharing web site AllRecipes.com and extracted 40 latent "tastes" that combine to make up all sorts of human foods.
 
-If you don't know much about matrix factorization but want to learn---whether to pique your intellectual curiosity, impress prospective employers, or pick up people at bars---then read on.
+If you understood that sentence, feel free to skip ahead to Part II of this post, [Matrix Factorization and Food](#matrix-factorization-and-food), where you can view the results and play around with some interactive visualizations.
 
 A Gentle Introduction to Matrix Factorization
 -----------------------------
@@ -32,69 +34,92 @@ I would administer an epi-pen, except we are not in the same room.
 You are in my prayers.
 
 The truth is that *I* didn't pay any attention in linear algebra class either.
-As far as I can tell, **"orthogonal"** is just a fancy synonym for "unrelated" that I should use when I want to sound smart, an **"eigenvector"** is probably something horrible that Werner von Braun dreamt up to terrorize London before he switched employers in 1945,  and a **"product space"** is the kind of thing that a "growth hacker" gets excited about.
+As far as I can tell, **"orthogonal"** is just a fancy synonym for "unrelated" that I use when I want to sound smart, an **"eigenvector"** is probably something horrible that Wernher von Braun dreamt up before he switched employers in 1945,  and a **"product space"** is the kind of thing that a "growth hacker" gets excited about.
 
-Before I get into the details, I want to motivate the algorithm by pointing out an application to the most heavily studied problem in computer science: **how to get people to buy more things**.
+The good news is that understanding matrix factorization does not require any linear algebra beyond the definition of a matrix multiplication.
 
-### Techniques for Recommender Systems
+But before I get into the details, I want to motivate the algorithm by pointing out an application to the most heavily studied problem in computer science: **how to get people to buy more things**.
+
+### Recommender Systems
 
 Suppose that I order the [City Chic First Years Jet Stroller](http://www.amazon.com/First-Years-Stroller-City-Chic/dp/B002WB2G9I/ref=sr_1_1?) on Amazon.com.
-Amazon would probably like to sell me more items.
+Amazon would like to sell me more items.
 Which items should they recommend?
 
-One idea is to recommend me items that are intrinsically similar to the [City Chic First Years Jet Stroller](http://www.amazon.com/First-Years-Stroller-City-Chic/dp/B002WB2G9I/ref=sr_1_1?).
-These might be items that also have "stroller" in the name, or items that are made by the same manufacturer, or items whose descriptions share words in common with the description of the [City Chic First Years Jet Stroller](http://www.amazon.com/First-Years-Stroller-City-Chic/dp/B002WB2G9I/ref=sr_1_1?).
+One idea is to recommend items that are intrinsically similar to the [City Chic First Years Jet Stroller](http://www.amazon.com/First-Years-Stroller-City-Chic/dp/B002WB2G9I/ref=sr_1_1?).
+These might be items that also have "stroller" in the name, or items that are made by the same manufacturer, or items whose descriptions share words in common with the description of the stroller.
 This is called **content-based recommendation**.
 
 A more interesting idea is to treat the items as black boxes and somehow *learn* correlations between the items from the ratings history of all users.
 This is called **collaborative filtering**.
-For example, people who buy baby strollers are probably also likely to buy the [Essential Mozart](http://www.amazon.com/Essential-Mozart/dp/B00005A8JZ/) CD collection.
-The association between these two items could never be detected by content-based methods alone; a Mozart collection has zero properties in common with a baby stroller.
-An intelligent yet uninformed alien visiting the Planet Earth for a day would never think: "Ah, yes, *of course* people with no previous discernable interest in classical music will suddenly snatch up the collected works of Wolfgang Amadeus once they are also in the market for a baby stroller."
-Fortunately, thanks to collaborative filtering, Amazon will pick up on the trend and make the right recommendation. Everybody will win: Jeff Bezos will become richer, the baby won't get [left behind](http://en.wikipedia.org/wiki/Mozart_effect), and the Amazon programmer who wrote the feature will [quit and join another company](http://www.glassdoor.com/GD/Reviews/Amazon-com-Reviews-E6036_P2.htm?filter.jobTitleFTS=Software).
+For example, I would bet that people who buy baby strollers are also likely to buy the [Essential Mozart](http://www.amazon.com/Essential-Mozart/dp/B00005A8JZ/) CD collection.
+The association between these two items could never be detected by content-based methods alone.
+A Mozart collection has zero properties in common with a baby stroller.
+An intelligent yet uninformed alien visiting Planet Earth for a day would never think, "Ah, yes, *of course* people with no previous discernable interest in classical music will suddenly snatch up the collected works of Wolfgang Amadeus once they are also in the market for a baby stroller."
+Fortunately, thanks to collaborative filtering, Amazon can pick up on the relationship between these two very distinct items and make the right recommendation. Everybody will win: Jeff Bezos will become richer, the baby won't get [left behind](http://en.wikipedia.org/wiki/Mozart_effect), and the Amazon programmer who wrote the feature will [quit and join another company](http://www.glassdoor.com/GD/Reviews/Amazon-com-Reviews-E6036_P2.htm?filter.jobTitleFTS=Software).
 
 One of the most fascinating techniques for collaborative filtering is **matrix factorization**, and it is easiest understood as a form of dimensionality reduction.
 
-### Dimensionality Reduction: The Intuition
+### Dimensionality Reduction
 
-<a href="/images/ideology.jpg" style="float: right; margin-left: 20px;"><img src="/images/ideology.jpg" style="width: 300px;"/></a>
+<div class="image-right">
+<a href="/images/ideology.jpg"><img src="/images/ideology.jpg"/></a>
+<span class="caption">My recollection of one such quiz.</span>
+</div>
+
 
 As an insufferable ninth grader, I took a bunch of online quizzes during the 2008 U.S. presidential election cycle.  These quizzes would ask a zillion questions about my personal political opinions, and then they would show me a Cartesian plane with two dimensions---social views and economic views---with a big dot somewhere that was supposed to represent me.
-There were also dots for the candidates, Barack Obama and John McCain, as well as for insightful political thinkers like Karl Marx, William F. Buckley, and Abraham Lincoln, and there was a dot for [Ayn Rand](http://the-toast.net/2015/01/12/actual-letter-ayn-rand-wrote-little-girl/) too.
-These people had all apparently taken the quiz, and they, like me, could be completely reduced to two numbers: their position on the "social views" scale, and their position on the "economic views" scale. 
+There were also dots for the candidates, Barack Obama and John McCain; dots for insightful thinkers like Karl Marx, William F. Buckley, and Abraham Lincoln; and a dot for Ayn Rand.
 
-This is basically how the matrix factorization technique for recommender systems works.
+These people had all apparently taken the quiz, and the sum total of their existences could, incredibly enough, be reduced to just two numbers: their position on the "social" axis, and their position on the "economic" axis.
 
-Matrix factorization and sketchy Internet ideology quizzes are both forms of **dimensionality reduction**.
-Political platforms probably have hundreds of dimensions, like taxation, immigration, energy, national security, and climate change.
-But the ideology quiz reduces every politician to just two factors: "social" and "economic."
+This magic trick is called **dimensionality reduction**.
+
+And what a feat!  Political platforms probably have hundreds of dimensions, like taxation, immigration, energy, national security,  climate change, and whether or not the candidate has ever driven to Canada with an Irish Setter tied to the roof of his car.
+But the ideology quiz reduced every politician to just two: "social" and "economic."
 Working in this simplified two-dimensional space made it a lot easier to identify the politicians whose views most closely matched my own.
 
-In a similar way, matrix factorization tries to reduce the dimensionality of the space of item properties down to a small number of factors.
-Suppose that we could somehow reduce the dimensionality of every item on Amazon.com down to, say, 50 factors.
-Both items and users could then be represented as a vectors of length 50.
+The matrix factorization technique for recommender systems involves a similar trick, except the goal is to convince people to spend real money on snuggies, which is harder than the trivial task of convincing them to share something obnoxious on Facebook---something that most of us would do for free anyway.
 
+In other words, matrix factorization is truly the stuff that sets the real data scientists apart from the data alchemists, data phrenologists, data astrologers, and other flavors of data charlatan.
+
+<div class="image-right">
+<a href="/images/vector.jpg"><img src="/images/vector.jpg"/></a>
+<span class="caption">A plausible item vector for the item "Essential Mozart."
+Factor interpretations are on the left; factor weights are in the boxes.</span>
+</div>
+
+Ok. Suppose that Amazon could somehow reduce the dimensionality of every item in its inventory down to, say, 50 factors.
+Both items and users could then be represented as weight vectors of length 50.
 Ideally, the factors would have interpretable meanings.
 So, to continue the Mozart example from above, maybe factor 32 represents "neurotic upper-middle-class American parent."
-In that case, the coefficient in the 32nd position of each user's vector would quantify the degree to which that user is a neurotic upper-middle-class American parent. 
-Likewise, the coefficient in the 32nd position of each *item's* vector would quantify the degree to which that item *appeals to* neurotic upper-middle-class American parents.
+In that case, the 32nd weight of each user's vector would quantify the degree to which that user is a neurotic upper-middle-class American parent. 
+Likewise, the 32nd weight of each *item's* vector would quantify the degree to which that item *appeals to* neurotic upper-middle-class American parents.
+(See an example item vector on the right.)
+
 To predict any user's rating for any item, we can just take the dot product between the user's vector and the item's vector.
 
-I still have not explained how Amazon can use its user/item ratings data to learn an 50-dimensional vector representation of each item and of each user.
+I still have not explained how Amazon can use its user/item ratings data to learn a 50-dimensional vector representation of each item and of each user.
 Intuitively, learning these vectors is an optimization problem where the goal is to maximize the agreement between the user/item ratings that these vectors predict, and the user/item ratings that have been observed.
 More on this later.
 
-I have also still not explained how Amazon can specify that factor 32 should be the "neurotic upper-middle-class American parent" factor.
+Nor have I explained how Amazon can specify that factor 32 should be the "neurotic upper-middle-class American parent" factor.
 Actually, it can't.
 The intuitive meaning of each factor is derived post hoc from vector representations of items and users, rather than the other way around.
-After the item and user vector representations have been generated, we the programmers can look at the results and guess that factor 32 is the "neurotic upper-middle-class American parent" factor on grounds that the items with the highest coefficients for that factor are baby strollers and Mozart CDs.
-The algorithm that learns these representations does discover the factors, but it doesn't name them.
+After the item and user vector representations have been generated, data scientists can look at the results, observe that the items with the highest weights for that factor are baby strollers and Mozart CDs, and conclude that this must be a "neurotic upper-middle-class American parent" factor.
 
-This algorithm that learns these low-dimensional representations is called matrix factorization.  Why?  Because it turns out that the the task {of learning 50-dimensional vector representations for each item and for each user that are consistent with observed user ratings} can be viewed from another angle as a matrix completion problem.
+(Sidenote: this style of reasoning, called "drawing actionable insights," is the cornerstone of the data scientific method, which distinguishes modern data science from earlier, barbaric data pseudosciences.)
+
+The algorithm that learns these 50-dimensional representations does discover the factors, but it doesn't name them.
+This algorithm is called matrix factorization.  Why?  Because it turns out that this task---learning low-dimensional vector representations for each item and for each user that are consistent with observed user ratings---can be viewed from another angle as a matrix completion problem.
 
 ### The Matrix Completion View
 
-<a href="/images/matrix.jpg" style="float: right; margin-left: 20px;"><img src="/images/matrix.jpg" style="width: 300px;"/></a>
+<div class="image-right">
+<a href="/images/matrix.jpg"><img src="/images/matrix.jpg"/></a>
+<span class="caption">A realistic ratings matrix.
+An empty square means that the user hasn't yet rated the item.</span>
+</div>
 
 Imagine that Amazon has a big, incomplete `USERS x ITEMS` matrix.
 The value in the `(USER, ITEM)` square is the rating (say, from 1 to 5) that `USER` gave to `ITEM`.
@@ -125,25 +150,25 @@ The rest of this post will focus on an application of matrix factorization to a 
 Matrix Factorization and Food
 ------------
 
-I took a machine learning course from [David Blei](http://www.cs.columbia.edu/~blei/) in Spring 2014.
+I took an introductory machine learning course from [David Blei](http://www.cs.columbia.edu/~blei/) in Spring 2014.
 For the final project, a few classmates and I decided to build a recommender system for foods.
-Our recommender system itself turned out to be [pretty mediocre](http://www.princeton.edu/~jmcohen/recipe-recommendation.pdf), but we got cool factors to fall out of matrix factorization.
+Our recommender system itself turned out to be [pretty mediocre](http://www.princeton.edu/~jmcohen/recipe-recommendation.pdf), but we got interesting factors to fall out of matrix factorization.
 
 We scraped our data set from [AllRecipes.com](http://www.allrecipes.com), a popular recipe-sharing web site.
 With tens of thousands of recipes and over a hundred thousand users, AllRecipes is a gold mine for food data.
-Each AllRecipes user has a "recipe box" where he or she can list his or her favorite recipes. 
-It was these "recipe boxes" that we scraped.
+Each AllRecipes user has a recipe box where he or she can list his or her favorite recipes. 
+It was these recipe boxes that we scraped.
 After throwing away all recipes that occurred in fewer than 300 recipe boxes, we were left with 9,546 recipes and 115,308 users.
 All users collectively had 9.6 million recipes in their recipe boxes.
 
-We experimented with two different approaches to the problem of recipe recommendation: a content-based method using only information about the ingredients in each recipe, and a collaborative filtering method using only data about user / recipe preferences.
+We experimented with two different approaches to the problem of recipe recommendation: a content-based method using only information about the ingredients in each recipe, and a collaborative filtering method using only data about user-recipe preferences.
 
-The content-based method was straightforward: represent each recipe as a vector over all ingredients in the "kitchen," where the value at each element is the mass fraction that the corresponding ingredient takes up in the recipe.
-To measure the similarity between two recipes, take the cosine similarity between their vectors.
-This approach worked fine, but was sort of boring, so I'll ignore it for the remainder of this post.
+The content-based method was straightforward: represent each recipe as a vector of all ingredients in the "kitchen," where the value at each element is the mass fraction that the corresponding ingredient takes up in the recipe.
+To measure the similarity between two recipes, take the [cosine similarity](http://en.wikipedia.org/wiki/Cosine_similarity) between their vectors.
+This approach worked fine, but I'll ignore it for the remainder of this post.
 
-The collaborative filtering method was far more interesting because it didn't know *anything* at all about the recipes other than which users liked which ones.
-We represented the user/recipe preference data as a `115,308 x 9,546` user-by-recipe matrix with a 1 in every square where the corrresponding user had the corresponding recipe in his/her recipe box, and a 0 everywhere else.
+The collaborative filtering method was far more interesting because it didn't know *anything* at all other than which users liked which recipes.
+We represented the user-recipe preference data as a `115,308 x 9,546` user-by-recipe matrix with a 1 in every square where the corresponding user had the corresponding recipe in his/her recipe box, and a 0 everywhere else.
 Then we factorized the user-by-recipe matrix, using 40 factors, into a `115,308 x 40` user-by-factor matrix and a `40 x 9,546` factor-by-recipe matrix.
 
 We used the [MATLAB NMF toolbox](https://sites.google.com/site/nmftool/) to perform non-negative matrix factorization.
@@ -159,14 +184,14 @@ I will explore three different ways to play around with the data generated by th
 <ol>
 
 <li><a href="#the-tastes">First</a>, we can ask questions like: "What does factor #3 really represent?"
-The easiest way to find out is to look at the dishes with the highest coefficients in factor #3.
-The top ones are "Quinoa and Black Beans," "Baked Kale Chips," and "Quinoa Side Dish."
+The easiest way to find out is to look at the dishes with the highest weights in factor #3.
+The top ones are Quinoa and Black Beans, Baked Kale Chips, and Quinoa Side Dish.
 In this example, we could conclude that factor #3 represents vegan food.</li>
 
-<li><a href="#taste-breakdown">Second</a>, we can ask questions like: "Which factors does the dish 'Butter Chickpea Curry' consist of, and in what proportions?"
+<li><a href="#taste-breakdown">Second</a>, we can ask questions like: "Which factors does the dish Butter Chickpea Curry consist of, and in what proportions?"
 Answering this question is as simple as looking up the row for <a class="breakdown-link">Butter Chickpea Curry</a> in the factors-by-recipe matrix produced by NMF.
 Use the <a href="#taste-breakdown">Taste Breakdown</a> visualization tool below to view the factor breakdown of any recipe.
-Apparently, "Butter Chickpea Curry" is 62% a vegetarian factor, 34% an Indian food factor, and 4% a random noise factor.</li>
+Apparently, Butter Chickpea Curry is 62% vegetarian, 34% Indian food, and 4% random noise.</li>
 
 <li><a href="#mix-n-match">Third</a>, we can ask questions like "What food would we get if we smashed together the 'vegetarian' factor and the 'cookies/brownies' factor?"
 To find out, we can sort all recipes in decreasing order of cosine similarity to a made-up recipe vector with `0.5` in the 'vegetarian' position and `0.5` in the 'cookies/brownies' position.
@@ -178,7 +203,7 @@ The <a href="#mix-n-match">Mix 'n Match</a> visualization tool below allows you 
 ### The Tastes
 
 These are the 40 tastes that came out of the matrix factorization.
-We describe each taste by printing the five exemplar recipes with the highest coefficients.
+We describe each taste by printing the five exemplar recipes with the highest weights.
 
 Unfortunately, some tastes are less intelligible than others.
 
@@ -211,19 +236,24 @@ I had always assumed that the concept of "comfort food" as a distinct class of f
 
 This interactive tool gives the taste breakdown of 9,000 or so recipes from <a href="http://allrecipes.com">AllRecipes.com</a>.
 
-To share the link to a taste breakdown that catches your interest, right click the permalink and select "Copy Link Address" in your browser.
+To pull up the taste breakdown for any food, just start typing the name of the food into the search bar, and then click on one of the recipes that pop will up in the autocomplete box.
+
+Clicking on any of the example recipes that show up will pull up *their* taste breakdowns.
 
 <div id="breakdown">
 	<div id="search-wrapper">
 		<input id="search" class="typeahead" type="text">
 	</div>
 	<div id="visualization">
-		<a class="permalink">permalink</a>
+		<a class="permalink"><i class="fa fa-link"></i></a>
 		<div id="canvas-holder">
 			<canvas id="canvas" width="372" height="150"/>
 		</div>			
 	</div>
 </div>
+
+
+To share the link to a taste breakdown that catches your interest, right click the permalink icon and select "Copy Link Address" in your browser.
 
 Here are some intuitions that were borne out by the matrix factorization:
 
@@ -256,7 +286,7 @@ If you're out of ideas, try mixing <a class="mixnmatch-link" data-mix="8,21">alc
 		<div id="tastes-left-col"></div>
 		<div id="tastes-right-col"></div>
 	</div>
-	<a class="permalink">permalink</a>
+	<a class="permalink"><i class="fa fa-link"></i></a>
 	<div id="recommendations">
 		<h4>Dishes closely matching the selected taste profile:</h4>
 		<ol id="recommend-list" class="recipe-list">
@@ -271,3 +301,5 @@ Source code and data are available on Github. TODO link to repo
 ### Thanks for Reading
 
 This post describes a project carried out for [David Blei's](http://www.cs.columbia.edu/~blei/) course "COS 424: Interacting with Data" in Spring 2014 at Princeton University by Rob Sami (Google), Aaron Schild (Berkeley PhD), Spencer Tank (Palantir), and me.
+
+**Thanks** to [Charles Guo](https://angel.co/charles-guo), <a href="http://crmarsh.com">Charlie Marsh</a>, <a href="http://lucasjcm.com">Lucas Mayer</a>, <a href="http://shubhro.com">Shubhro Saha</a>, [Jacob Simon](https://twitter.com/jakesimon), and [Richard Nixon](http://en.wikipedia.org/wiki/Conscription_in_the_United_States#End_of_conscription) for reviewing and revising drafts.

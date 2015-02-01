@@ -56,7 +56,13 @@
 /* Taste Breakdown */
 
 #breakdown {
-	/*font-family: "Gill Sans", Helvetica;*/
+	width: 870px;
+	height: 400px;
+/*	padding: 20px;
+	-webkit-box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.5);
+	-moz-box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.5);
+	box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.5);
+	margin-bottom: 20px;*/
 }
 
 #breakdown .permalink {
@@ -135,8 +141,11 @@
 #mixnmatch {
 	position: relative;
 	width: 800px;
-	height: 658px;
-	/*font-family: 'Gill Sans', Helvetica;*/
+	height: 500px;
+	/*padding: 20px;*/
+/*	-webkit-box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.5);
+	-moz-box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.5);
+	box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.5);*/
 }
 
 #selected-tastes {
@@ -146,13 +155,11 @@
 #tastes-left-col {
 	position: absolute; 
 	left: 260px; 
-	top: 0px;
 }
 
 #tastes-right-col {
 	position: absolute; 
 	left: 330px; 
-	top: 0px;
 }
 
 #tastes-list .option {
@@ -199,7 +206,7 @@
 #taste-grid {
 	/*font-family: "Gill Sans", Helvetica;*/
 	width: 900px;
-	height: 2600px;
+	height: 2000px;
 	/*display: none;  hidden at first */
 }
 
@@ -233,7 +240,34 @@
 
 .taste-hover {
 	background-color: #eee;
-	padding: 0 4px;
+	padding: 4px 4px 2px 4px;
 	cursor: pointer;
+}
+
+/* blog post */
+
+div.image-right {
+	float: right; 
+	margin-left: 20px; 
+	width: 300px; 
+	margin-bottom: 20px;
+}
+
+div.image-right img {
+	width: 300px;
+}
+
+div.image-right span.caption {
+	float: right; 
+	text-align: right; 
+
+}
+
+span.caption {
+	float: left;
+	font-size: 14px; 
+	color: #888;
+ 	margin-top: 5px;
+	line-height: 16px;
 }
 

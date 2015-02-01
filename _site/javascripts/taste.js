@@ -200,6 +200,9 @@ var MIX_N_MATCH = (function (recipeFactors, factorsTop) {
 			var tasteCard = SHARED.makeTasteCard(tasteId, percent, showRecipe);
 			$("#selected-tastes").append(tasteCard);
 		});
+		var lastCard = $("#selected-tastes .taste-card").last();
+		var minHeight = max(500, lastCard.position().top + lastCard.height() + 200);
+		$("#mixnmatch").height(minHeight);
 	}
 
 	var refreshOptions = function() {
@@ -479,6 +482,10 @@ function shuffle(o){ //v1.0
     for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
     return o;
 };
+
+function max(a, b) {
+	return a > b ? a : b;
+}
 
 
 var scrollTo = function(id) {
