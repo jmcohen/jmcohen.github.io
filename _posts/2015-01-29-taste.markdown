@@ -68,20 +68,20 @@ One of the most fascinating techniques for collaborative filtering is **matrix f
 </div>
 
 
-As an insufferable ninth grader, I took a bunch of online quizzes during the 2008 U.S. presidential election cycle.  These quizzes would ask a zillion questions about my personal political opinions, and then they would show me a Cartesian plane with two dimensions---social views and economic views---with a big dot somewhere that was supposed to represent me.
+As an insufferable ninth grader, I took a bunch of Facebook quizzes during the 2008 U.S. presidential election cycle.  These quizzes would ask a zillion questions about my personal political opinions, and then they would show me a Cartesian plane with two dimensions---social views and economic views---with a big dot somewhere that was supposed to represent me.
 There were also dots for the candidates, Barack Obama and John McCain; dots for insightful thinkers like Karl Marx, William F. Buckley, and Abraham Lincoln; and a dot for Ayn Rand.
 
-These people had all apparently taken the quiz, and the sum total of their existences could, incredibly enough, be reduced to just two numbers: their position on the "social" axis, and their position on the "economic" axis.
+These people had all apparently taken the quiz, and, incredibly enough, the sum total of their existences could be reduced to just two numbers: their position on the "social" axis, and their position on the "economic" axis.
 
 This magic trick is called **dimensionality reduction**.
 
-And what a feat!  Political platforms probably have hundreds of dimensions, like taxation, immigration, energy, national security,  climate change, and whether or not the candidate has ever driven to Canada with an Irish Setter tied to the roof of his car.
-But the ideology quiz reduced every politician to just two: "social" and "economic."
+What a feat!  Political platforms probably have hundreds of dimensions, like taxation, immigration, energy, national security,  climate change, and whether or not the candidate believes it is acceptable to drive to Canada with an Irish Setter tied to the roof of his car.
+But the ideology quiz reduced every politician to just two dimensions: "social" and "economic."
 Working in this simplified two-dimensional space made it a lot easier to identify the politicians whose views most closely matched my own.
 
-The matrix factorization technique for recommender systems involves a similar trick, except the goal is to convince people to spend real money on snuggies, which is harder than the trivial task of convincing them to share something obnoxious on Facebook---something that most of us would do for free anyway.
+The matrix factorization technique for recommender systems involves a similar trick, except the goal is to convince people to spend real money on snuggies, which is harder than convincing them to share something obnoxious on Facebook---most of us would do that for free anyway.
 
-In other words, matrix factorization is truly the stuff that sets the real data scientists apart from the data alchemists, data phrenologists, data astrologers, and other flavors of data charlatan.
+In other words, matrix factorization is truly the stuff that sets real data scientists apart from the data alchemists, data phrenologists, data astrologers, and other kinds of data charlatans.
 
 <div class="image-right">
 <a href="/images/vector.jpg"><img src="/images/vector.jpg"/></a>
@@ -108,7 +108,7 @@ Actually, it can't.
 The intuitive meaning of each factor is derived post hoc from vector representations of items and users, rather than the other way around.
 After the item and user vector representations have been generated, data scientists can look at the results, observe that the items with the highest weights for that factor are baby strollers and Mozart CDs, and conclude that this must be a "neurotic upper-middle-class American parent" factor.
 
-(Sidenote: this style of reasoning, called "drawing actionable insights," is the cornerstone of the data scientific method, which distinguishes modern data science from earlier, barbaric data pseudosciences.)
+Sidenote: this style of reasoning, called "drawing actionable insights," is the cornerstone of the data-scientific method, and it distinguishes modern data science from earlier, barbaric data pseudosciences.
 
 The algorithm that learns these 50-dimensional representations does discover the factors, but it doesn't name them.
 This algorithm is called matrix factorization.  Why?  Because it turns out that this task---learning low-dimensional vector representations for each item and for each user that are consistent with observed user ratings---can be viewed from another angle as a matrix completion problem.
@@ -236,9 +236,9 @@ I had always assumed that the concept of "comfort food" as a distinct class of f
 
 This interactive tool gives the taste breakdown of 9,000 or so recipes from <a href="http://allrecipes.com">AllRecipes.com</a>.
 
-To pull up the taste breakdown for any food, just start typing the name of the food into the search bar, and then click on one of the recipes that pop will up in the autocomplete box.
+To pull up the taste breakdown for any food, just start typing the name of the food into the search bar, and then click on one of the recipes that will pop up in the autocomplete box.
 
-Clicking on any of the example recipes that show up will pull up *their* taste breakdowns.
+Clicking on any of the example recipes that appear will pull up *their* taste breakdowns.
 
 <div id="breakdown">
 	<div id="search-wrapper">
