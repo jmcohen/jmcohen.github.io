@@ -53,12 +53,11 @@ This is called **content-based recommendation**.
 A more interesting idea is to treat the items as black boxes and somehow *learn* correlations between the items from the ratings history of all users.
 This is called **collaborative filtering**.
 For example, I would bet that people who buy baby strollers are also likely to buy the [Essential Mozart](http://www.amazon.com/Essential-Mozart/dp/B00005A8JZ/) CD collection.
-The association between these two items could never be detected by content-based methods alone.
-A Mozart collection has zero properties in common with a baby stroller.
+The association between these two items could never be detected by content-based methods alone because a Mozart collection has zero properties in common with a baby stroller.
 An intelligent yet uninformed alien visiting Planet Earth for a day would never think, "Ah, yes, *of course* people with no previous discernable interest in classical music will suddenly snatch up the collected works of Wolfgang Amadeus once they are also in the market for a baby stroller."
-Fortunately, thanks to collaborative filtering, Amazon can pick up on the relationship between these two very distinct items and make the right recommendation. Everybody will win: Jeff Bezos will become richer, the baby won't get [left behind](http://en.wikipedia.org/wiki/Mozart_effect), and the Amazon programmer who wrote the feature will [quit and join another company](http://www.glassdoor.com/GD/Reviews/Amazon-com-Reviews-E6036_P2.htm?filter.jobTitleFTS=Software).
+Fortunately, thanks to collaborative filtering, Amazon can pick up on the relationship between these two very distinct items and make the right recommendation. Everybody will win! Jeff Bezos will become richer, the baby won't get [left behind](http://en.wikipedia.org/wiki/Mozart_effect), and the Amazon programmer who wrote the feature will [quit and join another company](http://www.glassdoor.com/GD/Reviews/Amazon-com-Reviews-E6036_P2.htm?filter.jobTitleFTS=Software).
 
-One of the most fascinating techniques for collaborative filtering is **matrix factorization**, and it is easiest understood as a form of dimensionality reduction.
+One of the most fascinating techniques for collaborative filtering is **matrix factorization**.  It is easiest understood as a form of dimensionality reduction.
 
 ### Dimensionality Reduction
 
@@ -71,7 +70,7 @@ One of the most fascinating techniques for collaborative filtering is **matrix f
 As an insufferable ninth grader, I took a bunch of Facebook quizzes during the 2008 U.S. presidential election cycle.  These quizzes would ask a zillion questions about my personal political opinions, and then they would show me a Cartesian plane with two dimensions---social views and economic views---with a big dot somewhere that was supposed to represent me.
 There were also dots for the candidates, Barack Obama and John McCain; dots for insightful thinkers like Karl Marx, William F. Buckley, and Abraham Lincoln; and a dot for Ayn Rand.
 
-These people had all apparently taken the quiz, and, incredibly enough, the sum total of their existences could be reduced to just two numbers: their position on the "social" axis, and their position on the "economic" axis.
+These people had all apparently taken the quiz, and, incredibly enough, the sum total of their lives could be reduced to just two numbers: their position on the "social" axis, and their position on the "economic" axis.
 
 This magic trick is called **dimensionality reduction**.
 
@@ -79,9 +78,9 @@ What a feat!  Political platforms probably have hundreds of dimensions, like tax
 But the ideology quiz reduced every politician to just two dimensions: "social" and "economic."
 Working in this simplified two-dimensional space made it a lot easier to identify the politicians whose views most closely matched my own.
 
-The matrix factorization technique for recommender systems involves a similar trick, except the goal is to convince people to spend real money on snuggies, which is harder than convincing them to share something obnoxious on Facebook---most of us would do that for free anyway.
+The matrix factorization technique for recommender systems involves a similar trick, except the goal is to convince people to spend real money on snuggies, which is harder than convincing them to share something obnoxious on Facebook, a thing that most of us would do for free anyway.
 
-In other words, matrix factorization is the real deal---the stuff that separates authentic data scientists from  data alchemists, data phrenologists, data astrologers, and other kinds of data charlatans.
+In other words, matrix factorization is the real deal---the stuff that separates true data scientists from data alchemists, data phrenologists, data astrologers, and other kinds of data quacks and charlatans.
 
 <div class="image-right">
 <a href="/images/vector.jpg"><img src="/images/vector.jpg"/></a>
@@ -108,7 +107,7 @@ Actually, it can't.
 The intuitive meaning of each factor is derived post hoc from vector representations of items and users, rather than the other way around.
 After the item and user vector representations have been generated, data scientists can look at the results, observe that the items with the highest weights for that factor are baby strollers and Mozart CDs, and conclude that this must be a "neurotic upper-middle-class American parent" factor.
 
-Sidenote: this style of reasoning is called "extracting actionable insights". It is the cornerstone of the data-scientific method, which sets modern data science apart from earlier, barbaric data pseudosciences.
+Sidenote: this style of reasoning is called "extracting actionable insights". It is the cornerstone of the data-scientific method, which sets modern data science apart from earlier, barbaric, pseudo-data sciences.
 
 The algorithm that learns these 50-dimensional representations does discover the factors, but it doesn't name them.
 This algorithm is called matrix factorization.  Why?  Because it turns out that this task---learning low-dimensional vector representations for each item and for each user that are consistent with observed user ratings---can be viewed from another angle as a matrix completion problem.
