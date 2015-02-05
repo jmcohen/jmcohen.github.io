@@ -293,9 +293,9 @@ If you're out of ideas, try mixing <a class="mixnmatch-link" data-mix="8,21">alc
 	</div>
 </div>
 
-### Source Code
+### Data
 
-Source code and data are available on Github. TODO link to repo
+Code and data are available on [Github](https://github.com/jmcohen/taste).
 
 ### Thanks for Reading
 

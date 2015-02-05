@@ -159,14 +159,14 @@
 
 #tastes-right-col {
 	position: absolute; 
-	left: 330px; 
+	left: 340px; 
 }
 
 #tastes-list .option {
 	cursor: pointer;
 	list-style-type: none;
 	margin: 0px;
-	width: 55px;
+	width: 65px;
 	padding: 0 10px 0px 10px;
 	transition: background 0.05s ease-in-out;
 }

@@ -4,7 +4,7 @@
  <title>Jeremy Cohen</title>
  <link href="http://jmcohen.github.iox/atom.xml" rel="self"/>
  <link href="http://jmcohen.github.iox/"/>
- <updated>2015-02-03T10:11:22-05:00</updated>
+ <updated>2015-02-05T02:08:54-05:00</updated>
  <id>http://jmcohen.github.iox</id>
  <author>
    <name>Jeremy Cohen</name>
@@ -322,9 +322,9 @@ Select two or three tastes from the two-column list below, and see which recipes
 	&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&quot;source-code&quot;&gt;Source Code&lt;/h3&gt;
+&lt;h3 id=&quot;data&quot;&gt;Data&lt;/h3&gt;
 
-&lt;p&gt;Source code and data are available on Github. TODO link to repo&lt;/p&gt;
+&lt;p&gt;Code and data are available on &lt;a href=&quot;https://github.com/jmcohen/taste&quot;&gt;Github&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h3 id=&quot;thanks-for-reading&quot;&gt;Thanks for Reading&lt;/h3&gt;
 
