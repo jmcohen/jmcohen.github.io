@@ -76,7 +76,7 @@ What a feat!  Political platforms probably have hundreds of dimensions, like tax
 But the ideology quiz reduced every politician to just two dimensions: "social" and "economic."
 Working in this simplified two-dimensional space made it a lot easier to identify the politicians whose views most closely matched my own.
 
-The matrix factorization technique for recommender systems involves a similar kind of dimensionality reduction, except that algorithm learns the dimensions on its own.
+The matrix factorization technique for recommender systems involves a similar kind of dimensionality reduction, except that the algorithm learns the dimensions on its own.
 
 In other words, matrix factorization is the real deal.  It's the stuff that separates true data scientists from charlatans --- the data alchemists, data phrenologists, and data astrologers of the world.
 
@@ -296,4 +296,4 @@ If you're out of ideas, try mixing <a class="mixnmatch-link" data-mix="8,21">alc
 
 This post describes a project carried out for [David Blei's](http://www.cs.columbia.edu/~blei/) course "COS 424: Interacting with Data" in Spring 2014 at Princeton University by [Rob Sami](https://angel.co/robert-sami) (now Google), Aaron Schild (now Berkeley), Spencer Tank (now Palantir), and me.
 
-Thanks to [Charles Guo](https://angel.co/charles-guo), <a href="http://crmarsh.com">Charlie Marsh</a>, <a href="http://lucasjcm.com">Lucas Mayer</a>, <a href="http://shubhro.com">Shubhro Saha</a>, [Jacob Simon](https://twitter.com/jakesimon) for reading drafts of this post.
+Thanks to [Charles Guo](https://angel.co/charles-guo), <a href="http://crmarsh.com">Charlie Marsh</a>, <a href="http://lucasjcm.com">Lucas Mayer</a>, <a href="http://shubhro.com">Shubhro Saha</a>, and [Jacob Simon](https://twitter.com/jakesimon) for reading drafts of this post.

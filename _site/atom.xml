@@ -4,7 +4,7 @@
  <title>Jeremy Cohen</title>
  <link href="http://jmcohen.github.iox/atom.xml" rel="self"/>
  <link href="http://jmcohen.github.iox/"/>
- <updated>2015-02-06T13:45:12-05:00</updated>
+ <updated>2015-02-06T14:32:54-05:00</updated>
  <id>http://jmcohen.github.iox</id>
  <author>
    <name>Jeremy Cohen</name>
@@ -90,7 +90,7 @@ There were also dots for the candidates, Barack Obama and John McCain; dots for 
 But the ideology quiz reduced every politician to just two dimensions: “social” and “economic.”
 Working in this simplified two-dimensional space made it a lot easier to identify the politicians whose views most closely matched my own.&lt;/p&gt;
 
-&lt;p&gt;The matrix factorization technique for recommender systems involves a similar kind of dimensionality reduction, except that algorithm learns the dimensions on its own.&lt;/p&gt;
+&lt;p&gt;The matrix factorization technique for recommender systems involves a similar kind of dimensionality reduction, except that the algorithm learns the dimensions on its own.&lt;/p&gt;
 
 &lt;p&gt;In other words, matrix factorization is the real deal.  It’s the stuff that separates true data scientists from charlatans — the data alchemists, data phrenologists, and data astrologers of the world.&lt;/p&gt;
 
@@ -325,7 +325,7 @@ Select two or three tastes from the two-column list below, and see which recipes
 
 &lt;p&gt;This post describes a project carried out for &lt;a href=&quot;http://www.cs.columbia.edu/~blei/&quot;&gt;David Blei’s&lt;/a&gt; course “COS 424: Interacting with Data” in Spring 2014 at Princeton University by &lt;a href=&quot;https://angel.co/robert-sami&quot;&gt;Rob Sami&lt;/a&gt; (now Google), Aaron Schild (now Berkeley), Spencer Tank (now Palantir), and me.&lt;/p&gt;
 
-&lt;p&gt;Thanks to &lt;a href=&quot;https://angel.co/charles-guo&quot;&gt;Charles Guo&lt;/a&gt;, &lt;a href=&quot;http://crmarsh.com&quot;&gt;Charlie Marsh&lt;/a&gt;, &lt;a href=&quot;http://lucasjcm.com&quot;&gt;Lucas Mayer&lt;/a&gt;, &lt;a href=&quot;http://shubhro.com&quot;&gt;Shubhro Saha&lt;/a&gt;, &lt;a href=&quot;https://twitter.com/jakesimon&quot;&gt;Jacob Simon&lt;/a&gt; for reading drafts of this post.&lt;/p&gt;
+&lt;p&gt;Thanks to &lt;a href=&quot;https://angel.co/charles-guo&quot;&gt;Charles Guo&lt;/a&gt;, &lt;a href=&quot;http://crmarsh.com&quot;&gt;Charlie Marsh&lt;/a&gt;, &lt;a href=&quot;http://lucasjcm.com&quot;&gt;Lucas Mayer&lt;/a&gt;, &lt;a href=&quot;http://shubhro.com&quot;&gt;Shubhro Saha&lt;/a&gt;, and &lt;a href=&quot;https://twitter.com/jakesimon&quot;&gt;Jacob Simon&lt;/a&gt; for reading drafts of this post.&lt;/p&gt;
 </content>
    </entry>
    
