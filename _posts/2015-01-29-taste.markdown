@@ -8,7 +8,6 @@ categories:
 <link rel="stylesheet" href="/css/taste.css">
 <script src='/javascripts/Please.js' type="text/javascript"></script>
 <script src="/javascripts/typeahead.js"></script>
-<!-- <script src="/javascripts/recipeFactors.json"></script> -->
 <script src="/javascripts/factorsTop.json"></script>
 <script src="/javascripts/taste_breakdown.json"></script>
 <script src='/javascripts/taste.js' type="text/javascript"></script>
@@ -52,7 +51,7 @@ This is called **content-based recommendation**.
 A more interesting idea is to treat the items as black boxes and somehow *learn* correlations between the items from the ratings history of all users.
 This is called **collaborative filtering**.
 For example, I would bet that people who buy baby strollers are also likely to buy the [Essential Mozart](http://www.amazon.com/Essential-Mozart/dp/B00005A8JZ/) CD collection.
-The association between these two items could never be detected by content-based methods alone; a Mozart collection has zero properties in common with a baby stroller.
+The association between these two items could never be detected by content-based methods alone because a Mozart collection has zero properties in common with a baby stroller.
 An intelligent yet uninformed alien visiting Planet Earth for a day would never think, "Ah, yes, *of course* people with no previous discernable interest in classical music will suddenly snatch up the collected works of Wolfgang Amadeus once they are also in the market for a baby stroller."
 Fortunately, thanks to collaborative filtering, Amazon can pick up on the relationship between these two very distinct items and make the right recommendation.  It's a win-win situation: Jeff Bezos will become richer and the baby won't get [left behind](http://en.wikipedia.org/wiki/Mozart_effect).
 
@@ -77,7 +76,7 @@ What a feat!  Political platforms probably have hundreds of dimensions, like tax
 But the ideology quiz reduced every politician to just two dimensions: "social" and "economic."
 Working in this simplified two-dimensional space made it a lot easier to identify the politicians whose views most closely matched my own.
 
-The matrix factorization technique for recommender systems involves a similar kind of dimensionality reduction, except that the dimensions are not specified in advance by people but rather are learned by the algorithm itself. 
+The matrix factorization technique for recommender systems involves a similar kind of dimensionality reduction, except that algorithm learns the dimensions on its own.
 
 In other words, matrix factorization is the real deal---the stuff that separates true data scientists from charlatans such as data alchemists, data phrenologists, and data astrologers.
 

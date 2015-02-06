@@ -4,7 +4,7 @@
  <title>Jeremy Cohen</title>
  <link href="http://jmcohen.github.iox/atom.xml" rel="self"/>
  <link href="http://jmcohen.github.iox/"/>
- <updated>2015-02-06T09:22:02-05:00</updated>
+ <updated>2015-02-06T09:25:01-05:00</updated>
  <id>http://jmcohen.github.iox</id>
  <author>
    <name>Jeremy Cohen</name>
@@ -23,7 +23,6 @@
 
 &lt;script src=&quot;/javascripts/typeahead.js&quot;&gt;&lt;/script&gt;
 
-&lt;!-- &lt;script src=&quot;/javascripts/recipeFactors.json&quot;&gt;&lt;/script&gt; --&gt;
 &lt;script src=&quot;/javascripts/factorsTop.json&quot;&gt;&lt;/script&gt;
 
 &lt;script src=&quot;/javascripts/taste_breakdown.json&quot;&gt;&lt;/script&gt;
@@ -67,7 +66,7 @@ This is called &lt;strong&gt;content-based recommendation&lt;/strong&gt;.&lt;/p&
 &lt;p&gt;A more interesting idea is to treat the items as black boxes and somehow &lt;em&gt;learn&lt;/em&gt; correlations between the items from the ratings history of all users.
 This is called &lt;strong&gt;collaborative filtering&lt;/strong&gt;.
 For example, I would bet that people who buy baby strollers are also likely to buy the &lt;a href=&quot;http://www.amazon.com/Essential-Mozart/dp/B00005A8JZ/&quot;&gt;Essential Mozart&lt;/a&gt; CD collection.
-The association between these two items could never be detected by content-based methods alone; a Mozart collection has zero properties in common with a baby stroller.
+The association between these two items could never be detected by content-based methods alone because a Mozart collection has zero properties in common with a baby stroller.
 An intelligent yet uninformed alien visiting Planet Earth for a day would never think, “Ah, yes, &lt;em&gt;of course&lt;/em&gt; people with no previous discernable interest in classical music will suddenly snatch up the collected works of Wolfgang Amadeus once they are also in the market for a baby stroller.”
 Fortunately, thanks to collaborative filtering, Amazon can pick up on the relationship between these two very distinct items and make the right recommendation.  It’s a win-win situation: Jeff Bezos will become richer and the baby won’t get &lt;a href=&quot;http://en.wikipedia.org/wiki/Mozart_effect&quot;&gt;left behind&lt;/a&gt;.&lt;/p&gt;
 
@@ -91,7 +90,7 @@ There were also dots for the candidates, Barack Obama and John McCain; dots for 
 But the ideology quiz reduced every politician to just two dimensions: “social” and “economic.”
 Working in this simplified two-dimensional space made it a lot easier to identify the politicians whose views most closely matched my own.&lt;/p&gt;
 
-&lt;p&gt;The matrix factorization technique for recommender systems involves a similar kind of dimensionality reduction, except that the dimensions are not specified in advance by people but rather are learned by the algorithm itself. &lt;/p&gt;
+&lt;p&gt;The matrix factorization technique for recommender systems involves a similar kind of dimensionality reduction, except that algorithm learns the dimensions on its own.&lt;/p&gt;
 
 &lt;p&gt;In other words, matrix factorization is the real deal—the stuff that separates true data scientists from charlatans such as data alchemists, data phrenologists, and data astrologers.&lt;/p&gt;
 
