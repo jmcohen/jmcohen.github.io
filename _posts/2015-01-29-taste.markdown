@@ -78,7 +78,7 @@ Working in this simplified two-dimensional space made it a lot easier to identif
 
 The matrix factorization technique for recommender systems involves a similar kind of dimensionality reduction, except that algorithm learns the dimensions on its own.
 
-In other words, matrix factorization is the real deal.  It's the stuff that separates the true data scientists from the charlatans like data alchemists, data phrenologists, and data astrologers.
+In other words, matrix factorization is the real deal.  It's the stuff that separates true data scientists from charlatans --- the data alchemists, data phrenologists, and data astrologers of the world.
 
 <div class="image-right">
 <a href="/images/vector.jpg"><img src="/images/vector.jpg"/></a>

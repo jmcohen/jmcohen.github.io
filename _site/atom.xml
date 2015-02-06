@@ -4,7 +4,7 @@
  <title>Jeremy Cohen</title>
  <link href="http://jmcohen.github.iox/atom.xml" rel="self"/>
  <link href="http://jmcohen.github.iox/"/>
- <updated>2015-02-06T09:27:13-05:00</updated>
+ <updated>2015-02-06T09:30:13-05:00</updated>
  <id>http://jmcohen.github.iox</id>
  <author>
    <name>Jeremy Cohen</name>
@@ -92,7 +92,7 @@ Working in this simplified two-dimensional space made it a lot easier to identif
 
 &lt;p&gt;The matrix factorization technique for recommender systems involves a similar kind of dimensionality reduction, except that algorithm learns the dimensions on its own.&lt;/p&gt;
 
-&lt;p&gt;In other words, matrix factorization is the real deal.  It’s the stuff that separates the true data scientists from the charlatans like data alchemists, data phrenologists, and data astrologers.&lt;/p&gt;
+&lt;p&gt;In other words, matrix factorization is the real deal.  It’s the stuff that separates true data scientists from charlatans — the data alchemists, data phrenologists, and data astrologers of the world.&lt;/p&gt;
 
 &lt;div class=&quot;image-right&quot;&gt;
 &lt;a href=&quot;/images/vector.jpg&quot;&gt;&lt;img src=&quot;/images/vector.jpg&quot; /&gt;&lt;/a&gt;
