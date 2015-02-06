@@ -5,8 +5,8 @@
     <description></description>
     <link>http://jmcohen.github.iox/</link>
     <atom:link href="http://jmcohen.github.iox/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 05 Feb 2015 02:08:54 -0500</pubDate>
-    <lastBuildDate>Thu, 05 Feb 2015 02:08:54 -0500</lastBuildDate>
+    <pubDate>Fri, 06 Feb 2015 00:46:10 -0500</pubDate>
+    <lastBuildDate>Fri, 06 Feb 2015 00:46:10 -0500</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -17,9 +17,10 @@
 
 &lt;script src=&quot;/javascripts/typeahead.js&quot;&gt;&lt;/script&gt;
 
-&lt;script src=&quot;/javascripts/recipeFactors.json&quot;&gt;&lt;/script&gt;
-
+&lt;!-- &lt;script src=&quot;/javascripts/recipeFactors.json&quot;&gt;&lt;/script&gt; --&gt;
 &lt;script src=&quot;/javascripts/factorsTop.json&quot;&gt;&lt;/script&gt;
+
+&lt;script src=&quot;/javascripts/taste_breakdown.json&quot;&gt;&lt;/script&gt;
 
 &lt;script src=&quot;/javascripts/taste.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
 
@@ -318,7 +319,7 @@ Select two or three tastes from the two-column list below, and see which recipes
 
 &lt;h3 id=&quot;data&quot;&gt;Data&lt;/h3&gt;
 
-&lt;p&gt;Code and data are available on &lt;a href=&quot;https://github.com/jmcohen/taste&quot;&gt;Github&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/jmcohen/taste&quot;&gt;Code and data&lt;/a&gt; are available on Github.&lt;/p&gt;
 
 &lt;h3 id=&quot;thanks-for-reading&quot;&gt;Thanks for Reading&lt;/h3&gt;
 

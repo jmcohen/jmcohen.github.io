@@ -1,7 +1,7 @@
 var numTastes = 40;
 var colors = Please.make_color({colors_returned: numTastes});
 
-var TASTE_BREAKDOWN = (function (recipeFactors, factorsTop) {
+var TASTE_BREAKDOWN = (function (tasteBreakdown, factorsTop) {
 	var recipe;
 	var module = {};
 
@@ -14,7 +14,7 @@ var TASTE_BREAKDOWN = (function (recipeFactors, factorsTop) {
 		var barHeight = 100;
 		var barWidth = 300;
 
-		var recipeTastes = recipeFactors[recipe];
+		var recipeTastes = tasteBreakdown[recipe];
 		var proportions = normalizeTasteProfile(recipeTastes);
 
 		var N = proportions.length;
@@ -98,7 +98,7 @@ var TASTE_BREAKDOWN = (function (recipeFactors, factorsTop) {
 	}
 
 	var initializeTypeahead = function() {
-		var names = shuffle(Object.keys(recipeFactors));
+		var names = shuffle(Object.keys(window.tasteBreakdown));
 		$('#search').typeahead({
 			hint: true,
 	 		highlight: true,
@@ -177,10 +177,10 @@ var TASTE_BREAKDOWN = (function (recipeFactors, factorsTop) {
 	};
 
 	return module;
-})(window.recipeFactors, window.factorsTop);
+})(window.tasteBreakdown, window.factorsTop);
 
 
-var MIX_N_MATCH = (function (recipeFactors, factorsTop) {
+var MIX_N_MATCH = (function (tasteBreakdown, factorsTop) {
 	var selectedTastes = [];
 
 	var isSelected = function(tasteId) {
@@ -378,10 +378,10 @@ var MIX_N_MATCH = (function (recipeFactors, factorsTop) {
 			return abDot / (aMag * bMag);
 		}
 
-		var names = Object.keys(window.recipeFactors);
+		var names = Object.keys(tasteBreakdown);
 		var similarities = {};
-		for (var name in window.recipeFactors) {
-			similarities[name] = similarity(tasteProfile, window.recipeFactors[name]);
+		for (var name in tasteBreakdown) {
+			similarities[name] = similarity(tasteProfile, tasteBreakdown[name]);
 		}
 
 		names.sort(function(a, b) {
@@ -391,9 +391,9 @@ var MIX_N_MATCH = (function (recipeFactors, factorsTop) {
 		return names.slice(0, n);
 	};
 
-})(window.recipeFactors, window.factorsTop);
+})(window.tasteBreakdown, window.factorsTop);
 
-var SHARED = (function (recipeFactors, factorsTop) {
+var SHARED = (function (tasteBreakdown, factorsTop) {
 	var module = {};
 
 	var tasteName = function(tasteId) {
@@ -431,9 +431,9 @@ var SHARED = (function (recipeFactors, factorsTop) {
 	};
 
 	return module;
-})(window.recipeFactors, window.factorsTop);
+})(window.tasteBreakdown, window.factorsTop);
 
-var TASTE_GRID = (function (recipeFactors, factorsTop) {
+var TASTE_GRID = (function() {
 
 	$(document).ready(function(){
 		// make the grid
@@ -450,9 +450,9 @@ var TASTE_GRID = (function (recipeFactors, factorsTop) {
 			$("#taste-grid .col" + (i % numCols)).append(card);
 		}
 	});
-})(window.recipeFactors, window.factorsTop);
+})();
 
-var HOVER = (function (recipeFactors, factorsTop) {
+var HOVER = (function (tasteBreakdown, factorsTop) {
 
 	$(document).ready(function(){
 		$(".taste-hover").hover(
@@ -469,7 +469,7 @@ var HOVER = (function (recipeFactors, factorsTop) {
 				$(".taste-hover-card").remove();
 			})
 	});
-})(window.recipeFactors, window.factorsTop);
+})(window.tasteBreakdown, window.factorsTop);
 
 
 

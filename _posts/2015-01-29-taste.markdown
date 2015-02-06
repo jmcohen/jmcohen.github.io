@@ -8,8 +8,9 @@ categories:
 <link rel="stylesheet" href="/css/taste.css">
 <script src='/javascripts/Please.js' type="text/javascript"></script>
 <script src="/javascripts/typeahead.js"></script>
-<script src="/javascripts/recipeFactors.json"></script>
+<!-- <script src="/javascripts/recipeFactors.json"></script> -->
 <script src="/javascripts/factorsTop.json"></script>
+<script src="/javascripts/taste_breakdown.json"></script>
 <script src='/javascripts/taste.js' type="text/javascript"></script>
 
 <img src="/images/naan.png"/>
@@ -295,7 +296,7 @@ If you're out of ideas, try mixing <a class="mixnmatch-link" data-mix="8,21">alc
 
 ### Data
 
-Code and data are available on [Github](https://github.com/jmcohen/taste).
+[Code and data](https://github.com/jmcohen/taste) are available on Github.
 
 ### Thanks for Reading
 
