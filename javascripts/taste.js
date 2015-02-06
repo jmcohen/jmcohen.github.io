@@ -15,9 +15,9 @@ var TASTE_BREAKDOWN = (function (tasteBreakdown, factorsTop) {
 		var barWidth = 300;
 
 		var recipeTastes = tasteBreakdown[recipe];
-		var proportions = normalizeTasteProfile(recipeTastes);
+		var N = min(3, recipeTastes.length);
+		var proportions = normalizeTasteProfile(recipeTastes.slice(0, N));
 
-		var N = min(3, proportions.length);
 
 		if (N == 3) {
 			panelXs = [0, 300, 600];
