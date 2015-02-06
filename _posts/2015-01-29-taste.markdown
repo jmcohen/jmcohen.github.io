@@ -294,6 +294,6 @@ If you're out of ideas, try mixing <a class="mixnmatch-link" data-mix="8,21">alc
 
 ### Thanks for Reading
 
-This post describes a project carried out for [David Blei's](http://www.cs.columbia.edu/~blei/) course "COS 424: Interacting with Data" in Spring 2014 at Princeton University by Rob Sami (now Google), Aaron Schild (now Berkeley), Spencer Tank (now Palantir), and me.
+This post describes a project carried out for [David Blei's](http://www.cs.columbia.edu/~blei/) course "COS 424: Interacting with Data" in Spring 2014 at Princeton University by [Rob Sami](https://angel.co/robert-sami) (now Google), Aaron Schild (now Berkeley), Spencer Tank (now Palantir), and me.
 
 Thanks to [Charles Guo](https://angel.co/charles-guo), <a href="http://crmarsh.com">Charlie Marsh</a>, <a href="http://lucasjcm.com">Lucas Mayer</a>, <a href="http://shubhro.com">Shubhro Saha</a>, [Jacob Simon](https://twitter.com/jakesimon) for reading drafts of this post.
