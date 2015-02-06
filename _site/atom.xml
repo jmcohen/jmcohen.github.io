@@ -4,7 +4,7 @@
  <title>Jeremy Cohen</title>
  <link href="http://jmcohen.github.iox/atom.xml" rel="self"/>
  <link href="http://jmcohen.github.iox/"/>
- <updated>2015-02-06T14:32:54-05:00</updated>
+ <updated>2015-02-06T14:51:14-05:00</updated>
  <id>http://jmcohen.github.iox</id>
  <author>
    <name>Jeremy Cohen</name>
@@ -15,7 +15,7 @@
    <entry>
      <title>Decomposing the Human Palate with Matrix Factorization</title>
      <link href="http://jmcohen.github.iox/posts/taste"/>
-     <updated>2015-01-28T21:34:15-05:00</updated>
+     <updated>2015-02-06T05:00:00-05:00</updated>
      <id>http://jmcohen.github.iox/posts/taste</id>
      <content type="html">&lt;link rel=&quot;stylesheet&quot; href=&quot;/css/taste.css&quot; /&gt;
 

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Decomposing the Human Palate with Matrix Factorization"
-date:   2015-01-29 02:34:15
+date:   2015-02-06 10:00:00
 categories: 
 ---
 
