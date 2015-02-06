@@ -27,12 +27,10 @@ A Gentle Introduction to Matrix Factorization
 -----------------------------
 
 First off, I'm sorry.
-
 I know that the term "matrix factorization" is liable to trigger a life-threatening reaction in persons allergic to linear algebra.
 If reading the title of this blog post is causing to you go into anaphylactic shock, please know that
 I meant no harm.
-I would administer an epi-pen, except we are not in the same room.
-You are in my prayers.
+
 
 The truth is that *I* didn't pay any attention in linear algebra class either.
 As far as I can tell, **"orthogonal"** is just a fancy synonym for "unrelated" that I use when I want to sound smart, an **"eigenvector"** is probably something horrible that Wernher von Braun dreamt up before he switched employers in 1945,  and a **"product space"** is the kind of thing that a "growth hacker" gets excited about.
@@ -54,9 +52,9 @@ This is called **content-based recommendation**.
 A more interesting idea is to treat the items as black boxes and somehow *learn* correlations between the items from the ratings history of all users.
 This is called **collaborative filtering**.
 For example, I would bet that people who buy baby strollers are also likely to buy the [Essential Mozart](http://www.amazon.com/Essential-Mozart/dp/B00005A8JZ/) CD collection.
-The association between these two items could never be detected by content-based methods alone because a Mozart collection has zero properties in common with a baby stroller.
+The association between these two items could never be detected by content-based methods alone; a Mozart collection has zero properties in common with a baby stroller.
 An intelligent yet uninformed alien visiting Planet Earth for a day would never think, "Ah, yes, *of course* people with no previous discernable interest in classical music will suddenly snatch up the collected works of Wolfgang Amadeus once they are also in the market for a baby stroller."
-Fortunately, thanks to collaborative filtering, Amazon can pick up on the relationship between these two very distinct items and make the right recommendation. Everybody will win! Jeff Bezos will become richer, the baby won't get [left behind](http://en.wikipedia.org/wiki/Mozart_effect), and the Amazon programmer who wrote the feature will [quit and join another company](http://www.glassdoor.com/GD/Reviews/Amazon-com-Reviews-E6036_P2.htm?filter.jobTitleFTS=Software).
+Fortunately, thanks to collaborative filtering, Amazon can pick up on the relationship between these two very distinct items and make the right recommendation.  It's a win-win situation: Jeff Bezos will become richer and the baby won't get [left behind](http://en.wikipedia.org/wiki/Mozart_effect).
 
 One of the most fascinating techniques for collaborative filtering is **matrix factorization**.  It is easiest understood as a form of dimensionality reduction.
 
@@ -79,9 +77,9 @@ What a feat!  Political platforms probably have hundreds of dimensions, like tax
 But the ideology quiz reduced every politician to just two dimensions: "social" and "economic."
 Working in this simplified two-dimensional space made it a lot easier to identify the politicians whose views most closely matched my own.
 
-The matrix factorization technique for recommender systems involves a similar trick, except the goal is to convince people to spend real money on snuggies, which is harder than convincing them to share something obnoxious on Facebook, a thing that most of us would do for free anyway.
+The matrix factorization technique for recommender systems involves a similar kind of dimensionality reduction, except that the dimensions are not specified in advance by people but rather are learned by the algorithm itself. 
 
-In other words, matrix factorization is the real deal---the stuff that separates true data scientists from data alchemists, data phrenologists, data astrologers, and other kinds of data quacks and charlatans.
+In other words, matrix factorization is the real deal---the stuff that separates true data scientists from charlatans such as data alchemists, data phrenologists, and data astrologers.
 
 <div class="image-right">
 <a href="/images/vector.jpg"><img src="/images/vector.jpg"/></a>
@@ -89,7 +87,7 @@ In other words, matrix factorization is the real deal---the stuff that separates
 Factor interpretations are on the left; factor weights are in the boxes.</span>
 </div>
 
-Ok. Suppose that Amazon could somehow reduce the dimensionality of every item in its inventory down to, say, 50 factors.
+Suppose that Amazon could somehow reduce the dimensionality of every item in its inventory down to, say, 50 factors.
 Both items and users could then be represented as weight vectors of length 50.
 Ideally, the factors would have interpretable meanings.
 So, to continue the Mozart example from above, maybe factor 32 represents "neurotic upper-middle-class American parent."
@@ -108,7 +106,7 @@ Actually, it can't.
 The intuitive meaning of each factor is derived post hoc from vector representations of items and users, rather than the other way around.
 After the item and user vector representations have been generated, data scientists can look at the results, observe that the items with the highest weights for that factor are baby strollers and Mozart CDs, and conclude that this must be a "neurotic upper-middle-class American parent" factor.
 
-Sidenote: this style of reasoning is called "extracting actionable insights". It is the cornerstone of the data-scientific method, which sets modern data science apart from earlier, barbaric, pseudo-data sciences.
+This style of reasoning is called "extracting actionable insights." It is the cornerstone of the data-scientific method that sets modern data science apart from earlier, barbaric, pseudo-data sciences.
 
 The algorithm that learns these 50-dimensional representations does discover the factors, but it doesn't name them.
 This algorithm is called matrix factorization.  Why?  Because it turns out that this task---learning low-dimensional vector representations for each item and for each user that are consistent with observed user ratings---can be viewed from another angle as a matrix completion problem.
@@ -300,6 +298,6 @@ If you're out of ideas, try mixing <a class="mixnmatch-link" data-mix="8,21">alc
 
 ### Thanks for Reading
 
-This post describes a project carried out for [David Blei's](http://www.cs.columbia.edu/~blei/) course "COS 424: Interacting with Data" in Spring 2014 at Princeton University by Rob Sami (Google), Aaron Schild (Berkeley PhD), Spencer Tank (Palantir), and me.
+This post describes a project carried out for [David Blei's](http://www.cs.columbia.edu/~blei/) course "COS 424: Interacting with Data" in Spring 2014 at Princeton University by Rob Sami (now Google), Aaron Schild (now Berkeley), Spencer Tank (now Palantir), and me.
 
-**Thanks** to [Charles Guo](https://angel.co/charles-guo), <a href="http://crmarsh.com">Charlie Marsh</a>, <a href="http://lucasjcm.com">Lucas Mayer</a>, <a href="http://shubhro.com">Shubhro Saha</a>, [Jacob Simon](https://twitter.com/jakesimon), and [Richard Nixon](http://en.wikipedia.org/wiki/Conscription_in_the_United_States#End_of_conscription) for reviewing and revising drafts.
+Thanks to [Charles Guo](https://angel.co/charles-guo), <a href="http://crmarsh.com">Charlie Marsh</a>, <a href="http://lucasjcm.com">Lucas Mayer</a>, <a href="http://shubhro.com">Shubhro Saha</a>, [Jacob Simon](https://twitter.com/jakesimon) for reading drafts of this post.

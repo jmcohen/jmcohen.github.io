@@ -17,7 +17,7 @@ var TASTE_BREAKDOWN = (function (tasteBreakdown, factorsTop) {
 		var recipeTastes = tasteBreakdown[recipe];
 		var proportions = normalizeTasteProfile(recipeTastes);
 
-		var N = proportions.length;
+		var N = min(3, proportions.length);
 
 		if (N == 3) {
 			panelXs = [0, 300, 600];
@@ -40,7 +40,7 @@ var TASTE_BREAKDOWN = (function (tasteBreakdown, factorsTop) {
 
 		var left = (areaWidth - barWidth) / 2;
 
-		for (var i = 0; i < proportions.length; i++) {
+		for (var i = 0; i < N; i++) {
 			var tastePercent = recipeTastes[i][1];
 			var tasteId = recipeTastes[i][0];
 			var segmentWidth = proportions[i] * barWidth;
@@ -375,7 +375,7 @@ var MIX_N_MATCH = (function (tasteBreakdown, factorsTop) {
 		
 					});
 			});
-			return abDot / (aMag * bMag);
+			return abDot/ (aMag * bMag);
 		}
 
 		var names = Object.keys(tasteBreakdown);
@@ -485,6 +485,10 @@ function shuffle(o){ //v1.0
 
 function max(a, b) {
 	return a > b ? a : b;
+}
+
+function min(a, b) {
+	return a < b ? a : b;
 }
 
 

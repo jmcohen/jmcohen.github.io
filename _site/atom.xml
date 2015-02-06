@@ -4,7 +4,7 @@
  <title>Jeremy Cohen</title>
  <link href="http://jmcohen.github.iox/atom.xml" rel="self"/>
  <link href="http://jmcohen.github.iox/"/>
- <updated>2015-02-06T00:46:10-05:00</updated>
+ <updated>2015-02-06T09:22:02-05:00</updated>
  <id>http://jmcohen.github.iox</id>
  <author>
    <name>Jeremy Cohen</name>
@@ -42,13 +42,10 @@
 
 &lt;h2 id=&quot;a-gentle-introduction-to-matrix-factorization&quot;&gt;A Gentle Introduction to Matrix Factorization&lt;/h2&gt;
 
-&lt;p&gt;First off, I’m sorry.&lt;/p&gt;
-
-&lt;p&gt;I know that the term “matrix factorization” is liable to trigger a life-threatening reaction in persons allergic to linear algebra.
+&lt;p&gt;First off, I’m sorry.
+I know that the term “matrix factorization” is liable to trigger a life-threatening reaction in persons allergic to linear algebra.
 If reading the title of this blog post is causing to you go into anaphylactic shock, please know that
-I meant no harm.
-I would administer an epi-pen, except we are not in the same room.
-You are in my prayers.&lt;/p&gt;
+I meant no harm.&lt;/p&gt;
 
 &lt;p&gt;The truth is that &lt;em&gt;I&lt;/em&gt; didn’t pay any attention in linear algebra class either.
 As far as I can tell, &lt;strong&gt;“orthogonal”&lt;/strong&gt; is just a fancy synonym for “unrelated” that I use when I want to sound smart, an &lt;strong&gt;“eigenvector”&lt;/strong&gt; is probably something horrible that Wernher von Braun dreamt up before he switched employers in 1945,  and a &lt;strong&gt;“product space”&lt;/strong&gt; is the kind of thing that a “growth hacker” gets excited about.&lt;/p&gt;
@@ -70,9 +67,9 @@ This is called &lt;strong&gt;content-based recommendation&lt;/strong&gt;.&lt;/p&
 &lt;p&gt;A more interesting idea is to treat the items as black boxes and somehow &lt;em&gt;learn&lt;/em&gt; correlations between the items from the ratings history of all users.
 This is called &lt;strong&gt;collaborative filtering&lt;/strong&gt;.
 For example, I would bet that people who buy baby strollers are also likely to buy the &lt;a href=&quot;http://www.amazon.com/Essential-Mozart/dp/B00005A8JZ/&quot;&gt;Essential Mozart&lt;/a&gt; CD collection.
-The association between these two items could never be detected by content-based methods alone because a Mozart collection has zero properties in common with a baby stroller.
+The association between these two items could never be detected by content-based methods alone; a Mozart collection has zero properties in common with a baby stroller.
 An intelligent yet uninformed alien visiting Planet Earth for a day would never think, “Ah, yes, &lt;em&gt;of course&lt;/em&gt; people with no previous discernable interest in classical music will suddenly snatch up the collected works of Wolfgang Amadeus once they are also in the market for a baby stroller.”
-Fortunately, thanks to collaborative filtering, Amazon can pick up on the relationship between these two very distinct items and make the right recommendation. Everybody will win! Jeff Bezos will become richer, the baby won’t get &lt;a href=&quot;http://en.wikipedia.org/wiki/Mozart_effect&quot;&gt;left behind&lt;/a&gt;, and the Amazon programmer who wrote the feature will &lt;a href=&quot;http://www.glassdoor.com/GD/Reviews/Amazon-com-Reviews-E6036_P2.htm?filter.jobTitleFTS=Software&quot;&gt;quit and join another company&lt;/a&gt;.&lt;/p&gt;
+Fortunately, thanks to collaborative filtering, Amazon can pick up on the relationship between these two very distinct items and make the right recommendation.  It’s a win-win situation: Jeff Bezos will become richer and the baby won’t get &lt;a href=&quot;http://en.wikipedia.org/wiki/Mozart_effect&quot;&gt;left behind&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;One of the most fascinating techniques for collaborative filtering is &lt;strong&gt;matrix factorization&lt;/strong&gt;.  It is easiest understood as a form of dimensionality reduction.&lt;/p&gt;
 
@@ -94,9 +91,9 @@ There were also dots for the candidates, Barack Obama and John McCain; dots for 
 But the ideology quiz reduced every politician to just two dimensions: “social” and “economic.”
 Working in this simplified two-dimensional space made it a lot easier to identify the politicians whose views most closely matched my own.&lt;/p&gt;
 
-&lt;p&gt;The matrix factorization technique for recommender systems involves a similar trick, except the goal is to convince people to spend real money on snuggies, which is harder than convincing them to share something obnoxious on Facebook, a thing that most of us would do for free anyway.&lt;/p&gt;
+&lt;p&gt;The matrix factorization technique for recommender systems involves a similar kind of dimensionality reduction, except that the dimensions are not specified in advance by people but rather are learned by the algorithm itself. &lt;/p&gt;
 
-&lt;p&gt;In other words, matrix factorization is the real deal—the stuff that separates true data scientists from data alchemists, data phrenologists, data astrologers, and other kinds of data quacks and charlatans.&lt;/p&gt;
+&lt;p&gt;In other words, matrix factorization is the real deal—the stuff that separates true data scientists from charlatans such as data alchemists, data phrenologists, and data astrologers.&lt;/p&gt;
 
 &lt;div class=&quot;image-right&quot;&gt;
 &lt;a href=&quot;/images/vector.jpg&quot;&gt;&lt;img src=&quot;/images/vector.jpg&quot; /&gt;&lt;/a&gt;
@@ -104,7 +101,7 @@ Working in this simplified two-dimensional space made it a lot easier to identif
 Factor interpretations are on the left; factor weights are in the boxes.&lt;/span&gt;
 &lt;/div&gt;
 
-&lt;p&gt;Ok. Suppose that Amazon could somehow reduce the dimensionality of every item in its inventory down to, say, 50 factors.
+&lt;p&gt;Suppose that Amazon could somehow reduce the dimensionality of every item in its inventory down to, say, 50 factors.
 Both items and users could then be represented as weight vectors of length 50.
 Ideally, the factors would have interpretable meanings.
 So, to continue the Mozart example from above, maybe factor 32 represents “neurotic upper-middle-class American parent.”
@@ -123,7 +120,7 @@ Actually, it can’t.
 The intuitive meaning of each factor is derived post hoc from vector representations of items and users, rather than the other way around.
 After the item and user vector representations have been generated, data scientists can look at the results, observe that the items with the highest weights for that factor are baby strollers and Mozart CDs, and conclude that this must be a “neurotic upper-middle-class American parent” factor.&lt;/p&gt;
 
-&lt;p&gt;Sidenote: this style of reasoning is called “extracting actionable insights”. It is the cornerstone of the data-scientific method, which sets modern data science apart from earlier, barbaric, pseudo-data sciences.&lt;/p&gt;
+&lt;p&gt;This style of reasoning is called “extracting actionable insights.” It is the cornerstone of the data-scientific method that sets modern data science apart from earlier, barbaric, pseudo-data sciences.&lt;/p&gt;
 
 &lt;p&gt;The algorithm that learns these 50-dimensional representations does discover the factors, but it doesn’t name them.
 This algorithm is called matrix factorization.  Why?  Because it turns out that this task—learning low-dimensional vector representations for each item and for each user that are consistent with observed user ratings—can be viewed from another angle as a matrix completion problem.&lt;/p&gt;
@@ -329,9 +326,9 @@ Select two or three tastes from the two-column list below, and see which recipes
 
 &lt;h3 id=&quot;thanks-for-reading&quot;&gt;Thanks for Reading&lt;/h3&gt;
 
-&lt;p&gt;This post describes a project carried out for &lt;a href=&quot;http://www.cs.columbia.edu/~blei/&quot;&gt;David Blei’s&lt;/a&gt; course “COS 424: Interacting with Data” in Spring 2014 at Princeton University by Rob Sami (Google), Aaron Schild (Berkeley PhD), Spencer Tank (Palantir), and me.&lt;/p&gt;
+&lt;p&gt;This post describes a project carried out for &lt;a href=&quot;http://www.cs.columbia.edu/~blei/&quot;&gt;David Blei’s&lt;/a&gt; course “COS 424: Interacting with Data” in Spring 2014 at Princeton University by Rob Sami (now Google), Aaron Schild (now Berkeley), Spencer Tank (now Palantir), and me.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Thanks&lt;/strong&gt; to &lt;a href=&quot;https://angel.co/charles-guo&quot;&gt;Charles Guo&lt;/a&gt;, &lt;a href=&quot;http://crmarsh.com&quot;&gt;Charlie Marsh&lt;/a&gt;, &lt;a href=&quot;http://lucasjcm.com&quot;&gt;Lucas Mayer&lt;/a&gt;, &lt;a href=&quot;http://shubhro.com&quot;&gt;Shubhro Saha&lt;/a&gt;, &lt;a href=&quot;https://twitter.com/jakesimon&quot;&gt;Jacob Simon&lt;/a&gt;, and &lt;a href=&quot;http://en.wikipedia.org/wiki/Conscription_in_the_United_States#End_of_conscription&quot;&gt;Richard Nixon&lt;/a&gt; for reviewing and revising drafts.&lt;/p&gt;
+&lt;p&gt;Thanks to &lt;a href=&quot;https://angel.co/charles-guo&quot;&gt;Charles Guo&lt;/a&gt;, &lt;a href=&quot;http://crmarsh.com&quot;&gt;Charlie Marsh&lt;/a&gt;, &lt;a href=&quot;http://lucasjcm.com&quot;&gt;Lucas Mayer&lt;/a&gt;, &lt;a href=&quot;http://shubhro.com&quot;&gt;Shubhro Saha&lt;/a&gt;, &lt;a href=&quot;https://twitter.com/jakesimon&quot;&gt;Jacob Simon&lt;/a&gt; for reading drafts of this post.&lt;/p&gt;
 </content>
    </entry>
    
