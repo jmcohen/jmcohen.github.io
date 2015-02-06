@@ -5,8 +5,8 @@
     <description></description>
     <link>http://jmcohen.github.iox/</link>
     <atom:link href="http://jmcohen.github.iox/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 06 Feb 2015 09:25:01 -0500</pubDate>
-    <lastBuildDate>Fri, 06 Feb 2015 09:25:01 -0500</lastBuildDate>
+    <pubDate>Fri, 06 Feb 2015 09:27:13 -0500</pubDate>
+    <lastBuildDate>Fri, 06 Feb 2015 09:27:13 -0500</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -86,7 +86,7 @@ Working in this simplified two-dimensional space made it a lot easier to identif
 
 &lt;p&gt;The matrix factorization technique for recommender systems involves a similar kind of dimensionality reduction, except that algorithm learns the dimensions on its own.&lt;/p&gt;
 
-&lt;p&gt;In other words, matrix factorization is the real deal—the stuff that separates true data scientists from charlatans such as data alchemists, data phrenologists, and data astrologers.&lt;/p&gt;
+&lt;p&gt;In other words, matrix factorization is the real deal.  It’s the stuff that separates the true data scientists from the charlatans like data alchemists, data phrenologists, and data astrologers.&lt;/p&gt;
 
 &lt;div class=&quot;image-right&quot;&gt;
 &lt;a href=&quot;/images/vector.jpg&quot;&gt;&lt;img src=&quot;/images/vector.jpg&quot; /&gt;&lt;/a&gt;
@@ -208,8 +208,6 @@ The &lt;a href=&quot;#mix-n-match&quot;&gt;Mix &#39;n Match&lt;/a&gt; visualizat
 
 &lt;p&gt;These are the 40 tastes that came out of the matrix factorization.
 We describe each taste by printing the five exemplar recipes with the highest weights.&lt;/p&gt;
-
-&lt;p&gt;Unfortunately, some tastes are less intelligible than others.&lt;/p&gt;
 
 &lt;div id=&quot;taste-grid&quot;&gt;
 &lt;/div&gt;
