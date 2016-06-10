@@ -5,9 +5,23 @@
     <description></description>
     <link>http://jmcohen.github.iox/</link>
     <atom:link href="http://jmcohen.github.iox/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 07 Feb 2015 17:46:44 -0500</pubDate>
-    <lastBuildDate>Sat, 07 Feb 2015 17:46:44 -0500</lastBuildDate>
+    <pubDate>Fri, 10 Jun 2016 01:03:05 -0400</pubDate>
+    <lastBuildDate>Fri, 10 Jun 2016 01:03:05 -0400</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>Sparse Orthogonal Regression</title>
+        <description>&lt;link rel=&quot;stylesheet&quot; href=&quot;/css/taste.css&quot; /&gt;
+
+&lt;p&gt;Hi!&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 10 Jun 2016 06:00:00 -0400</pubDate>
+        <link>http://jmcohen.github.iox/posts/orthogonal</link>
+        <guid isPermaLink="true">http://jmcohen.github.iox/posts/orthogonal</guid>
+        
+        
+      </item>
     
       <item>
         <title>Decomposing the Human Palate with Matrix Factorization</title>
@@ -40,8 +54,8 @@ I know that the term “matrix factorization” is liable to trigger a life-thre
 If reading the title of this blog post is causing to you go into anaphylactic shock, please know that
 I meant no harm.&lt;/p&gt;
 
-&lt;p&gt;The truth is that &lt;em&gt;I&lt;/em&gt; didn’t pay any attention in linear algebra class either.
-As far as I can tell, &lt;strong&gt;“orthogonal”&lt;/strong&gt; is just a fancy synonym for “unrelated” that I use when I want to sound smart, an &lt;strong&gt;“eigenvector”&lt;/strong&gt; is probably something horrible that Wernher von Braun dreamt up before he switched employers in 1945,  and a &lt;strong&gt;“product space”&lt;/strong&gt; is the kind of thing that a “growth hacker” gets excited about.&lt;/p&gt;
+&lt;p&gt;The truth is that &lt;em&gt;I&lt;/em&gt; didn’t pay any attention in math class either.
+As far as I can tell, “orthogonal” is just a fancy synonym for “unrelated”, an “eigenvector” is probably something horrible that Wernher von Braun dreamt up before he switched employers in 1945,  and a “product space” is the kind of thing that a “growth hacker” gets excited about.&lt;/p&gt;
 
 &lt;p&gt;The good news is that understanding matrix factorization does not require any linear algebra beyond the definition of a matrix multiplication.&lt;/p&gt;
 
@@ -62,7 +76,7 @@ This is called &lt;strong&gt;collaborative filtering&lt;/strong&gt;.
 For example, I would bet that people who buy baby strollers are also likely to buy the &lt;a href=&quot;http://www.amazon.com/Essential-Mozart/dp/B00005A8JZ/&quot;&gt;Essential Mozart&lt;/a&gt; CD collection.
 The association between these two items could never be detected by content-based methods alone because a Mozart collection has zero properties in common with a baby stroller.
 An intelligent yet uninformed alien visiting Planet Earth for a day would never think, “Ah, yes, &lt;em&gt;of course&lt;/em&gt; people with no previous discernable interest in classical music will suddenly snatch up the collected works of Wolfgang Amadeus once they are also in the market for a baby stroller.”
-Fortunately, thanks to collaborative filtering, Amazon can pick up on the relationship between these two very distinct items and make the right recommendation.  It’s a win-win situation: Jeff Bezos will become richer and the baby won’t get &lt;a href=&quot;http://en.wikipedia.org/wiki/Mozart_effect&quot;&gt;left behind&lt;/a&gt;.&lt;/p&gt;
+Fortunately, thanks to collaborative filtering, Amazon can pick up on the relationship between these two very distinct items and make the right recommendation.  It’s a win-win situation: Jeff Bezos will become richer and the baby won’t get left behind.&lt;/p&gt;
 
 &lt;p&gt;One of the most fascinating techniques for collaborative filtering is &lt;strong&gt;matrix factorization&lt;/strong&gt;.  It is easiest understood as a form of dimensionality reduction.&lt;/p&gt;
 
@@ -74,7 +88,7 @@ Fortunately, thanks to collaborative filtering, Amazon can pick up on the relati
 &lt;/div&gt;
 
 &lt;p&gt;As an insufferable ninth grader, I took a bunch of Facebook quizzes during the 2008 U.S. presidential election cycle.  These quizzes would ask a zillion questions about my personal political opinions, and then they would show me a Cartesian plane with two dimensions—social views and economic views—with a big dot somewhere that was supposed to represent me.
-There were also dots for the candidates, Barack Obama and John McCain; dots for insightful thinkers like Karl Marx, William F. Buckley, and Abraham Lincoln; and a dot for Ayn Rand.&lt;/p&gt;
+There were also dots for the candidates, Barack Obama and John McCain; dots for insightful thinkers like Karl Marx, William F. Buckley, and Abraham Lincoln; and even a dot for Ayn Rand.&lt;/p&gt;
 
 &lt;p&gt;These people had all apparently taken the quiz, and, incredibly enough, the sum total of their lives could be reduced to just two numbers: their position on the “social” axis, and their position on the “economic” axis.&lt;/p&gt;
 
