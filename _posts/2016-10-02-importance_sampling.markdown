@@ -60,7 +60,7 @@ If you want to learn more, a good resource is Sheldon Ross's book [Simulation](h
 
 ## Question 2: the variance of this estimator
 
-It turns out that the variance of the estimator $\tilde{x}$ as defined above is:
+The variance of the estimator $\tilde{x}$ as defined above is:
 
 $$ 
 \begin{align}

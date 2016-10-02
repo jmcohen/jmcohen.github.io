@@ -4,7 +4,7 @@
  <title>Jeremy Cohen</title>
  <link href="http://jmcohen.github.io/atom.xml" rel="self"/>
  <link href="http://jmcohen.github.io/"/>
- <updated>2016-10-02T18:05:41-04:00</updated>
+ <updated>2016-10-02T18:07:38-04:00</updated>
  <id>http://jmcohen.github.io</id>
  <author>
    <name>Jeremy Cohen</name>
@@ -73,7 +73,7 @@ If you want to learn more, a good resource is Sheldon Ross’s book &lt;a href=&
 
 &lt;h2 id=&quot;question-2-the-variance-of-this-estimator&quot;&gt;Question 2: the variance of this estimator&lt;/h2&gt;
 
-&lt;p&gt;It turns out that the variance of the estimator $\tilde{x}$ as defined above is:&lt;/p&gt;
+&lt;p&gt;The variance of the estimator $\tilde{x}$ as defined above is:&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt; 
 \begin{align}
