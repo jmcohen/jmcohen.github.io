@@ -3,22 +3,406 @@
   <channel>
     <title></title>
     <description></description>
-    <link>http://jmcohen.github.iox/</link>
-    <atom:link href="http://jmcohen.github.iox/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 10 Jun 2016 01:03:05 -0400</pubDate>
-    <lastBuildDate>Fri, 10 Jun 2016 01:03:05 -0400</lastBuildDate>
+    <link>http://jmcohen.github.io/</link>
+    <atom:link href="http://jmcohen.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sun, 02 Oct 2016 18:02:49 -0400</pubDate>
+    <lastBuildDate>Sun, 02 Oct 2016 18:02:49 -0400</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
-        <title>Sparse Orthogonal Regression</title>
-        <description>&lt;link rel=&quot;stylesheet&quot; href=&quot;/css/taste.css&quot; /&gt;
+        <title>Estimating the Accuracy of a Classifier with Importance Sampling</title>
+        <description>&lt;script src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&gt;&lt;/script&gt;
 
-&lt;p&gt;Hi!&lt;/p&gt;
+&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]},
+  TeX: { equationNumbers: { autoNumber: &quot;AMS&quot; } }
+});
+&lt;/script&gt;
+
+&lt;p&gt;I’m trying to measure the accuracy of a trained classifier over a very large test set.  The data points do not have labels, but can be manually labeled by a human at some expense.  While labeling every data point would be impractical, labeling a few hundred or so is fine.&lt;/p&gt;
+
+&lt;p&gt;The most obvious way to measure accuracy would be to sample some data points uniformly at random from the large test set, manually label them, and report the classifier’s accuracy over the sample.&lt;/p&gt;
+
+&lt;p&gt;Suppose, however, that instead of sampling from the test data set uniformly at random, we take a weighted sample in which some data points are more likely to be selected than others.  This raises the following two questions: &lt;/p&gt;
+
+&lt;p&gt;(1) How can we estimate the classifier’s accuracy over the whole test dataset based only on its accuracy over a weighted sample?&lt;/p&gt;
+
+&lt;p&gt;(2) How confident are we that whatever estimate we make is close to the true classifier accuracy?  In other words, due to the randomness induced by the sampling, the estimator is a random variable – what, then, is its variance?&lt;/p&gt;
+
+&lt;h2 id=&quot;definitions&quot;&gt;Definitions&lt;/h2&gt;
+
+&lt;p&gt;Suppose that there are $n$ data points in the very large test set, and let &lt;script type=&quot;math/tex&quot;&gt;x_i \in \{0, 1\}&lt;/script&gt; represent whether or not our classifier is correct on data point $i$.&lt;/p&gt;
+
+&lt;p&gt;Our goal is to estimate the overall accuracy
+&lt;script type=&quot;math/tex&quot;&gt; \bar{x} = \frac{1}{n} \sum_{i=1}^n x_i &lt;/script&gt;
+based only on a random sample of size $m$ consisting of data points $i_1$ through $i_m$ with each $i_j$ drawn i.i.d from some arbitrary discrete distribution over the test data points $q$.&lt;/p&gt;
+
+&lt;h2 id=&quot;question-1-an-unbiased-estimator-for-the-classifiers-accuracy&quot;&gt;Question 1: an unbiased estimator for the classifier’s accuracy&lt;/h2&gt;
+
+&lt;p&gt;It turns out that an unbiased estimator for the classifier’s accuracy $\bar{x}$ is given by:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+\begin{align}
+\tilde{x} = \frac{1}{m} \sum_{j=1}^m \frac{x_{i_j}}{n \, q_{i_j}}
+\end{align}
+&lt;/script&gt;
+
+&lt;p&gt;In other words, we &lt;em&gt;downweight&lt;/em&gt; data points that were more likely to occur under our weighted sample than under a uniform sample, and &lt;em&gt;upweight&lt;/em&gt; data points that were less likely to occur under our bised sample than under a uniform sample.&lt;/p&gt;
+
+&lt;p&gt;The random variable $\tilde{x}$ is an “unbiased” estimator for $\bar{x}$ in the sense that $\mathbb{E}[\tilde{x}] = \bar{x}$, where the expectation is taken over the sampling of each $i_j \sim q$.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+
+\begin{align*}
+\mathbb{E} \left[ \tilde{x} \right] &amp;= \mathbb{E} \left[ \frac{1}{m} \sum_{j=1}^m \frac{x_{i_j}}{n \, q_{i_j}} \right] \\
+&amp;= \mathbb{E}_{i \sim q} \left[ \frac{x_{i}}{n \, q_{i}} \right] \tag{the $\{i_j\}$ are iid}  \\
+&amp;= \sum_{i=1}^n \frac{x_{i}}{n \, q_{i}} q_i \tag{definition of expectation}\\
+&amp;= \frac{1}{n} \sum_{i=1}^n x_i
+\end{align*}
+ %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;This scheme is an example of &lt;a href=&quot;https://en.wikipedia.org/wiki/Importance_sampling&quot;&gt;importance sampling&lt;/a&gt;.
+If you want to learn more, a good resource is Sheldon Ross’s book &lt;a href=&quot;https://www.amazon.com/Simulation-Fifth-Sheldon-M-Ross/dp/0124158250/&quot;&gt;Simulation&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;question-2-the-variance-of-this-estimator&quot;&gt;Question 2: the variance of this estimator&lt;/h2&gt;
+
+&lt;p&gt;It turns out that the variance of the estimator $\tilde{x}$ as defined above is:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt; 
+\begin{align}
+\text{Var}(\tilde{x}) = \frac{1}{m} \left[\underbrace{\frac{1}{n} \sum_{i=1}^n \frac{x_i}{n \, q_i}}_{\text{weighted accuracy}} - \underbrace{\left( \frac{1}{n} \sum_{i=1}^n x_i  \right)^2}_{\text{accuracy squared}} \right]
+\end{align}
+&lt;/script&gt;
+
+&lt;p&gt;I call $\frac{1}{n} \sum_{i=1}^n \frac{x_i}{n \, q_i}$ the “weighted accuracy” because it is the accuracy inversely weighted by the probability that each data point is drawn from the distribution $q$.&lt;/p&gt;
+
+&lt;p&gt;The derivation of equation (2) is:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+
+\begin{align*}
+\text{Var}(\tilde{x}) &amp;= \text{Var} \left[ \frac{1}{m} \sum_{j=1}^m \frac{x_{i_j}}{n \, q_{i_j}} \right] \\
+&amp;=  \frac{1}{m^2} \text{Var} \left[ \sum_{j=1}^m \frac{x_{i_j}}{n \, q_{i_j}} \right] \tag{multiply by constant} \\
+&amp;= \frac{1}{m} \text{Var}_{i \sim q} \left[\frac{x_{i}}{n \, q_{i}} \right] \tag{the $\{i_j\}$ are iid} \\
+&amp;= \frac{1}{m} \left[ \text{E}_{i \sim q} \left[\left( \frac{x_{i}}{n \, q_{i}} \right)^2 \right] - \mathbb{E}_{i \sim q} \left[ \frac{x_{i}}{n \, q_{i}} \right]^2  \right] \tag{definition of variance} \\
+&amp;= \frac{1}{m} \left[ \frac{1}{n^2} \sum_{i=1}^n \frac{x_i^2}{q_i^2} q_i  - \left(\sum_{i=1}^n \frac{x_{i}}{n \, q_{i}} q_i \right)^2  \right] \tag{definition of expectation} \\
+&amp;= \frac{1}{m} \left[\underbrace{\frac{1}{n} \sum_{i=1}^n \frac{x_i}{n \, q_i}}_{\text{weighted accuracy}} - \underbrace{\left( \frac{1}{n} \sum_{i=1}^n x_i  \right)^2}_{\text{accuracy squared}} \right]
+\end{align*}
+ %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;But there’s a catch: in practice, we could never compute $\text{Var}(\tilde{x})$ exactly because we don’t know how our classifier did on data points outside of the labeled sample of size $m$ – using our notation, we don’t know $x_i$ for &lt;script type=&quot;math/tex&quot;&gt;i \not \in \{i_1 ... i_m \}&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;Therefore, the best we can do is to replace the accuracy and weighted accuracy over the entire dataset with their realizations over the sample:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt; \text{Var}(\tilde{x}) \approx \frac{1}{m} \left[\underbrace{\frac{1}{m} \sum_{j=1}^m \frac{x_{i_j}}{n \, q_{i_j}}}_{\text{weighted accuracy}} - \underbrace{\left( \frac{1}{m} \sum_{j=1}^m x_{i_j}  \right)^2}_{\text{accuracy squared}} \right]  &lt;/script&gt;
+
+&lt;p&gt;&lt;em&gt;TODO&lt;/em&gt;: show simulation results&lt;/p&gt;
+</description>
+        <pubDate>Sun, 02 Oct 2016 06:00:00 -0400</pubDate>
+        <link>http://jmcohen.github.io/posts/importance_sampling</link>
+        <guid isPermaLink="true">http://jmcohen.github.io/posts/importance_sampling</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Sparse Orthogonal Regression</title>
+        <description>&lt;script src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&gt;&lt;/script&gt;
+
+&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]},
+  TeX: { equationNumbers: { autoNumber: &quot;AMS&quot; } }
+});
+&lt;/script&gt;
+
+&lt;style type=&quot;text/css&quot;&gt;
+
+div.image {
+	margin-left: 40px; 
+	width: 400px; 
+	margin-bottom: 30px;
+	margin-top: 20px;
+}
+
+div.image span.caption {
+	clear: left; 
+	text-align: left; 
+	margin-top: 10px;
+	font-size: 12px;
+
+}
+
+/*span.caption {
+	float: left;
+	font-size: 14px; 
+ 	margin-top: 5px;
+	line-height: 16px;
+}*/
+&lt;/style&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\prox}{\textbf{prox}}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+ &lt;/script&gt;
+
+&lt;p&gt;I’ve recently spent some time figuring out how to efficiently solve the following optimization problem:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt; \begin{equation} 
+\label{main}
+ \argmin_{\mathbf{B}} \; \; \frac{1}{2} \| \mathbf{Y} - \mathbf{X} \mathbf{B} \|^2_F +  \lambda \, \|\mathbf{B}\|_1 \quad \text{subject to} \quad \mathbf{B} \mathbf{B}^T = I \end{equation}
+  &lt;/script&gt;
+
+&lt;p&gt;where the element-wise &lt;script type=&quot;math/tex&quot;&gt;\ell_1&lt;/script&gt; penalty &lt;script type=&quot;math/tex&quot;&gt;\| \mathbf{B}\|_1 = \sum_{i,j} \vert B_{ij} \vert &lt;/script&gt; is meant to promote sparsity in &lt;script type=&quot;math/tex&quot;&gt;\mathbf{B}&lt;/script&gt; and the orthogonality constraint &lt;script type=&quot;math/tex&quot;&gt;  \mathbf{B} \mathbf{B}^T = I &lt;/script&gt; ensures that the rows of &lt;script type=&quot;math/tex&quot;&gt;\mathbf{B}&lt;/script&gt; are orthonormal.&lt;/p&gt;
+
+&lt;p&gt;Our motivation is a neuroscience fMRI application: &lt;script type=&quot;math/tex&quot;&gt;\mathbf{Y}&lt;/script&gt; is a person’s brain activity, stored in a &lt;code&gt;time x voxels&lt;/code&gt; matrix, &lt;script type=&quot;math/tex&quot;&gt;\mathbf{X}&lt;/script&gt; is the &lt;code&gt;time x covariates&lt;/code&gt; experimental design matrix, and we’d like to solve for &lt;script type=&quot;math/tex&quot;&gt;\mathbf{B}&lt;/script&gt;, a &lt;code&gt;covariates x voxels&lt;/code&gt; matrix, each row of which is the “brain system” associated with a covariate.&lt;/p&gt;
+
+&lt;p&gt;The orthogonality constraint &lt;script type=&quot;math/tex&quot;&gt;\mathbf{B} \mathbf{B}^T = I&lt;/script&gt; drives the brain systems for different covariates to be distinct from one another, and the sparsity penalty &lt;script type=&quot;math/tex&quot;&gt;\| \mathbf{B}\|_1&lt;/script&gt; encourages each brain system to be nonzero at only a few voxels, which improves both interpretablily and generalization.&lt;/p&gt;
+
+&lt;p&gt;PICTURES&lt;/p&gt;
+
+&lt;p&gt;Without the orthogonality constraint, we’d have a standard &lt;script type=&quot;math/tex&quot;&gt;\ell_1&lt;/script&gt;-regularized least squares regression problem.
+Coversely, without the sparsity penalty, the problem is called the “&lt;a href=&quot;https://en.wikipedia.org/wiki/Orthogonal_Procrustes_problem&quot;&gt;orthogonal procrustes problem&lt;/a&gt;,” and has an analytical solution &lt;script type=&quot;math/tex&quot;&gt; \hat{\mathbf{B}} = \mathbf{V} \mathbf{U}^T &lt;/script&gt;, where &lt;script type=&quot;math/tex&quot;&gt;\mathbf{U} \boldsymbol{\Sigma} \mathbf{V}^T&lt;/script&gt; is the singular value decomposition of &lt;script type=&quot;math/tex&quot;&gt; \mathbf{Y}^T \mathbf{X} &lt;/script&gt; (see proof).&lt;/p&gt;
+
+&lt;p&gt;Theorem: &lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;  \argmin_{\mathbf{B} \mathbf{B}^T = \, I} \; \; \| \mathbf{Y} - \mathbf{X} \mathbf{B} \|^2_F  = \mathbf{V} \mathbf{U}^T  \quad \text{where} \quad  \mathbf{U} \boldsymbol{\Sigma} \mathbf{V}^T = \mathbf{Y}^T \mathbf{X}&lt;/script&gt;
+
+&lt;p&gt;Proof:&lt;/p&gt;
+
+&lt;p&gt;First, notice that due to the orthogonality constraint, one of the terms in our objective function is constant:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+ \begin{align*}
+ \| \mathbf{Y} - \mathbf{X} \mathbf{B} \|^2_F &amp;= \text{Tr}((\mathbf{Y} - \mathbf{X} \mathbf{B} )^T (\mathbf{Y} - \mathbf{X} \mathbf{B} )) \\
+&amp;= \text{Tr}(\mathbf{Y}^T \mathbf{Y}) - 2 \text{Tr}(\mathbf{Y}^T \mathbf{X} \mathbf{B}) + \text{Tr}(\mathbf{B}^T \mathbf{X}^T \mathbf{X} \mathbf{B}) \\
+&amp;= \text{Tr}(\mathbf{Y}^T \mathbf{Y}) - 2 \text{Tr}(\mathbf{Y}^T \mathbf{X} \mathbf{B}) + \text{Tr}(\mathbf{X}^T \mathbf{X} \mathbf{B} \mathbf{B}^T ) \\
+&amp;= \text{Tr}(\mathbf{Y}^T \mathbf{Y}) - 2 \text{Tr}(\mathbf{Y}^T \mathbf{X} \mathbf{B}) + \text{Tr}(\mathbf{X}^T \mathbf{X})
+\end{align*} 
+ %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Hence, our problem reduces to a linear maximization problem:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt; \argmax_{\mathbf{B} \mathbf{B}^T = \, I} \; \; \text{Tr}(\mathbf{Y}^T \mathbf{X} \mathbf{B}) &lt;/script&gt;
+
+&lt;p&gt;First, we’ll give an upper bound on this problem. Then, we’ll show that &lt;script type=&quot;math/tex&quot;&gt;\hat{\mathbf{B}} = \mathbf{V} \mathbf{U}^T&lt;/script&gt; attains this upper bound.
+The upper bound uses &lt;a href=&quot;https://en.wikipedia.org/wiki/Trace_inequalities#Von_Neumann.27s_trace_inequality&quot;&gt;Von Neummann’s trace inequality&lt;/a&gt; and the fact that &lt;script type=&quot;math/tex&quot;&gt;\mathbf{B} \mathbf{B}^T = I&lt;/script&gt; implies that all singular values of &lt;script type=&quot;math/tex&quot;&gt;\mathbf{B}&lt;/script&gt; are one.&lt;/p&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+ \begin{align*}  \text{Tr}(\mathbf{Y}^T \mathbf{X} \mathbf{B}) &amp;\le \sum_i \sigma_i(\mathbf{Y}^T \mathbf{X}) \, \sigma_i(\mathbf{B})  \tag{Von Neumann} \\
+&amp;= \sum_i \sigma_i(\mathbf{Y}^T \mathbf{X}) \tag{$\sigma_i(\mathbf{B}) = 1$}
+\end{align*} %]]&gt;&lt;/script&gt;
+Finally, to check that &lt;script type=&quot;math/tex&quot;&gt;\hat{\mathbf{B}}&lt;/script&gt; attains this optimal value, we compute&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt; \text{Tr}(\mathbf{Y}^T \mathbf{X} \hat{\mathbf{B}}) =  \text{Tr}(\mathbf{U} \boldsymbol{\Sigma} \mathbf{V}^T \mathbf{V} \mathbf{U}^T) = \text{Tr}(\boldsymbol{\Sigma})&lt;/script&gt;
+
+&lt;p&gt;However, with both the orthogonality constraint and the &lt;script type=&quot;math/tex&quot;&gt;\ell_1&lt;/script&gt; penalty, it’s not immediately apparent how we can solve the problem – notice that the orthogogonality constraint makes the feasible set non-convex.
+I’ve found two approaches that seem to work:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;the alternating direction method of multipliers (ADMM)&lt;/li&gt;
+  &lt;li&gt;gradient descent on the Stiefel manifold&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;admm&quot;&gt;ADMM&lt;/h2&gt;
+
+&lt;p&gt;The alternating direction method of multipliers solves unconstrained optimization problems where the objective function separates across multiple terms whose variables are linked by linear constraints:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt; \begin{equation} \label{admm1} \argmin_{x_1, \ldots_, x_n} \quad f(x_1, \ldots, x_n) = \sum_{i=1}^n f_i(x_i) \quad \text{subject to} \quad \sum_{i=1}^n A_i x_i = 0 \end{equation}&lt;/script&gt;
+
+&lt;p&gt;Notice that this formulation subsumes problems of the form:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt; \begin{equation} \label{admm2} \argmin_{x} \quad f(x) = \sum_{i=1}^n f_i(x) \end{equation} &lt;/script&gt;
+
+&lt;p&gt;as (\ref{admm2}) reduces to (\ref{admm1}) for some choice of &lt;script type=&quot;math/tex&quot;&gt;A_1 \ldots A_n&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;Each step of ADMM involves computing the so-called “proximal operator” of some &lt;script type=&quot;math/tex&quot;&gt;f_i&lt;/script&gt;.  The proximal operator of a function &lt;script type=&quot;math/tex&quot;&gt;f_i&lt;/script&gt; is itself an optimization problem:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt; \prox_{f_i}(x) =  \argmin_y \; \frac{1}{2} \| x - y \|^2_2 + f_i(y) &lt;/script&gt;
+
+&lt;p&gt;Some functions &lt;script type=&quot;math/tex&quot;&gt;f_i&lt;/script&gt; are “proximable” in the sense that the solution to this optimization problem can be computed efficiently in closed form.
+ADMM is especially well-suited to situations where &lt;script type=&quot;math/tex&quot;&gt;f&lt;/script&gt; is a sum of proximable functions.&lt;/p&gt;
+
+&lt;p&gt;There is more than one way to split the objective function in problem (\ref{main}) into a sum of proximable functions, and each of these splittings gives rise to a different ADMM algorithm.&lt;/p&gt;
+
+&lt;h3 id=&quot;splitting--1&quot;&gt;Splitting # 1&lt;/h3&gt;
+
+&lt;p&gt;One possible splitting is as follows:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+\begin{equation} 
+ \argmin_{\mathbf{B}} \; \; \underbrace{\frac{1}{2} \| \mathbf{Y} - \mathbf{X} \mathbf{B} \|^2_F}_{f_1(\mathbf{B})} + \underbrace{\mathbf{1}_{\mathbf{B} \mathbf{B}^T = \, I}(\mathbf{B})}_{f_2(\mathbf{B})} + \underbrace{\alpha \, \|\mathbf{B}\|_1}_{f_3(\mathbf{B})}  \end{equation}
+&lt;/script&gt;
+
+&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;\mathbf{1}_{\mathbf{B} \mathbf{B}^T = \, I} &lt;/script&gt; is the indicator function for the set &lt;script type=&quot;math/tex&quot;&gt;\{\mathbf{B} : \mathbf{B} \mathbf{B}^T = \, I \} &lt;/script&gt;, defined as&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\mathbf{1}_{\mathbf{B} \mathbf{B}^T }(\mathbf{B}) =  \begin{cases}
+0 &amp;\mbox{ if } \mathbf{B} \mathbf{B}^T = I \\
+ \infty &amp;\mbox{ otherwise }
+\end{cases}  %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;We need to derive the proximal operators of &lt;script type=&quot;math/tex&quot;&gt;f_{1 \cdots 3}&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;Since &lt;script type=&quot;math/tex&quot;&gt;f_1&lt;/script&gt; is convex, the optimization problem defined by its proximal operator is also convex and therefore a minimizer can be computed analytically by setting the gradient to zero.  The result is:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+ \begin{align*} \prox_{\lambda f_1}(\mathbf{B}) &amp;= \argmin_{C} \; \frac{1}{2} \| \mathbf{Y} - \mathbf{X} \mathbf{C} \|^2_F + \frac{1}{2 \lambda} \| \mathbf{B} - \mathbf{C} \|^2_F \\
+&amp;= \left( \mathbf{X}^T \mathbf{X} + \frac{1}{2 \lambda} I \right)^{-1} \left( \mathbf{X}^T \mathbf{Y} + \frac{1}{\lambda} \mathbf{B}  \right)
+  \end{align*} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;The proximal operator of &lt;script type=&quot;math/tex&quot;&gt;f_2&lt;/script&gt; is just a projection onto the set &lt;script type=&quot;math/tex&quot;&gt;\{\mathbf{B} : \mathbf{B} \mathbf{B}^T = \, I \} &lt;/script&gt;, which is a special case of the procrustes problem:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+ \begin{align*} \prox_{\lambda f_2}(\mathbf{B}) &amp;= \argmin_{\mathbf{C}: \, \mathbf{C} \mathbf{C}^T = \, I} \; \| \mathbf{B} - \mathbf{C} \|^2_F \\
+&amp;= \mathbf{U} \mathbf{V}^T \quad \text{where} \quad \mathbf{U} \boldsymbol{\Sigma} \mathbf{V}^T = \mathbf{B}
+  \end{align*} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Finally, the proximal operator of the sparsity-inducing penalty &lt;script type=&quot;math/tex&quot;&gt;f_3(\mathbf{B}) = \alpha \|\mathbf{B}\|_1&lt;/script&gt; is the “soft-thresholding operator,” so named because it sets values in &lt;script type=&quot;math/tex&quot;&gt;[-\alpha \lambda, \alpha \lambda]&lt;/script&gt; to zero, and shrinks all other values towards zero:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+ \begin{align*} \prox_{\lambda f_3}(\mathbf{B}) &amp;= \argmin_{C} \; \alpha \, ||\mathbf{B}||_1 + \frac{1}{2 \lambda} \| \mathbf{B} - \mathbf{C} \|^2_F \\
+&amp; \Downarrow \hspace{150px}  \Downarrow \\
+(\prox_{\lambda f_3}(\mathbf{B}))_{ij} &amp;= 
+\begin{cases}
+B_{ij} - \alpha \lambda &amp;\mbox{ if } B_{ij} &gt; \alpha \lambda \\
+0 &amp;\mbox - \alpha \lambda \le B_{ij} \le \alpha \lambda \\
+B_{ij} + \alpha \lambda &amp;\mbox{ if } B_{ij} &lt; - \alpha \lambda
+\end{cases}
+  \end{align*} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;The ADMM algorithm is to repeat the following operations until convergence:
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+
+\begin{align*}
+\quad \mathbf{B}_2 &amp;\leftarrow \prox_{\rho f_2}( \mathbf{B} +\mathbf{U}_2) \\
+\quad \mathbf{B}_3 &amp;\leftarrow \prox_{\rho f_3}( \mathbf{B} +\mathbf{U}_3) \\
+\quad \mathbf{B} &amp;\leftarrow \prox_{2 \rho f_1 } \left(\frac{1}{2}(\mathbf{B}_2 + \mathbf{B}_3 -\mathbf{U}_2 - \mathbf{U}_3) \right) \\
+\quad \mathbf{U}_2 &amp;\leftarrow \mathbf{U}_2 + \mathbf{B} - \mathbf{B}_2 \\
+\quad \mathbf{U}_3 &amp;\leftarrow \mathbf{U}_3 + \mathbf{B} - \mathbf{B}_3 \\
+\end{align*}
+ %]]&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;splitting--2&quot;&gt;Splitting # 2&lt;/h3&gt;
+
+&lt;p&gt;An alternative splitting of our objective function is&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+\begin{equation} 
+ \argmin_{\mathbf{B}} \; \; \underbrace{\frac{1}{2} \| \mathbf{Y} - \mathbf{X} \mathbf{B} \|^2_F + \mathbf{1}_{\mathbf{B} \mathbf{B}^T = \, I}(\mathbf{B}) }_{g_1(\mathbf{B})} + \underbrace{\alpha \, \|\mathbf{B}\|_1}_{g_2(\mathbf{B})}  \end{equation}
+&lt;/script&gt;
+
+&lt;p&gt;The proximal operator of &lt;script type=&quot;math/tex&quot;&gt;g_1&lt;/script&gt; is a special case of the procrustes problem:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+ \begin{align*} \prox_{\lambda g_1}(\mathbf{B}) &amp;= \argmin_{\mathbf{C} \mathbf{C}^T = \, I} \; \frac{1}{2} \| \mathbf{Y} - \mathbf{X} \mathbf{C} \|^2_F + \frac{1}{2 \lambda} \| \mathbf{B} - \mathbf{C} \|^2_F \\
+&amp;= \argmin_{\mathbf{C} \mathbf{C}^T = \, I} \; \left \| \begin{bmatrix} \mathbf{Y} \\ \sqrt{\lambda} \, \mathbf{B} \end{bmatrix} - \begin{bmatrix} \mathbf{X} \\ \sqrt{\lambda} \, I \end{bmatrix} \mathbf{C} \right \|^2_F   \\
+&amp;= \mathbf{V} \mathbf{U}^T \quad \text{where} \quad \mathbf{U} \boldsymbol{\Sigma} \mathbf{V}^T = \mathbf{Y}^T \mathbf{X} + \lambda \mathbf{B}^T 
+  \end{align*} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;The ADMM algorithm is to repeat the following operations until convergence:
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+
+\begin{align*}
+\mathbf{B}_1 &amp;\leftarrow \prox_{\rho g_1 } \left( \mathbf{B}_2 - \mathbf{U} \right)  \\
+\mathbf{B}_2 &amp;\leftarrow \prox_{\rho g_2}( \mathbf{B}_1 +\mathbf{U}) \\
+\mathbf{U} &amp;\leftarrow \mathbf{U} + \mathbf{B}_1 - \mathbf{B}_2  \\
+\end{align*}
+ %]]&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;manifold-gradient-descent&quot;&gt;Manifold gradient descent&lt;/h2&gt;
+
+&lt;p&gt;An alternative way to solve (&lt;script type=&quot;math/tex&quot;&gt;\ref{main}&lt;/script&gt;) is to apply the machinery of manifold optimization.  The set &lt;script type=&quot;math/tex&quot;&gt;\mathcal{M}&lt;/script&gt; of matrices with orthonormal columns &lt;script type=&quot;math/tex&quot;&gt; \mathcal{M} = \{\mathbf{A} \in \reals^{n \times p}: \mathbf{A}^T \mathbf{A} = \, I\}&lt;/script&gt; is a matrix manifold called the “Stiefel manifold.”  In their recent book, &lt;a href=&quot;http://press.princeton.edu/chapters/absil/&quot;&gt;Absil, Mahoney, and Sepulchre&lt;/a&gt; develop a general framework for optimization over matrix manifolds, which we will follow here.&lt;/p&gt;
+
+&lt;p&gt;Letting &lt;script type=&quot;math/tex&quot;&gt;\mathbf{A} = \mathbf{B}^T&lt;/script&gt;, we can view &lt;script type=&quot;math/tex&quot;&gt;(\ref{main})&lt;/script&gt; as an optimization problem over the Stiefel manifold:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+\begin{align}
+\argmin_{\mathbf{A} \in \mathcal{M}} \quad  \frac{1}{2} \| \mathbf{Y} - \mathbf{X} \mathbf{A}^T \|^2_F +  \lambda \, \|\mathbf{A}\|_1 
+\end{align}
+&lt;/script&gt;
+
+&lt;p&gt;Manifold optimization algorithms require a smooth objective function, so we will replace the non-smooth &lt;script type=&quot;math/tex&quot;&gt;\ell_1&lt;/script&gt; norm with a smooth approximation parameterized by $\epsilon &amp;gt; 0$:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt; |x| \approx \sqrt{x^2 + \epsilon^2} - \epsilon &lt;/script&gt;
+
+&lt;div class=&quot;image&quot;&gt;
+&lt;img src=&quot;/images/l1approx.jpg&quot; /&gt;
+&lt;span class=&quot;caption&quot;&gt;$|x|$ (top) and smooth approximation to $|x|$ (bottom).&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The new optimization problem is:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+\begin{align}
+\argmin_{\mathbf{A} \in \mathcal{M}} \quad  \frac{1}{2} \| \mathbf{Y} - \mathbf{X} \mathbf{A}^T \|^2_F +  \lambda \, \sum_{i, j} \left( \sqrt{A_{ij}^2 + \epsilon^2} - \epsilon \right)
+\end{align}
+&lt;/script&gt;
+
+&lt;p&gt;In standard numerical optimization over $\reals^{n \times p}$, a descent method for minimizing a function &lt;script type=&quot;math/tex&quot;&gt;f(\mathbf{A}): \reals^{n \times p} \to \reals&lt;/script&gt; would proceed as follows: in each iteration $k$, choose a search direction &lt;script type=&quot;math/tex&quot;&gt; \mathbf{D}_k&lt;/script&gt; and a step size &lt;script type=&quot;math/tex&quot;&gt;\alpha_k&lt;/script&gt;, and take a step as:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt; \mathbf{A}_{k+1} \leftarrow \mathbf{A}_k + \alpha_k \mathbf{D}_k &lt;/script&gt;
+
+&lt;p&gt;In gradient descent, the search direction is the negative gradient &lt;script type=&quot;math/tex&quot;&gt;\mathbf{D}_k = - \nabla f(\mathbf{A})&lt;/script&gt;, and the step size is often chosen by a line search.&lt;/p&gt;
+
+&lt;p&gt;On a manifold, things get a little trickier: some search directions wouldn’t make any sense because they would take us away from the manifold.
+Therefore, we restrict ourselves to directions &lt;script type=&quot;math/tex&quot;&gt;\boldsymbol{\zeta}&lt;/script&gt; which are “tangent” to &lt;script type=&quot;math/tex&quot;&gt;\mathcal{M}&lt;/script&gt; at &lt;script type=&quot;math/tex&quot;&gt;\mathbf{A}_k&lt;/script&gt;.
+Formally, &lt;script type=&quot;math/tex&quot;&gt;\boldsymbol{\zeta}&lt;/script&gt; is called a “tangent vector” of &lt;script type=&quot;math/tex&quot;&gt;\mathcal{M}&lt;/script&gt; at &lt;script type=&quot;math/tex&quot;&gt;\mathbf{A}_k&lt;/script&gt; if it is the derivative at &lt;script type=&quot;math/tex&quot;&gt;\mathbf{A}_k&lt;/script&gt; of some smooth curve on &lt;script type=&quot;math/tex&quot;&gt;\mathcal{M}&lt;/script&gt;.
+The set of all tangent vectors is called the “tangent space” of &lt;script type=&quot;math/tex&quot;&gt;\mathcal{M}&lt;/script&gt; at &lt;script type=&quot;math/tex&quot;&gt;\mathbf{A}_k&lt;/script&gt; and is denoted &lt;script type=&quot;math/tex&quot;&gt;T_{\mathbf{A}_k}\mathcal{M}&lt;/script&gt;.
+The tangent space is a vector space closed under addition and scalar multiplication, so any step &lt;script type=&quot;math/tex&quot;&gt; \mathbf{A}_{k+1} \leftarrow \mathbf{A}_k + \alpha_k \boldsymbol{\zeta} &lt;/script&gt; will end up in the tangent space.&lt;/p&gt;
+
+&lt;p&gt;The picture below illustrates a tangent space:&lt;/p&gt;
+
+&lt;div class=&quot;image&quot;&gt;
+&lt;img src=&quot;/images/tangent.png&quot; /&gt;
+&lt;span class=&quot;caption&quot;&gt;The tangent space of a manifold $\mathcal{M}$ at a point $x$.  $u$ is a tangent vector because it is the derivative of a curve $\gamma(t)$ at $x$ (Wikipedia).&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The tangent space of the Stiefel manifold at &lt;script type=&quot;math/tex&quot;&gt;\mathbf{A} \in \reals^{n \times p}&lt;/script&gt; is:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt; T_{\mathbf{A}} \mathcal{M} = \{\mathbf{B} \in \reals^{n \times p}: \mathbf{A}^T \mathbf{B} + \mathbf{B}^T \mathbf{A} = 0  \}&lt;/script&gt;
+
+&lt;p&gt;As in the Euclidean case, the directional derivative &lt;script type=&quot;math/tex&quot;&gt;Df[\boldsymbol{\boldsymbol{\zeta}}]&lt;/script&gt; of a function &lt;script type=&quot;math/tex&quot;&gt;f&lt;/script&gt; at a point &lt;script type=&quot;math/tex&quot;&gt;\mathbf{A}&lt;/script&gt; along a tangent vector &lt;script type=&quot;math/tex&quot;&gt;\boldsymbol{\boldsymbol{\zeta}}&lt;/script&gt; is defined as&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt; Df[\boldsymbol{\zeta}] = \lim_{t \to 0} \frac{f(\mathbf{A} + t \boldsymbol{\zeta}) - f(\mathbf{A})}{t} &lt;/script&gt;
+
+&lt;p&gt;Similarly, the gradient &lt;script type=&quot;math/tex&quot;&gt;\nabla f(\mathbf{A}_k)&lt;/script&gt; is defined as the direction of steepest ascent — the element of the tangent space with the largest directional derivative:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt; \frac{\nabla f(\mathbf{A})}{\|\nabla f(\mathbf{A}) \|} = \argmax_{\boldsymbol{\zeta} \in T_{\mathcal{M}}(\mathbf{A}), \ \| \zeta \| = 1} Df[\boldsymbol{\zeta}]&lt;/script&gt;
+
+&lt;p&gt;As in &lt;script type=&quot;math/tex&quot;&gt;\reals^{n\times p}&lt;/script&gt;, a norm &lt;script type=&quot;math/tex&quot;&gt;\| \cdot \|&lt;/script&gt; is induced by an inner product &lt;script type=&quot;math/tex&quot;&gt;g(\cdot, \cdot)&lt;/script&gt; as &lt;script type=&quot;math/tex&quot;&gt; \|\zeta\| = \sqrt{g(\zeta, \zeta)}&lt;/script&gt;.
+On the Stiefel manifold, we may take the inner product to be &lt;script type=&quot;math/tex&quot;&gt;g(\mathbf{A}, \mathbf{B}) = \text{Tr}(\mathbf{A}^T \mathbf{B})&lt;/script&gt;.
+With this choice of inner product, if &lt;script type=&quot;math/tex&quot;&gt;f =\bar{f}|_{\mathcal{M}}&lt;/script&gt; is a function &lt;script type=&quot;math/tex&quot;&gt;\bar{f}: \reals^{n \times p} \to \reals&lt;/script&gt; restricted to the Stiefel manifold, and &lt;script type=&quot;math/tex&quot;&gt;\nabla \bar{f}&lt;/script&gt; is the gradient of &lt;script type=&quot;math/tex&quot;&gt;\bar{f}&lt;/script&gt; in &lt;script type=&quot;math/tex&quot;&gt;\reals^{n \times p}&lt;/script&gt;, then the gradient of &lt;script type=&quot;math/tex&quot;&gt;f&lt;/script&gt; on the Stiefel manifold turns out to be the orthogonal projection &lt;script type=&quot;math/tex&quot;&gt;P&lt;/script&gt; of &lt;script type=&quot;math/tex&quot;&gt;\nabla \bar{f}&lt;/script&gt; onto the tangent space of &lt;script type=&quot;math/tex&quot;&gt;\mathcal{M}&lt;/script&gt;:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt; \nabla f(\mathbf{A}) = P_{T_{\mathcal{M}}(\mathbf{A})}(\nabla \bar{f}(\mathbf{A})) &lt;/script&gt;
+
+&lt;p&gt;This projection can be computed as:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt; P_{T_{\mathcal{M}}(\mathbf{A})}(\mathbf{B}) = \mathbf{B}  - \mathbf{A} \, \text{sym}(\mathbf{A}^T \mathbf{B})&lt;/script&gt;
+
+&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;\text{sym}(\mathbf{Z})=\frac{1}{2}(\mathbf{Z} + \mathbf{Z}^T)&lt;/script&gt; is the symmetric part of &lt;script type=&quot;math/tex&quot;&gt;\mathbf{Z}&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;We know we want to take a step in the search direction &lt;script type=&quot;math/tex&quot;&gt;-\nabla f(\mathbf{A}_k)&lt;/script&gt;, but we cannot simply step to &lt;script type=&quot;math/tex&quot;&gt;\mathbf{A}_k - \alpha_k \nabla f(\mathbf{A}_k)&lt;/script&gt;, since that point may not lie on the manifold.
+We therefore make use of a “retraction” mapping &lt;script type=&quot;math/tex&quot;&gt;R_{\mathbf{A}}: T_{\mathbf{A}} \mathcal{M} \to \mathcal{M}&lt;/script&gt; from the tangent space of &lt;script type=&quot;math/tex&quot;&gt;\mathcal{M}&lt;/script&gt; back to &lt;script type=&quot;math/tex&quot;&gt;\mathcal{M}&lt;/script&gt;.
+Each iteration of gradient descent proceeds as &lt;script type=&quot;math/tex&quot;&gt;\mathbf{A}^{k+1} \leftarrow R_{\mathbf{A}_k}(- \alpha_k \nabla f(\mathbf{A}_k)) &lt;/script&gt;, where the step size &lt;script type=&quot;math/tex&quot;&gt;\alpha_k&lt;/script&gt; is chosen using an Armijo line search rule.&lt;/p&gt;
+
+&lt;div class=&quot;image&quot;&gt;
+&lt;img src=&quot;/images/retract.png&quot; /&gt;
+&lt;span class=&quot;caption&quot;&gt;A retraction $R_x(\zeta)$ maps vectors $\zeta$ in the tangent space of $\mathcal{M}$ at $x$ back to the manfold $\mathcal{M}$ (illustration from Absil, Mahoney, and Sepulchre).&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Provided that the retraction satisfies certain properties, gradient descent on a matrix manifold is guaranteed to converge to a critical point.
+One valid retraction on the Stiefel manifold is given by:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt; R_{\mathbf{A}}(\mathbf{B}) = (\mathbf{A} + \mathbf{B})(I + \mathbf{B}^T \mathbf{B})^{- \frac{1}{2}} &lt;/script&gt;
 
 </description>
         <pubDate>Fri, 10 Jun 2016 06:00:00 -0400</pubDate>
-        <link>http://jmcohen.github.iox/posts/orthogonal</link>
-        <guid isPermaLink="true">http://jmcohen.github.iox/posts/orthogonal</guid>
+        <link>http://jmcohen.github.io/posts/orthogonal</link>
+        <guid isPermaLink="true">http://jmcohen.github.io/posts/orthogonal</guid>
         
         
       </item>
@@ -341,8 +725,8 @@ Select two or three tastes from the two-column list below, and see which recipes
 
 </description>
         <pubDate>Fri, 06 Feb 2015 05:00:00 -0500</pubDate>
-        <link>http://jmcohen.github.iox/posts/taste</link>
-        <guid isPermaLink="true">http://jmcohen.github.iox/posts/taste</guid>
+        <link>http://jmcohen.github.io/posts/taste</link>
+        <guid isPermaLink="true">http://jmcohen.github.io/posts/taste</guid>
         
         
       </item>

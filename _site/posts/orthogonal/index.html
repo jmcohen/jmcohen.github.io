@@ -73,9 +73,296 @@
     June 10, 2016
   </section>
 
-  <link rel="stylesheet" href="/css/taste.css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
-<p>Hi!</p>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+
+<style type="text/css">
+
+div.image {
+	margin-left: 40px; 
+	width: 400px; 
+	margin-bottom: 30px;
+	margin-top: 20px;
+}
+
+div.image span.caption {
+	clear: left; 
+	text-align: left; 
+	margin-top: 10px;
+	font-size: 12px;
+
+}
+
+/*span.caption {
+	float: left;
+	font-size: 14px; 
+ 	margin-top: 5px;
+	line-height: 16px;
+}*/
+</style>
+
+<script type="math/tex; mode=display">
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\prox}{\textbf{prox}}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+ </script>
+
+<p>I’ve recently spent some time figuring out how to efficiently solve the following optimization problem:</p>
+
+<script type="math/tex; mode=display"> \begin{equation} 
+\label{main}
+ \argmin_{\mathbf{B}} \; \; \frac{1}{2} \| \mathbf{Y} - \mathbf{X} \mathbf{B} \|^2_F +  \lambda \, \|\mathbf{B}\|_1 \quad \text{subject to} \quad \mathbf{B} \mathbf{B}^T = I \end{equation}
+  </script>
+
+<p>where the element-wise <script type="math/tex">\ell_1</script> penalty <script type="math/tex">\| \mathbf{B}\|_1 = \sum_{i,j} \vert B_{ij} \vert </script> is meant to promote sparsity in <script type="math/tex">\mathbf{B}</script> and the orthogonality constraint <script type="math/tex">  \mathbf{B} \mathbf{B}^T = I </script> ensures that the rows of <script type="math/tex">\mathbf{B}</script> are orthonormal.</p>
+
+<p>Our motivation is a neuroscience fMRI application: <script type="math/tex">\mathbf{Y}</script> is a person’s brain activity, stored in a <code>time x voxels</code> matrix, <script type="math/tex">\mathbf{X}</script> is the <code>time x covariates</code> experimental design matrix, and we’d like to solve for <script type="math/tex">\mathbf{B}</script>, a <code>covariates x voxels</code> matrix, each row of which is the “brain system” associated with a covariate.</p>
+
+<p>The orthogonality constraint <script type="math/tex">\mathbf{B} \mathbf{B}^T = I</script> drives the brain systems for different covariates to be distinct from one another, and the sparsity penalty <script type="math/tex">\| \mathbf{B}\|_1</script> encourages each brain system to be nonzero at only a few voxels, which improves both interpretablily and generalization.</p>
+
+<p>PICTURES</p>
+
+<p>Without the orthogonality constraint, we’d have a standard <script type="math/tex">\ell_1</script>-regularized least squares regression problem.
+Coversely, without the sparsity penalty, the problem is called the “<a href="https://en.wikipedia.org/wiki/Orthogonal_Procrustes_problem">orthogonal procrustes problem</a>,” and has an analytical solution <script type="math/tex"> \hat{\mathbf{B}} = \mathbf{V} \mathbf{U}^T </script>, where <script type="math/tex">\mathbf{U} \boldsymbol{\Sigma} \mathbf{V}^T</script> is the singular value decomposition of <script type="math/tex"> \mathbf{Y}^T \mathbf{X} </script> (see proof).</p>
+
+<p>Theorem: </p>
+
+<script type="math/tex; mode=display">  \argmin_{\mathbf{B} \mathbf{B}^T = \, I} \; \; \| \mathbf{Y} - \mathbf{X} \mathbf{B} \|^2_F  = \mathbf{V} \mathbf{U}^T  \quad \text{where} \quad  \mathbf{U} \boldsymbol{\Sigma} \mathbf{V}^T = \mathbf{Y}^T \mathbf{X}</script>
+
+<p>Proof:</p>
+
+<p>First, notice that due to the orthogonality constraint, one of the terms in our objective function is constant:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+ \begin{align*}
+ \| \mathbf{Y} - \mathbf{X} \mathbf{B} \|^2_F &= \text{Tr}((\mathbf{Y} - \mathbf{X} \mathbf{B} )^T (\mathbf{Y} - \mathbf{X} \mathbf{B} )) \\
+&= \text{Tr}(\mathbf{Y}^T \mathbf{Y}) - 2 \text{Tr}(\mathbf{Y}^T \mathbf{X} \mathbf{B}) + \text{Tr}(\mathbf{B}^T \mathbf{X}^T \mathbf{X} \mathbf{B}) \\
+&= \text{Tr}(\mathbf{Y}^T \mathbf{Y}) - 2 \text{Tr}(\mathbf{Y}^T \mathbf{X} \mathbf{B}) + \text{Tr}(\mathbf{X}^T \mathbf{X} \mathbf{B} \mathbf{B}^T ) \\
+&= \text{Tr}(\mathbf{Y}^T \mathbf{Y}) - 2 \text{Tr}(\mathbf{Y}^T \mathbf{X} \mathbf{B}) + \text{Tr}(\mathbf{X}^T \mathbf{X})
+\end{align*} 
+ %]]></script>
+
+<p>Hence, our problem reduces to a linear maximization problem:</p>
+
+<script type="math/tex; mode=display"> \argmax_{\mathbf{B} \mathbf{B}^T = \, I} \; \; \text{Tr}(\mathbf{Y}^T \mathbf{X} \mathbf{B}) </script>
+
+<p>First, we’ll give an upper bound on this problem. Then, we’ll show that <script type="math/tex">\hat{\mathbf{B}} = \mathbf{V} \mathbf{U}^T</script> attains this upper bound.
+The upper bound uses <a href="https://en.wikipedia.org/wiki/Trace_inequalities#Von_Neumann.27s_trace_inequality">Von Neummann’s trace inequality</a> and the fact that <script type="math/tex">\mathbf{B} \mathbf{B}^T = I</script> implies that all singular values of <script type="math/tex">\mathbf{B}</script> are one.</p>
+
+<p><script type="math/tex">% <![CDATA[
+ \begin{align*}  \text{Tr}(\mathbf{Y}^T \mathbf{X} \mathbf{B}) &\le \sum_i \sigma_i(\mathbf{Y}^T \mathbf{X}) \, \sigma_i(\mathbf{B})  \tag{Von Neumann} \\
+&= \sum_i \sigma_i(\mathbf{Y}^T \mathbf{X}) \tag{$\sigma_i(\mathbf{B}) = 1$}
+\end{align*} %]]></script>
+Finally, to check that <script type="math/tex">\hat{\mathbf{B}}</script> attains this optimal value, we compute</p>
+
+<script type="math/tex; mode=display"> \text{Tr}(\mathbf{Y}^T \mathbf{X} \hat{\mathbf{B}}) =  \text{Tr}(\mathbf{U} \boldsymbol{\Sigma} \mathbf{V}^T \mathbf{V} \mathbf{U}^T) = \text{Tr}(\boldsymbol{\Sigma})</script>
+
+<p>However, with both the orthogonality constraint and the <script type="math/tex">\ell_1</script> penalty, it’s not immediately apparent how we can solve the problem – notice that the orthogogonality constraint makes the feasible set non-convex.
+I’ve found two approaches that seem to work:</p>
+
+<ol>
+  <li>the alternating direction method of multipliers (ADMM)</li>
+  <li>gradient descent on the Stiefel manifold</li>
+</ol>
+
+<h2 id="admm">ADMM</h2>
+
+<p>The alternating direction method of multipliers solves unconstrained optimization problems where the objective function separates across multiple terms whose variables are linked by linear constraints:</p>
+
+<script type="math/tex; mode=display"> \begin{equation} \label{admm1} \argmin_{x_1, \ldots_, x_n} \quad f(x_1, \ldots, x_n) = \sum_{i=1}^n f_i(x_i) \quad \text{subject to} \quad \sum_{i=1}^n A_i x_i = 0 \end{equation}</script>
+
+<p>Notice that this formulation subsumes problems of the form:</p>
+
+<script type="math/tex; mode=display"> \begin{equation} \label{admm2} \argmin_{x} \quad f(x) = \sum_{i=1}^n f_i(x) \end{equation} </script>
+
+<p>as (\ref{admm2}) reduces to (\ref{admm1}) for some choice of <script type="math/tex">A_1 \ldots A_n</script>.</p>
+
+<p>Each step of ADMM involves computing the so-called “proximal operator” of some <script type="math/tex">f_i</script>.  The proximal operator of a function <script type="math/tex">f_i</script> is itself an optimization problem:</p>
+
+<script type="math/tex; mode=display"> \prox_{f_i}(x) =  \argmin_y \; \frac{1}{2} \| x - y \|^2_2 + f_i(y) </script>
+
+<p>Some functions <script type="math/tex">f_i</script> are “proximable” in the sense that the solution to this optimization problem can be computed efficiently in closed form.
+ADMM is especially well-suited to situations where <script type="math/tex">f</script> is a sum of proximable functions.</p>
+
+<p>There is more than one way to split the objective function in problem (\ref{main}) into a sum of proximable functions, and each of these splittings gives rise to a different ADMM algorithm.</p>
+
+<h3 id="splitting--1">Splitting # 1</h3>
+
+<p>One possible splitting is as follows:</p>
+
+<script type="math/tex; mode=display">
+\begin{equation} 
+ \argmin_{\mathbf{B}} \; \; \underbrace{\frac{1}{2} \| \mathbf{Y} - \mathbf{X} \mathbf{B} \|^2_F}_{f_1(\mathbf{B})} + \underbrace{\mathbf{1}_{\mathbf{B} \mathbf{B}^T = \, I}(\mathbf{B})}_{f_2(\mathbf{B})} + \underbrace{\alpha \, \|\mathbf{B}\|_1}_{f_3(\mathbf{B})}  \end{equation}
+</script>
+
+<p>where <script type="math/tex">\mathbf{1}_{\mathbf{B} \mathbf{B}^T = \, I} </script> is the indicator function for the set <script type="math/tex">\{\mathbf{B} : \mathbf{B} \mathbf{B}^T = \, I \} </script>, defined as</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\mathbf{1}_{\mathbf{B} \mathbf{B}^T }(\mathbf{B}) =  \begin{cases}
+0 &\mbox{ if } \mathbf{B} \mathbf{B}^T = I \\
+ \infty &\mbox{ otherwise }
+\end{cases}  %]]></script>
+
+<p>We need to derive the proximal operators of <script type="math/tex">f_{1 \cdots 3}</script>.</p>
+
+<p>Since <script type="math/tex">f_1</script> is convex, the optimization problem defined by its proximal operator is also convex and therefore a minimizer can be computed analytically by setting the gradient to zero.  The result is:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+ \begin{align*} \prox_{\lambda f_1}(\mathbf{B}) &= \argmin_{C} \; \frac{1}{2} \| \mathbf{Y} - \mathbf{X} \mathbf{C} \|^2_F + \frac{1}{2 \lambda} \| \mathbf{B} - \mathbf{C} \|^2_F \\
+&= \left( \mathbf{X}^T \mathbf{X} + \frac{1}{2 \lambda} I \right)^{-1} \left( \mathbf{X}^T \mathbf{Y} + \frac{1}{\lambda} \mathbf{B}  \right)
+  \end{align*} %]]></script>
+
+<p>The proximal operator of <script type="math/tex">f_2</script> is just a projection onto the set <script type="math/tex">\{\mathbf{B} : \mathbf{B} \mathbf{B}^T = \, I \} </script>, which is a special case of the procrustes problem:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+ \begin{align*} \prox_{\lambda f_2}(\mathbf{B}) &= \argmin_{\mathbf{C}: \, \mathbf{C} \mathbf{C}^T = \, I} \; \| \mathbf{B} - \mathbf{C} \|^2_F \\
+&= \mathbf{U} \mathbf{V}^T \quad \text{where} \quad \mathbf{U} \boldsymbol{\Sigma} \mathbf{V}^T = \mathbf{B}
+  \end{align*} %]]></script>
+
+<p>Finally, the proximal operator of the sparsity-inducing penalty <script type="math/tex">f_3(\mathbf{B}) = \alpha \|\mathbf{B}\|_1</script> is the “soft-thresholding operator,” so named because it sets values in <script type="math/tex">[-\alpha \lambda, \alpha \lambda]</script> to zero, and shrinks all other values towards zero:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+ \begin{align*} \prox_{\lambda f_3}(\mathbf{B}) &= \argmin_{C} \; \alpha \, ||\mathbf{B}||_1 + \frac{1}{2 \lambda} \| \mathbf{B} - \mathbf{C} \|^2_F \\
+& \Downarrow \hspace{150px}  \Downarrow \\
+(\prox_{\lambda f_3}(\mathbf{B}))_{ij} &= 
+\begin{cases}
+B_{ij} - \alpha \lambda &\mbox{ if } B_{ij} > \alpha \lambda \\
+0 &\mbox - \alpha \lambda \le B_{ij} \le \alpha \lambda \\
+B_{ij} + \alpha \lambda &\mbox{ if } B_{ij} < - \alpha \lambda
+\end{cases}
+  \end{align*} %]]></script>
+
+<p>The ADMM algorithm is to repeat the following operations until convergence:
+<script type="math/tex">% <![CDATA[
+
+\begin{align*}
+\quad \mathbf{B}_2 &\leftarrow \prox_{\rho f_2}( \mathbf{B} +\mathbf{U}_2) \\
+\quad \mathbf{B}_3 &\leftarrow \prox_{\rho f_3}( \mathbf{B} +\mathbf{U}_3) \\
+\quad \mathbf{B} &\leftarrow \prox_{2 \rho f_1 } \left(\frac{1}{2}(\mathbf{B}_2 + \mathbf{B}_3 -\mathbf{U}_2 - \mathbf{U}_3) \right) \\
+\quad \mathbf{U}_2 &\leftarrow \mathbf{U}_2 + \mathbf{B} - \mathbf{B}_2 \\
+\quad \mathbf{U}_3 &\leftarrow \mathbf{U}_3 + \mathbf{B} - \mathbf{B}_3 \\
+\end{align*}
+ %]]></script></p>
+
+<h3 id="splitting--2">Splitting # 2</h3>
+
+<p>An alternative splitting of our objective function is</p>
+
+<script type="math/tex; mode=display">
+\begin{equation} 
+ \argmin_{\mathbf{B}} \; \; \underbrace{\frac{1}{2} \| \mathbf{Y} - \mathbf{X} \mathbf{B} \|^2_F + \mathbf{1}_{\mathbf{B} \mathbf{B}^T = \, I}(\mathbf{B}) }_{g_1(\mathbf{B})} + \underbrace{\alpha \, \|\mathbf{B}\|_1}_{g_2(\mathbf{B})}  \end{equation}
+</script>
+
+<p>The proximal operator of <script type="math/tex">g_1</script> is a special case of the procrustes problem:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+ \begin{align*} \prox_{\lambda g_1}(\mathbf{B}) &= \argmin_{\mathbf{C} \mathbf{C}^T = \, I} \; \frac{1}{2} \| \mathbf{Y} - \mathbf{X} \mathbf{C} \|^2_F + \frac{1}{2 \lambda} \| \mathbf{B} - \mathbf{C} \|^2_F \\
+&= \argmin_{\mathbf{C} \mathbf{C}^T = \, I} \; \left \| \begin{bmatrix} \mathbf{Y} \\ \sqrt{\lambda} \, \mathbf{B} \end{bmatrix} - \begin{bmatrix} \mathbf{X} \\ \sqrt{\lambda} \, I \end{bmatrix} \mathbf{C} \right \|^2_F   \\
+&= \mathbf{V} \mathbf{U}^T \quad \text{where} \quad \mathbf{U} \boldsymbol{\Sigma} \mathbf{V}^T = \mathbf{Y}^T \mathbf{X} + \lambda \mathbf{B}^T 
+  \end{align*} %]]></script>
+
+<p>The ADMM algorithm is to repeat the following operations until convergence:
+<script type="math/tex">% <![CDATA[
+
+\begin{align*}
+\mathbf{B}_1 &\leftarrow \prox_{\rho g_1 } \left( \mathbf{B}_2 - \mathbf{U} \right)  \\
+\mathbf{B}_2 &\leftarrow \prox_{\rho g_2}( \mathbf{B}_1 +\mathbf{U}) \\
+\mathbf{U} &\leftarrow \mathbf{U} + \mathbf{B}_1 - \mathbf{B}_2  \\
+\end{align*}
+ %]]></script></p>
+
+<h2 id="manifold-gradient-descent">Manifold gradient descent</h2>
+
+<p>An alternative way to solve (<script type="math/tex">\ref{main}</script>) is to apply the machinery of manifold optimization.  The set <script type="math/tex">\mathcal{M}</script> of matrices with orthonormal columns <script type="math/tex"> \mathcal{M} = \{\mathbf{A} \in \reals^{n \times p}: \mathbf{A}^T \mathbf{A} = \, I\}</script> is a matrix manifold called the “Stiefel manifold.”  In their recent book, <a href="http://press.princeton.edu/chapters/absil/">Absil, Mahoney, and Sepulchre</a> develop a general framework for optimization over matrix manifolds, which we will follow here.</p>
+
+<p>Letting <script type="math/tex">\mathbf{A} = \mathbf{B}^T</script>, we can view <script type="math/tex">(\ref{main})</script> as an optimization problem over the Stiefel manifold:</p>
+
+<script type="math/tex; mode=display">
+\begin{align}
+\argmin_{\mathbf{A} \in \mathcal{M}} \quad  \frac{1}{2} \| \mathbf{Y} - \mathbf{X} \mathbf{A}^T \|^2_F +  \lambda \, \|\mathbf{A}\|_1 
+\end{align}
+</script>
+
+<p>Manifold optimization algorithms require a smooth objective function, so we will replace the non-smooth <script type="math/tex">\ell_1</script> norm with a smooth approximation parameterized by $\epsilon &gt; 0$:</p>
+
+<script type="math/tex; mode=display"> |x| \approx \sqrt{x^2 + \epsilon^2} - \epsilon </script>
+
+<div class="image">
+<img src="/images/l1approx.jpg" />
+<span class="caption">$|x|$ (top) and smooth approximation to $|x|$ (bottom).</span>
+</div>
+
+<p>The new optimization problem is:</p>
+
+<script type="math/tex; mode=display">
+\begin{align}
+\argmin_{\mathbf{A} \in \mathcal{M}} \quad  \frac{1}{2} \| \mathbf{Y} - \mathbf{X} \mathbf{A}^T \|^2_F +  \lambda \, \sum_{i, j} \left( \sqrt{A_{ij}^2 + \epsilon^2} - \epsilon \right)
+\end{align}
+</script>
+
+<p>In standard numerical optimization over $\reals^{n \times p}$, a descent method for minimizing a function <script type="math/tex">f(\mathbf{A}): \reals^{n \times p} \to \reals</script> would proceed as follows: in each iteration $k$, choose a search direction <script type="math/tex"> \mathbf{D}_k</script> and a step size <script type="math/tex">\alpha_k</script>, and take a step as:</p>
+
+<script type="math/tex; mode=display"> \mathbf{A}_{k+1} \leftarrow \mathbf{A}_k + \alpha_k \mathbf{D}_k </script>
+
+<p>In gradient descent, the search direction is the negative gradient <script type="math/tex">\mathbf{D}_k = - \nabla f(\mathbf{A})</script>, and the step size is often chosen by a line search.</p>
+
+<p>On a manifold, things get a little trickier: some search directions wouldn’t make any sense because they would take us away from the manifold.
+Therefore, we restrict ourselves to directions <script type="math/tex">\boldsymbol{\zeta}</script> which are “tangent” to <script type="math/tex">\mathcal{M}</script> at <script type="math/tex">\mathbf{A}_k</script>.
+Formally, <script type="math/tex">\boldsymbol{\zeta}</script> is called a “tangent vector” of <script type="math/tex">\mathcal{M}</script> at <script type="math/tex">\mathbf{A}_k</script> if it is the derivative at <script type="math/tex">\mathbf{A}_k</script> of some smooth curve on <script type="math/tex">\mathcal{M}</script>.
+The set of all tangent vectors is called the “tangent space” of <script type="math/tex">\mathcal{M}</script> at <script type="math/tex">\mathbf{A}_k</script> and is denoted <script type="math/tex">T_{\mathbf{A}_k}\mathcal{M}</script>.
+The tangent space is a vector space closed under addition and scalar multiplication, so any step <script type="math/tex"> \mathbf{A}_{k+1} \leftarrow \mathbf{A}_k + \alpha_k \boldsymbol{\zeta} </script> will end up in the tangent space.</p>
+
+<p>The picture below illustrates a tangent space:</p>
+
+<div class="image">
+<img src="/images/tangent.png" />
+<span class="caption">The tangent space of a manifold $\mathcal{M}$ at a point $x$.  $u$ is a tangent vector because it is the derivative of a curve $\gamma(t)$ at $x$ (Wikipedia).</span>
+</div>
+
+<p>The tangent space of the Stiefel manifold at <script type="math/tex">\mathbf{A} \in \reals^{n \times p}</script> is:</p>
+
+<script type="math/tex; mode=display"> T_{\mathbf{A}} \mathcal{M} = \{\mathbf{B} \in \reals^{n \times p}: \mathbf{A}^T \mathbf{B} + \mathbf{B}^T \mathbf{A} = 0  \}</script>
+
+<p>As in the Euclidean case, the directional derivative <script type="math/tex">Df[\boldsymbol{\boldsymbol{\zeta}}]</script> of a function <script type="math/tex">f</script> at a point <script type="math/tex">\mathbf{A}</script> along a tangent vector <script type="math/tex">\boldsymbol{\boldsymbol{\zeta}}</script> is defined as</p>
+
+<script type="math/tex; mode=display"> Df[\boldsymbol{\zeta}] = \lim_{t \to 0} \frac{f(\mathbf{A} + t \boldsymbol{\zeta}) - f(\mathbf{A})}{t} </script>
+
+<p>Similarly, the gradient <script type="math/tex">\nabla f(\mathbf{A}_k)</script> is defined as the direction of steepest ascent — the element of the tangent space with the largest directional derivative:</p>
+
+<script type="math/tex; mode=display"> \frac{\nabla f(\mathbf{A})}{\|\nabla f(\mathbf{A}) \|} = \argmax_{\boldsymbol{\zeta} \in T_{\mathcal{M}}(\mathbf{A}), \ \| \zeta \| = 1} Df[\boldsymbol{\zeta}]</script>
+
+<p>As in <script type="math/tex">\reals^{n\times p}</script>, a norm <script type="math/tex">\| \cdot \|</script> is induced by an inner product <script type="math/tex">g(\cdot, \cdot)</script> as <script type="math/tex"> \|\zeta\| = \sqrt{g(\zeta, \zeta)}</script>.
+On the Stiefel manifold, we may take the inner product to be <script type="math/tex">g(\mathbf{A}, \mathbf{B}) = \text{Tr}(\mathbf{A}^T \mathbf{B})</script>.
+With this choice of inner product, if <script type="math/tex">f =\bar{f}|_{\mathcal{M}}</script> is a function <script type="math/tex">\bar{f}: \reals^{n \times p} \to \reals</script> restricted to the Stiefel manifold, and <script type="math/tex">\nabla \bar{f}</script> is the gradient of <script type="math/tex">\bar{f}</script> in <script type="math/tex">\reals^{n \times p}</script>, then the gradient of <script type="math/tex">f</script> on the Stiefel manifold turns out to be the orthogonal projection <script type="math/tex">P</script> of <script type="math/tex">\nabla \bar{f}</script> onto the tangent space of <script type="math/tex">\mathcal{M}</script>:</p>
+
+<script type="math/tex; mode=display"> \nabla f(\mathbf{A}) = P_{T_{\mathcal{M}}(\mathbf{A})}(\nabla \bar{f}(\mathbf{A})) </script>
+
+<p>This projection can be computed as:</p>
+
+<script type="math/tex; mode=display"> P_{T_{\mathcal{M}}(\mathbf{A})}(\mathbf{B}) = \mathbf{B}  - \mathbf{A} \, \text{sym}(\mathbf{A}^T \mathbf{B})</script>
+
+<p>where <script type="math/tex">\text{sym}(\mathbf{Z})=\frac{1}{2}(\mathbf{Z} + \mathbf{Z}^T)</script> is the symmetric part of <script type="math/tex">\mathbf{Z}</script>.</p>
+
+<p>We know we want to take a step in the search direction <script type="math/tex">-\nabla f(\mathbf{A}_k)</script>, but we cannot simply step to <script type="math/tex">\mathbf{A}_k - \alpha_k \nabla f(\mathbf{A}_k)</script>, since that point may not lie on the manifold.
+We therefore make use of a “retraction” mapping <script type="math/tex">R_{\mathbf{A}}: T_{\mathbf{A}} \mathcal{M} \to \mathcal{M}</script> from the tangent space of <script type="math/tex">\mathcal{M}</script> back to <script type="math/tex">\mathcal{M}</script>.
+Each iteration of gradient descent proceeds as <script type="math/tex">\mathbf{A}^{k+1} \leftarrow R_{\mathbf{A}_k}(- \alpha_k \nabla f(\mathbf{A}_k)) </script>, where the step size <script type="math/tex">\alpha_k</script> is chosen using an Armijo line search rule.</p>
+
+<div class="image">
+<img src="/images/retract.png" />
+<span class="caption">A retraction $R_x(\zeta)$ maps vectors $\zeta$ in the tangent space of $\mathcal{M}$ at $x$ back to the manfold $\mathcal{M}$ (illustration from Absil, Mahoney, and Sepulchre).</span>
+</div>
+
+<p>Provided that the retraction satisfies certain properties, gradient descent on a matrix manifold is guaranteed to converge to a critical point.
+One valid retraction on the Stiefel manifold is given by:</p>
+
+<script type="math/tex; mode=display"> R_{\mathbf{A}}(\mathbf{B}) = (\mathbf{A} + \mathbf{B})(I + \mathbf{B}^T \mathbf{B})^{- \frac{1}{2}} </script>
 
 
 
