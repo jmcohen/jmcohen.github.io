@@ -57,7 +57,7 @@ $$ \mathbf{w} = \begin{bmatrix} \mathbf{w}_r && \mathbf{w}_a \end{bmatrix} \quad
  \mathbf{W} = \begin{bmatrix} \mathbf{W}_{rr} && \frac{1}{2} \mathbf{W}_{ra} \\ \frac{1}{2} \mathbf{W}_{ra} && \mathbf{W}_{aa} \end{bmatrix} $$
 
 Therefore, the model can be written as 
-$$p(\text{click} | \mathbf{x}) = \mathbf{w}_a^T \mathbf{x}_a + \mathbf{w}_r^T \mathbf{x}_r + \mathbf{x}_a^T \mathbf{W}_{aa} \mathbf{x}_a  + \mathbf{x}_r^T \mathbf{W}_{rr} \mathbf{x}_r + \mathbf{x}_r^T \mathbf{W}_{ra} \mathbf{x}_a $$
+$$p(\text{click} | \mathbf{x}) =\text{logistic} \left( \mathbf{w}_a^T \mathbf{x}_a + \mathbf{w}_r^T \mathbf{x}_r + \mathbf{x}_a^T \mathbf{W}_{aa} \mathbf{x}_a  + \mathbf{x}_r^T \mathbf{W}_{rr} \mathbf{x}_r + \mathbf{x}_r^T \mathbf{W}_{ra} \mathbf{x}_a \right) $$
 
 Now, the "ad-only" score $$\mathbf{w}_a^T \mathbf{x}_a + \mathbf{x}_a^T \mathbf{W}_{aa} \mathbf{x}_a$$ can be pre-computed and cached for each ad.
  When a request comes in, we can compute the "request-only" score $$\mathbf{w}_r^T \mathbf{x}_r + \mathbf{x}_r^T \mathbf{W}_{rr} \mathbf{x}_r$$
