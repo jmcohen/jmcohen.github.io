@@ -1,67 +1,335 @@
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>Jeremy Cohen</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeremy Cohen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-bg: #f8f9fa;
+            --dark-bg: #2c3e50;
+            --text-color: #333;
+            --light-text: #f8f9fa;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            opacity: 0.8;
+        }
+        
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 40px;
+            gap: 30px;
+        }
+        
+        @media (min-width: 768px) {
+            .profile-section {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+        }
+        
+        .profile-image {
+            flex-shrink: 0;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            border: 3px solid white;
+            transition: var(--transition);
+        }
+        
+        .profile-image:hover {
+            transform: scale(1.03);
+        }
+        
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-info {
+            flex-grow: 1;
+        }
+        
+        .profile-info p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .profile-info p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .contact {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .contact a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background-color: var(--light-bg);
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--primary-color);
+            transition: var(--transition);
+        }
+        
+        .contact a:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .publications {
+            margin-top: 60px;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary-color);
+            color: var(--primary-color);
+        }
+        
+        .publication-list {
+            list-style-type: none;
+        }
+        
+        .publication-item {
+            margin-bottom: 40px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+        
+        .publication-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .publication-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .publication-title a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .publication-title a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .publication-authors {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+        
+        .publication-venue {
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            color: #4a6fa5;
+            font-weight: 500;
+        }
+        
+        .publication-description {
+            margin-top: 15px;
+            font-size: 1rem;
+        }
+        
+        .publication-media {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .publication-media img {
+            max-width: 100%;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .highlight {
+            background-color: #f8f9fa;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: 'Consolas', monospace;
+        }
+        
+        footer {
+            margin-top: 60px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: var(--text-color);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        a:hover {
+            color: var(--accent-color);
+        }
+        
+        b {
+            font-weight: 600;
+        }
+    </style>
 </head>
-<body style="padding: 10px;">
-<h2>Jeremy Cohen</h2>
-<div style="width:1000px">
-<div>
-<img src="http://zicokolter.com/img/jeremycohen.jpg" style="width: 200px; float: left; padding-right: 15px">
-<p>I'm currently a Research Fellow at the <a href="https://www.simonsfoundation.org/flatiron/">Flatiron Institute</a>, in the Center for Computational Mathematics.  Previously, I did a PhD in the machine learning department at Carnegie Mellon, co-advised by <a href="http://zicokolter.com">Zico Kolter</a> and <a href="https://www.cs.cmu.edu/~atalwalk">Ameet Talwalkar</a>.</p>
-<p>My research aims to <b>connect theory and practice in deep learning</b>. The ultimate goal is to turn deep learning from a kind of alchemy into a mature engineering discipline.</p>
-<p>I've been recently studying <b>the dynamics of optimization in deep learning</b>.  Neural networks are trained using optimization algorithms, and understanding the behavior of these algorithms will help us understand and improve the training process.</p>
-<p>My current email is <span style="font-family: monospace;">jcohen@flatironinstitute.org</span>. See also <a href="https://scholar.google.com/citations?user=r493814AAAAJ">Google Scholar</a> and <a href="https://x.com/deepcohen">Twitter</a>.
-</div>
-<div style="clear: left; padding-top: 10px;">
-<h3>Publications:</h3>
-
-<ol>
-    <li>
-        <a href="https://openreview.net/forum?id=sIE2rI3ZPs"><b>Understanding Optimization in Deep Learning with Central Flows.</b></a>
-        <br />Jeremy Cohen*, Alex Damian*, Ameet Talwalkar, Zico Kolter, and Jason D. Lee.
-        <br/>ICLR 2025.
-        <br /><br />
-        This paper develops a methodology for analyzing the oscillatory dynamics of optimization algorithms in deep learning.  The basic idea is to analyze an optimization algorithm by deriving a differential equation called a "central flow" that directly models the time-averaged (i.e. smoothed) trajectory of the optimizer.  This differential equation renders <i>explicit</i> what was previously <i>implicit</i> in the optimizer's oscillatory dynamics.
-        <p />
-        <img src="images/overview.gif" width="800px"/>
-      </li>
-    <li>
-        <a href="https://arxiv.org/abs/2207.14484"><b>Adaptive Gradient Methods at the Edge of Stability.</b></a>
-        <br />Jeremy Cohen, Behrooz Ghorbani, Shankar Krishnan, Naman Agarwal, Sourabh Medapati, Michal Badura, Daniel Suo, David Cardoze, Zachary Nado, George E. Dahl, and Justin Gilmer.
-        <br/>ArXiv 2023.
-        <br /><br />
-        This paper shows that the edge of stability phenomenon extends to adaptive gradient methods such as Adam.
-        <p />
-      </li>
-
-  <li>
-    <a href="https://arxiv.org/abs/2103.00065"><b>Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability.</b></a>
-    <br />Jeremy Cohen, Simran Kaur, Yuanzhi Li, Zico Kolter, and Ameet Talwalker.
-    <br/>ICLR 2021.
-    <br /><br/>
-    This paper demonstrates that full-batch gradient descent on neural network training objectives typically operates in a regime called the Edge of Stability. In this regime, the leading eigenvalue of the training loss Hessian hovers just above the value 2 / (step size), and the training loss behaves non-monotonically over short timescales, yet consistently decreases over long timescales. Since this behavior is inconsistent with several widespread presumptions in the field of optimization, our findings raise questions as to whether these presumptions are relevant to neural network training.
-    <p />
-    <img src="images/gd.gif" width="800px"/>
-  </li>
-<br />
-
-<li>
-  <a href="https://arxiv.org/abs/1902.02918"><b>Certified Adversarial Robustness via Randomized Smoothing.</b></a>
-  <br />
-Jeremy Cohen, Elan Rosenfeld, and Zico Kolter.
-<br />
-ICML 2019
-<br>
-<a href="https://arxiv.org/abs/1902.02918">arXiv</a>, <a href="https://github.com/locuslab/smoothing">Code</a>, <a href="https://www.facebook.com/icml.imls/videos/607431793098200?t=2270">short ICML talk</a>, <a href="https://www.youtube.com/watch?v=UHs2mGBH0Fg?t=1380">Zico's Simons Talk</a>
-
-<p>Extending <a href="https://arxiv.org/abs/1802.03471">recent</a> <a href="https://arxiv.org/abs/1809.03113">work</a>, we show how to turn any classifier that classifies well under Gaussian noise into a new classifier that is provably robust to perturbations in L2 norm.  This method is the only provable adversarial defense that scales to ImageNet.  It also outperforms all other provable L2 adversarial defenses on CIFAR-10 by a wide margin.  Best of all, the method is extremely simple to implement and to understand.</p>
-<img src="https://raw.githubusercontent.com/locuslab/smoothing/master/figures/panda_0.25.gif"/>
-<img src="https://raw.githubusercontent.com/locuslab/smoothing/master/figures/panda_0.50.gif"/>
-<img src="https://raw.githubusercontent.com/locuslab/smoothing/master/figures/panda_1.00.gif"/>
-</li>
-</ol>
-</div>
-</div>
+<body>
+    <header>
+        <h1>Jeremy Cohen</h1>
+    </header>
+    
+    <main>
+        <section class="profile-section">
+            <div class="profile-image">
+                <img src="images/website-picture.jpg"" alt="Jeremy Cohen">
+            </div>
+            
+            <div class="profile-info">
+                <p>I'm a Research Fellow at the <a href="https://www.simonsfoundation.org/flatiron/">Flatiron Institute</a>, in the Center for Computational Mathematics. Previously, I did a PhD in the machine learning department at Carnegie Mellon, co-advised by <a href="http://zicokolter.com">Zico Kolter</a> and <a href="https://www.cs.cmu.edu/~atalwalk">Ameet Talwalkar</a>.</p>
+                
+                <p>My research aims to <b>connect theory and practice in deep learning</b>. The ultimate goal is to turn deep learning from a kind of alchemy into a mature engineering discipline.</p>
+                
+                <p>I am currently studying <b>the dynamics of optimization in deep learning</b>. Neural networks are trained using optimization algorithms, and understanding the behavior of these algorithms will help us understand and improve the training process.</p>
+                
+                <div class="contact">
+                    <a href="mailto:jcohen@flatironinstitute.org"><i class="fas fa-envelope"></i> jcohen@flatironinstitute.org</a>
+                    <a href="https://scholar.google.com/citations?user=r493814AAAAJ"><i class="fas fa-graduation-cap"></i> Google Scholar</a>
+                    <a href="https://x.com/deepcohen"><i class="fa-brands fa-x-twitter"></i> Twitter</a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="publications">
+            <h2 class="section-title">Featured Publications</h2>
+            
+            <ul class="publication-list">
+                <li class="publication-item">
+                    <h3 class="publication-title">
+                        <a href="https://openreview.net/forum?id=sIE2rI3ZPs">Understanding Optimization in Deep Learning with Central Flows</a>
+                    </h3>
+                    <p class="publication-authors">Jeremy Cohen*, Alex Damian*, Ameet Talwalkar, Zico Kolter, and Jason D. Lee</p>
+                    <p class="publication-venue">ICLR 2025</p>
+                    <div class="publication-description">
+                        <p>This paper develops a methodology for analyzing the oscillatory dynamics of optimization algorithms in deep learning. The basic idea is to analyze an optimization algorithm by deriving a differential equation called a "central flow" that directly models the time-averaged (i.e. smoothed) trajectory of the optimizer. This differential equation renders <i>explicit</i> what was previously <i>implicit</i> in the optimizer's oscillatory dynamics.</p>
+                    </div>
+                    <div class="publication-media">
+                        <img src="images/overview.gif" alt="Central Flows Animation">
+                    </div>
+                </li>
+                
+                <li class="publication-item">
+                    <h3 class="publication-title">
+                        <a href="https://arxiv.org/abs/2207.14484">Adaptive Gradient Methods at the Edge of Stability</a>
+                    </h3>
+                    <p class="publication-authors">Jeremy Cohen, Behrooz Ghorbani, Shankar Krishnan, Naman Agarwal, Sourabh Medapati, Michal Badura, Daniel Suo, David Cardoze, Zachary Nado, George E. Dahl, and Justin Gilmer</p>
+                    <p class="publication-venue">ArXiv 2023</p>
+                    <div class="publication-description">
+                        <p>This paper shows that the edge of stability phenomenon extends to adaptive gradient methods such as Adam.</p>
+                    </div>
+                </li>
+                
+                <li class="publication-item">
+                    <h3 class="publication-title">
+                        <a href="https://arxiv.org/abs/2103.00065">Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability</a>
+                    </h3>
+                    <p class="publication-authors">Jeremy Cohen, Simran Kaur, Yuanzhi Li, Zico Kolter, and Ameet Talwalker</p>
+                    <p class="publication-venue">ICLR 2021</p>
+                    <div class="publication-description">
+                        <p>This paper demonstrates that full-batch gradient descent on neural network training objectives typically operates in a regime called the Edge of Stability. In this regime, the leading eigenvalue of the training loss Hessian hovers just above the value 2 / (step size), and the training loss behaves non-monotonically over short timescales, yet consistently decreases over long timescales. Since this behavior is inconsistent with several widespread presumptions in the field of optimization, our findings raise questions as to whether these presumptions are relevant to neural network training.</p>
+                    </div>
+                    <div class="publication-media">
+                        <img src="images/gd.gif" alt="Gradient Descent Animation">
+                    </div>
+                </li>
+                
+                <li class="publication-item">
+                    <h3 class="publication-title">
+                        <a href="https://arxiv.org/abs/1902.02918">Certified Adversarial Robustness via Randomized Smoothing</a>
+                    </h3>
+                    <p class="publication-authors">Jeremy Cohen, Elan Rosenfeld, and Zico Kolter</p>
+                    <p class="publication-venue">ICML 2019</p>
+                    <div class="publication-links">
+                        <a href="https://arxiv.org/abs/1902.02918">arXiv</a> | 
+                        <a href="https://github.com/locuslab/smoothing">Code</a> | 
+                        <a href="https://www.facebook.com/icml.imls/videos/607431793098200?t=2270">Short ICML talk</a> | 
+                        <a href="https://www.youtube.com/watch?v=UHs2mGBH0Fg?t=1380">Zico's Simons Talk</a>
+                    </div>
+                    <div class="publication-description">
+                        <p>Extending <a href="https://arxiv.org/abs/1802.03471">recent</a> <a href="https://arxiv.org/abs/1809.03113">work</a>, we show how to turn any classifier that classifies well under Gaussian noise into a new classifier that is provably robust to perturbations in L2 norm. This method is the only provable adversarial defense that scales to ImageNet. It also outperforms all other provable L2 adversarial defenses on CIFAR-10 by a wide margin. Best of all, the method is extremely simple to implement and to understand.</p>
+                    </div>
+                    <div class="publication-media">
+                        <img src="https://raw.githubusercontent.com/locuslab/smoothing/master/figures/panda_0.25.gif" alt="Panda 0.25">
+                        <img src="https://raw.githubusercontent.com/locuslab/smoothing/master/figures/panda_0.50.gif" alt="Panda 0.50">
+                        <img src="https://raw.githubusercontent.com/locuslab/smoothing/master/figures/panda_1.00.gif" alt="Panda 1.00">
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </main>
+    
+    <footer>
+    </footer>
 </body>
 </html>
